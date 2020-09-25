@@ -3,8 +3,11 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.23.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![Build Status](https://travis-ci.org/snakemake-workflows/dmr-pipe.svg?branch=master)](https://travis-ci.org/snakemake-workflows/dmr-pipe)
 
-This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
-Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs`. Define the entry point of the workflow in the `Snakefile` and the main configuration in the `config.yaml` file.
+This is a snakemake pipeline for bisulfite sequencing data, it implements:
+	- Adapter trimming and quality check
+	- Quality reports and statistics (fastqc+multiqc)
+	- Methylation extraction with bismark (bowtie2/hisat2 as aligners)
+	- DMR identification with DMRCaller (in all contexts) : in progress
 
 ## Authors
 
@@ -21,7 +24,7 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 ### Step 2: Configure workflow
 
-Configure the workflow according to your needs via editing the files in the `config/` folder. Adjust `config.yaml` to configure the workflow execution, and `samples.tsv` to specify your sample setup.
+Configure the workflow according to your needs via editing the files in the `config/` folder. Adjust `config.yaml` to configure the workflow execution, and `samples.tsv`, `units.tsv` to specify your sample setup.
 
 ### Step 3: Install Snakemake
 
