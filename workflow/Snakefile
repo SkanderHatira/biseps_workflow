@@ -1,0 +1,81 @@
+include: "rules/common.smk"
+include: "rules/trimmomatic.smk"
+include: "rules/subsample.smk"
+include: "rules/quality.smk"
+include: "rules/genome_preparation.smk"
+include: "rules/align.smk"
+include: "rules/methylation_extraction.smk"
+
+report: "report/workflow.rst"
+
+# Allow users to fix the underlying OS via singularity.
+singularity: "docker://continuumio/miniconda3"
+
+
+def all_input(wildcards):
+	"""
+	Function defining all requested inputs for the rule all (below).
+	"""
+
+	wanted_input = []
+
+	# request trimmomatic if 'activated' in config.yaml
+
+
+
+	# workflow output that is always wanted
+
+	# concatenating units output
+
+	wanted_input.extend(
+			expand(
+				[
+					"results/quality/multiqc/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/multiqc_report.html",
+
+				],
+				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+
+			)
+		)
+	wanted_input.extend(
+			directory(expand(
+				[
+					"results/quality/fastqc/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/"
+				] ,
+				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+			)
+		)
+	)
+	wanted_input.extend(
+			directory(
+				[
+					config['resources']['ref']['genome_directory'] + "/Bisulfite_Genome"
+				]
+		)
+	)
+	wanted_input.extend(
+			directory(expand(
+				[	
+					"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/",
+					"results/methylation_extraction/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/"
+				] ,
+
+				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+			)
+		)
+	)
+
+	wanted_input.extend(
+		expand(
+			[
+				"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}_alignment.sam",
+				"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam"
+			] ,
+			unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+		)
+	)
+	
+	return wanted_input
+
+rule all:
+	input: all_input

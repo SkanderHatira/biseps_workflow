@@ -1,0 +1,56 @@
+name: bisGraph
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bismark=0.22.3=0
+  - bowtie2=2.4.1=py38h1c8e9b9_3
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2020.7.22=0
+  - certifi=2020.6.20=py38_0
+  - expat=2.2.9=he6710b0_2
+  - fontconfig=2.13.0=h9420a91_0
+  - freetype=2.10.2=h5ab3b9f_0
+  - giflib=5.1.4=h14c3975_1
+  - hisat2=2.2.1=he1b5a44_2
+  - htslib=1.10.2=hd3b49d5_1
+  - icu=58.2=he6710b0_3
+  - jpeg=9b=h024ee3a_2
+  - krb5=1.18.2=h173b8e3_0
+  - ld_impl_linux-64=2.33.1=h53a641e_7
+  - libcurl=7.71.1=h20c2e04_1
+  - libdeflate=1.6=h516909a_0
+  - libedit=3.1.20191231=h14c3975_1
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libgd=2.2.5=h0db58fd_3
+  - libpng=1.6.37=hbc83047_0
+  - libssh2=1.9.0=h1ba5d50_1
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - libtiff=4.1.0=h2733197_1
+  - libuuid=1.0.3=h1bed415_2
+  - libwebp=1.0.1=h8e7db2f_0
+  - libxml2=2.9.10=he19cac6_1
+  - lz4-c=1.9.2=he6710b0_1
+  - ncurses=6.2=he6710b0_1
+  - openssl=1.1.1g=h7b6447c_0
+  - perl=5.26.2=h14c3975_0
+  - perl-gd=2.71=pl526he860b03_0
+  - perl-gdgraph=1.54=pl526_0
+  - perl-gdtextutil=0.86=pl526h14c3975_5
+  - pip=20.2.2=py38_0
+  - python=3.8.5=h7579374_1
+  - python_abi=3.8=1_cp38
+  - readline=8.0=h7b6447c_0
+  - samtools=1.10=h2e538c0_3
+  - setuptools=49.6.0=py38_0
+  - sqlite=3.33.0=h62c20be_0
+  - tbb=2020.3=hfd86e86_0
+  - tk=8.6.10=hbc83047_0
+  - wheel=0.35.1=py_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+  - zstd=1.4.5=h9ceee32_0
+prefix: /home/shatira/miniconda3/envs/bisGraph
