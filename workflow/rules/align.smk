@@ -3,9 +3,7 @@ rule alignment_pe:
 		rules.genome_preparation.output,
 		unpack(get_trimmed)
 	output:
-		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-1_bismark_bt2_pe.bam',
-		report='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-1_bismark_bt2_PE_report.txt',
-		dir=directory("results/alignment/{sample}{lane}{techrep}-{biorep}/")
+		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam'
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -13,10 +11,11 @@ rule alignment_pe:
 	params:
 		#genome_directory
 		genome= config['resources']['ref']['genome_directory'],
-		prefix= 'results/alignment/{sample}{lane}{techrep}-{biorep}/',
+		basename= '{sample}{lane}{techrep}-{biorep}_bismark_bt2',
 		# bismark parameters
 		bismark= "-N 1 -L 20 -score_min L,0,-0.6",
 		aligner= config["params"]["bismark"]["aligner"],
+		out_dir= "results/alignment/{sample}{lane}{techrep}-{biorep}/",
 		# aligners parameters (see manual)
 		aligner_options= "",
 		# optional parameters
@@ -27,34 +26,36 @@ rule alignment_pe:
 	benchmark:
 		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
 	shell:
-		"bismark --{params.aligner} {params.bismark} -p {threads} --parallel {threads} -1 {input.r1} -2 {input.r2} --bam {params.aligner_options} {params.extra} {params.genome} -o {output.dir}"
+		"bismark --{params.aligner} {params.bismark} -p {threads} --parallel {threads} -1 {input.r1} -2 {input.r2} --bam {params.aligner_options} {params.extra} {params.genome} -o {params.out_dir} -B {params.basename}"
 
-rule bam_to_sam:
+rule merge_convert:
 	input:
 		get_bam
 	output:
-		"results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_alignment.sam"
+		"results/alignment/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.sam"
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		"logs/alignment/{sample}{lane}{techrep}/{biorep}/bam_to_sam.log"
+		"logs/alignment/{sample}{techrep}/{biorep}/bam_to_sam.log"
 	params:
 		extra=""
+	threads:
+		4
 	shell:
-		"samtools view -h -o {output} {input} {params.extra}"
+		"samtools merge  {output} {input} -O SAM {params.extra} -@ {threads}"
 
 rule deduplicate:
 	input:
-		rules.bam_to_sam.output
+		rules.merge_convert.output
 	output:
-		"results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_alignment.deduplicated.sam"
+		"results/alignment/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.sam"
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		"logs/alignment/{sample}{lane}{techrep}/{biorep}/deduplicate.log"
+		"logs/alignment/{sample}{techrep}/{biorep}/deduplicate.log"
 	params:
-		basename="{sample}{lane}{techrep}-{biorep}_alignment", #not compatible with multiple mode
-		outdir="results/alignment/{sample}{lane}{techrep}-{biorep}/",
+		basename="{sample}{techrep}-{biorep}_alignment", #not compatible with multiple mode
+		outdir="results/alignment/{sample}{techrep}-{biorep}/",
 		extra="" 
 	shell:
 		"deduplicate_bismark {input} -o {params.basename} --output_dir {params.outdir} --sam"

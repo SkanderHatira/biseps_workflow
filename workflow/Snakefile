@@ -25,7 +25,7 @@ def all_input(wildcards):
 
 	# workflow output that is always wanted
 
-	# concatenating units output
+	# Quality report
 
 	wanted_input.extend(
 			expand(
@@ -33,45 +33,21 @@ def all_input(wildcards):
 					"results/quality/multiqc/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/multiqc_report.html",
 
 				],
-				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+				unit=get_unit(),
 
 			)
 		)
-	wanted_input.extend(
-			directory(expand(
-				[
-					"results/quality/fastqc/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/"
-				] ,
-				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
-			)
-		)
-	)
-	wanted_input.extend(
-			directory(
-				[
-					config['resources']['ref']['genome_directory'] + "/Bisulfite_Genome"
-				]
-		)
-	)
-	wanted_input.extend(
-			directory(expand(
-				[	
-					"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/",
-					"results/methylation_extraction/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/"
-				] ,
+	# Bismark Genome Preparation Output
 
-				unit=units[["sample","lane","techrep","biorep"]].itertuples(),
-			)
-		)
-	)
+
 
 	wanted_input.extend(
 		expand(
 			[
-				"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}_alignment.sam",
-				"results/alignment/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam"
+
+				"results/alignment/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam"
 			] ,
-			unit=units[["sample","lane","techrep","biorep"]].itertuples(),
+			unit=get_merged(),
 		)
 	)
 	

@@ -80,9 +80,7 @@ def get_trimmed(wildcards):
 
 ####### get bam files #######
 def get_bam(wildcards):
-	if is_single_end(**wildcards):
-		return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam",**wildcards)
-	return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-1_bismark_bt2_pe.bam",**wildcards)
+	return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam",lane=get_lanes(wildcards),**wildcards)
 
 def get_sample_list(samples):
 	return samples['sample'].tolist()
@@ -99,3 +97,19 @@ def is_wanted(wildcards):
 
 # def get_genome_directory(wildcards):
 # 	return config['resources']['ref']['genome']
+
+
+#### returns lanes for each sample-techrep-biorep combination ####
+def get_lanes(wildcards):
+	samples= units['sample'] == wildcards.sample
+	bioreps= units['biorep'] == wildcards.biorep
+	techreps= units['techrep'] == wildcards.techrep
+	return units[samples & bioreps & techreps].lane.tolist()
+#### returns each line or unit of unique sample-lane-techrep-biorep combination ####
+def get_unit():
+	return units[["sample","lane","techrep","biorep"]].itertuples()
+
+
+#### returns each combination of sample-techrep-biorep####
+def get_merged():
+	return units[["sample","techrep","biorep"]].itertuples()
