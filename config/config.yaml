@@ -1,12 +1,13 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
-quick_run: true
 
 resources:
   ref:
     genome_directory: "/home/shatira/workflows/pre-processing/resources/genome"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
+subsample:
+  activate: 'true'
 params:
   trimmomatic-pe:
     trimmer:

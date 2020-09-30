@@ -9,7 +9,7 @@ include: "rules/methylation_extraction.smk"
 report: "report/workflow.rst"
 
 # Allow users to fix the underlying OS via singularity.
-singularity: "docker://continuumio/miniconda3"
+singularity: "docker://continuumio/miniconda3:4.4.10"
 
 
 def all_input(wildcards):
@@ -44,8 +44,16 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-
-				"results/alignment/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam"
+				"results/alignment/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam",
+			] ,
+			unit=get_merged(),
+		)
+	)
+	
+	wanted_input.extend(
+		expand(
+			[
+				"results/methylation_extraction/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_alignment.deduplicated.CX_report.txt"
 			] ,
 			unit=get_merged(),
 		)
@@ -55,3 +63,4 @@ def all_input(wildcards):
 
 rule all:
 	input: all_input
+

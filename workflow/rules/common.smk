@@ -65,10 +65,10 @@ def get_fastqs(wildcards):
 def get_fastqs(wildcards):
 	"""Get raw FASTQ files from unit sheet."""
 	if is_single_end(**wildcards):
-		return units.loc[ (wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), "fq1" ]
+		return { 's' : units.loc[ (wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), "fq1" ]}
 	else:
 		u = units.loc[ (wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), ["fq1", "fq2"] ].dropna()
-		return [ f"{u.fq1}", f"{u.fq2}" ]
+		return { 'r1' : f"{u.fq1}", 'r2' : f"{u.fq2}" }
 ####### get trimmed data #######
 
 def get_trimmed(wildcards):
@@ -113,3 +113,30 @@ def get_unit():
 #### returns each combination of sample-techrep-biorep####
 def get_merged():
 	return units[["sample","techrep","biorep"]].itertuples()
+
+
+### returns CX report for treatment + control ###
+
+def get_CX_reports(wildcards):
+	return  {
+				'treatment': expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.CX_report.txt",**wildcards),
+				'control' : expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz" , **wildcards)
+			}
+
+
+def get_sub(wildcards):
+    """Get subsampled FASTQ files"""
+    if is_single_end(**wildcards):
+        return expand("results/sub/{sample}{lane}{techrep}-{biorep}.fq", **wildcards)
+    else:
+        return expand("results/sub/{sample}{lane}{techrep}-{biorep}-{side}.fq",side=[1,2], **wildcards)
+
+
+def is_activated(config_element):
+    return config_element['activate'] in {"true","True"}
+
+	
+def get_raw(wildcards):
+	if is_activated(config['subsample']):
+		return get_sub(wildcards)
+	return get_fastqs(wildcards)

@@ -1,6 +1,6 @@
 rule trimmomatic_pe:
 	input:
-		get_fastqs
+		unpack(get_raw)
 	output:
 		r1="results/trimmed/{sample}{lane}{techrep}-{biorep}-1.fq.gz",
 		r2="results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz",
