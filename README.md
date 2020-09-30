@@ -1,7 +1,6 @@
 # Snakemake workflow: dmr-pipe
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.23.0-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/dmr-pipe.svg?branch=master)](https://travis-ci.org/snakemake-workflows/dmr-pipe)
 
 This is a snakemake pipeline for bisulfite sequencing data, it implements:
 1. 	Adapter trimming and quality check
@@ -19,9 +18,9 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 ### Step 1: Obtain a copy of this workflow
 
-1. [Clone](https://help.github.com/en/articles/cloning-a-repository) the newly created repository to your local system, into the place where you want to perform the data analysis.
+[Clone](https://help.github.com/en/articles/cloning-a-repository) the newly created repository to your local system, into the place where you want to perform the data analysis.
 
-    git clone git@forgemia.inra.fr:skander.hatira/dmr-pipe.git
+	git clone git@forgemia.inra.fr:skander.hatira/dmr-pipe.git
 
 ### Step 2: Configure workflow
 

@@ -110,12 +110,12 @@ def get_unit():
 	return units[["sample","lane","techrep","biorep"]].itertuples()
 
 
-#### returns each combination of sample-techrep-biorep####
+#### returns each combination of sample-techrep-biorep ####
 def get_merged():
 	return units[["sample","techrep","biorep"]].itertuples()
 
 
-### returns CX report for treatment + control ###
+#### returns CX report for treatment + control ####
 
 def get_CX_reports(wildcards):
 	return  {
@@ -135,7 +135,7 @@ def get_sub(wildcards):
 def is_activated(config_element):
     return config_element['activate'] in {"true","True"}
 
-	
+#### Quick-run vs Full-run ####	
 def get_raw(wildcards):
 	if is_activated(config['subsample']):
 		return get_sub(wildcards)

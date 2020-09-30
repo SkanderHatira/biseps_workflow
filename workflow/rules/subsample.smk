@@ -1,4 +1,4 @@
-rule seqtk:
+rule seqtk_pe:
 	input:
 		unpack(get_fastqs)
 	output:
@@ -14,8 +14,8 @@ rule seqtk:
 		# optional parameters
 		extra="",
 	threads:
-		2
+		1
 	shell:
-		"seqtk sample -s {params.seed} {input.r1} 10000 > {output.r1}"
+		"seqtk sample -s {params.seed} {input.r1} 10000 > {output.r1};"
 		"seqtk sample -s {params.seed} {input.r2} 10000 > {output.r2}"
 

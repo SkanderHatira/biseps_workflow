@@ -19,11 +19,6 @@ def all_input(wildcards):
 
 	wanted_input = []
 
-	# request trimmomatic if 'activated' in config.yaml
-
-
-
-	# workflow output that is always wanted
 
 	# Quality report
 
@@ -37,8 +32,7 @@ def all_input(wildcards):
 
 			)
 		)
-	# Bismark Genome Preparation Output
-
+	# Alignments 
 
 
 	wanted_input.extend(
@@ -49,6 +43,8 @@ def all_input(wildcards):
 			unit=get_merged(),
 		)
 	)
+
+	# Bismark methylation extraction report 
 	
 	wanted_input.extend(
 		expand(
@@ -58,6 +54,7 @@ def all_input(wildcards):
 			unit=get_merged(),
 		)
 	)
+
 	
 	return wanted_input
 
