@@ -74,5 +74,3 @@ An example (using some trivial test data) can be seen [here](https://cdn.rawgit.
 
 ## Testing
 
-Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [Github Actions](https://github.com/features/actions).
-
