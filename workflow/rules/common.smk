@@ -96,7 +96,7 @@ def is_wanted(wildcards):
 # 		return rows
 
 # def get_genome_directory(wildcards):
-# 	return config['resources']['ref']['genome']
+# 	return config['resources']['ref']['genome']v1	4	1
 
 
 #### returns lanes for each sample-techrep-biorep combination ####
@@ -105,6 +105,10 @@ def get_lanes(wildcards):
 	bioreps= units['biorep'] == wildcards.biorep
 	techreps= units['techrep'] == wildcards.techrep
 	return units[samples & bioreps & techreps].lane.tolist()
+def get_bioreps(wildcards):
+	samples= units['sample'] == wildcards.sample
+	techreps= units['techrep'] == wildcards.techrep
+	return list(units[samples & techreps].biorep.unique())
 #### returns each line or unit of unique sample-lane-techrep-biorep combination ####
 def get_unit():
 	return units[["sample","lane","techrep","biorep"]].itertuples()
@@ -118,10 +122,12 @@ def get_merged():
 #### returns CX report for treatment + control ####
 
 def get_CX_reports(wildcards):
-	return  {
-				'treatment': expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.CX_report.txt",**wildcards),
-				'control' : expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz" , **wildcards)
-			}
+	return expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
+
+#### returns samples marked as control to compute DMR against to ####
+
+
+
 
 
 def get_sub(wildcards):

@@ -5,6 +5,7 @@ include: "rules/quality.smk"
 include: "rules/genome_preparation.smk"
 include: "rules/align.smk"
 include: "rules/methylation_extraction.smk"
+include: "rules/dmrcaller.smk"
 
 report: "report/workflow.rst"
 
@@ -54,8 +55,16 @@ def all_input(wildcards):
 			unit=get_merged(),
 		)
 	)
+	wanted_input.extend(
+		expand(
+			[
+				"results/methylation_calling/control_vs_{sample}{techrep}.Rdata"
+			] ,
+			sample=samples['sample'],
+			techrep=['1']
+		)
+	)
 
-	
 	return wanted_input
 
 rule all:
