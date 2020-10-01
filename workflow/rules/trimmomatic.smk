@@ -22,4 +22,4 @@ rule trimmomatic_pe:
 		"trimmomatic PE -phred33 -threads {threads} -trimlog {log}"
 		" {input} "
 		" {output} "
-		" {params.trimmer} {params.extra}"
+		" {params.trimmer} {params.extra} 2> {log}"

@@ -126,10 +126,6 @@ def get_CX_reports(wildcards):
 
 #### returns samples marked as control to compute DMR against to ####
 
-
-
-
-
 def get_sub(wildcards):
     """Get subsampled FASTQ files"""
     if is_single_end(**wildcards):

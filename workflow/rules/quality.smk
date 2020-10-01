@@ -13,7 +13,7 @@ rule fastqc:
 	threads:
 		2
 	shell:
-		"fastqc {input} -o {output} {params.extra}"
+		"fastqc {input} -o {output} {params.extra} 2> {log}"
 
 
 rule multiqc:
@@ -31,4 +31,4 @@ rule multiqc:
 	threads:
 		2
 	shell:
-		"multiqc {input} -n {output}"
+		"multiqc {input} -n {output} 2> {log}"
