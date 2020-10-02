@@ -1,4 +1,5 @@
 source("common.R")
+load(snakemake@input[['rdata']])
 library(DMRcaller)
 
 ### create files vector
@@ -6,8 +7,6 @@ files = c(snakemake@input[['reports']])
 
 
 ### join biological replicates
-control = lapply(files,aggregate,control)
+treatment = lapply(files,aggregate,treatment)
 
-methylationDataControl
-
-save.image(snakemake@output[['Rdata']])
+save.image(snakemake@output[['rdata']])
