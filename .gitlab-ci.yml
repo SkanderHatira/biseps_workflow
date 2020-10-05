@@ -1,0 +1,31 @@
+image:
+  name: "continuumio/miniconda3"
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+ - export PATH="/opt/conda/bin:$PATH"
+ - hash -r
+ - conda config --set always_yes yes --set changeps1 no
+ - conda update -q conda
+ # Useful for debugging any issues with conda
+ - conda info -a
+ - conda config --add channels defaults
+ - conda config --add channels conda-forge
+ - conda config --add channels bioconda
+ - conda create -q -n snakemake snakemake>=5.23.0
+ # add additional stuff to setup below
+ # e.g. make new environment, create index etc.
+
+dry-run:
+  stage: test
+  tag: CI
+  script:
+   # activate snakemake environment
+   - source activate snakemake
+   # perform a dry-run using .test data:
+   - snakemake -n --directory ngs-test-data
+
