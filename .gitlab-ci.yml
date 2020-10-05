@@ -22,7 +22,6 @@ before_script:
 
 dry-run:
   stage: test
-  tag: CI
   script:
    # activate snakemake environment
    - source activate snakemake
