@@ -22,6 +22,8 @@ before_script:
 
 dry-run:
   stage: test
+  only:
+    - master
   script:
    # activate snakemake environment
    - source activate snakemake
