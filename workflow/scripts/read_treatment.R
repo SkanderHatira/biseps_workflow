@@ -7,6 +7,9 @@ files = c(snakemake@input[['reports']])
 conditions= c("control",snakemake@wildcards[["sample"]])
 ### join biological replicates
 treatment = lapply(files,aggregate)
-joinedTreatment = lapply(treatment,joinBio)
-
+names(treatment) = c(snakemake@wildcards[['sample']])
+if (length(files) > 1){
+	joinedTreatment = treatment[[1]]
+	joinedTreatment = joinBio(treatment[-1],joinedTreatment)
+}
 save.image(snakemake@output[['rdata']])

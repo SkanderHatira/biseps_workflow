@@ -8,11 +8,8 @@ files = c(snakemake@input[['reports']])
 control = lapply(files,aggregate)
 names(control) = c(snakemake@wildcards[['sample']])
 if (length(files) > 1){
-	join = control[[1]]
-	join = joinBio(control[-1])
+	joinedControl = control[[1]]
+	joinedControl = joinBio(control[-1],joinedControl)
 }
-
-
-
 
 save.image(snakemake@output[['Rdata']])

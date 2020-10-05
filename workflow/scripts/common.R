@@ -3,7 +3,7 @@ aggregate = function(el){
 }
 
 
-joinBio = function(list){
+joinBio = function(list,join){
   for (el in list){
 	join = joinReplicates(join,el)
   }
