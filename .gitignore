@@ -1,0 +1,16 @@
+*
+!config
+!config/*
+!resources
+!resources/*
+!workflow
+!workflow/**
+!.gitignore
+!.gitattributes
+!.editorconfig
+!.travis.yml
+!.test
+!.test/*
+!LICENSE
+!README.md
+!.gitlab-ci.yml

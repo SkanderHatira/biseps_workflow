@@ -26,6 +26,4 @@ dry-run:
    # activate snakemake environment
    - source activate snakemake
    # perform a dry-run using .test data:
-   - snakemake -n --directory ngs-test-data
-
-   
+   - snakemake -n --configfile .test/config/config.yaml
