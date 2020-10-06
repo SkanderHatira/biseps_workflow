@@ -14,6 +14,8 @@ rule trimmomatic_pe:
 	params:
 		# list of trimmers (see manual)
 		trimmer=config["params"]["trimmomatic-pe"]["trimmer"],
+		trimmeropts=config["params"]["trimmomatic-pe"]["trimmer-options"],
+		adapters=config["resources"]["adapters"],
 		# optional parameters
 		extra="",
 	threads:
@@ -22,4 +24,4 @@ rule trimmomatic_pe:
 		"trimmomatic PE -phred33 -threads {threads} -trimlog {log}"
 		" {input} "
 		" {output} "
-		" {params.trimmer} {params.extra} 2> {log}"
+		" {params.trimmer}:{params.adapters}:{params.trimmeropts} {params.extra} 2> {log}"
