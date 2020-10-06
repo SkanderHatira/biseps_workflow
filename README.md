@@ -2,10 +2,10 @@
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.23.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 
-This is a snakemake pipeline for bisulfite sequencing data, it implements:
+This is a `snakemake` pipeline for bisulfite sequencing data, it implements:
 1. 	Adapter trimming and quality check
-2.	Quality reports and statistics (fastqc+multiqc)
-3.	Methylation extraction with bismark (bowtie2/hisat2 as aligners)
+2.	Quality reports and statistics (`fastqc`+ `multiqc`)
+3.	Methylation extraction with bismark (`bowtie2`/`hisat2` as aligners)
 4.	DMR identification with DMRCaller (in all contexts) : in progress
 
 ## Authors
@@ -65,7 +65,7 @@ See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/exe
 
 ### Step 5: Investigate results
 
-After successful execution, you can create a self-contained interactive HTML report with all results via:
+After successful execution, you can create a self-contained interactive `.html` report with all results via:
 
     snakemake --report report.html
 
@@ -74,10 +74,10 @@ An example (using some trivial test data) can be seen [here](https://cdn.rawgit.
 
 ## Testing
 
-To test the pipeline you have to be on a conda enabled machine (preferably linux distro as docker support has not been added yet).
+To test the pipeline you have to be on a `conda` enabled machine (preferably `linux` distro as `docker` support has not been added yet).
 
     snakemake --cores $N --use-conda --configfile .test/config/config.yaml
 
+The `.test` directory contains subsampled `.fastq` files for two samples (multi-lane + biological replicates) and a `.fasta` file containing genome sequence from [NCBI](https://www.ncbi.nlm.nih.gov/nuccore/NC_041792.1?report=fasta).
 
-
-You can also specify your own config.yaml and provide necessary data (units.tsv,samples.tsv).
+You can also specify your own config.yaml and provide necessary data (`units.tsv`,`samples.tsv`).
