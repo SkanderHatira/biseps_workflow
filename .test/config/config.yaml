@@ -19,5 +19,3 @@ params:
     other: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-
-   
