@@ -18,4 +18,3 @@ rule seqtk_pe:
 	shell:
 		"seqtk sample -s {params.seed} {input.r1} 10000 > {output.r1} 2>> {log} ;"
 		"seqtk sample -s {params.seed} {input.r2} 10000 > {output.r2} 2>> {log}  "
-
