@@ -8,7 +8,6 @@
 !.gitignore
 !.gitattributes
 !.editorconfig
-!.travis.yml
 !.test
 !.test/*
 !LICENSE
