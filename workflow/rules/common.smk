@@ -51,13 +51,13 @@ def get_reads(wildcards):
 def get_seperate(sample,biorep,side):
 	return units.loc[(sample,biorep), "fq{}".format(str(side))]
 
-def get_fastqs(wildcards):
-	"""Get raw FASTQ files from unit sheet."""
-	if is_single_end(**wildcards):
-		return units.loc[ (wildcards.sample, wildcards.lane, wildcards.techrep, wildcards.biorep), "fq1" ]
-	else:
-		u = units.loc[ (wildcards.sample, wildcards.unit), ["fq1", "fq2"] ].dropna()
-		return [ f"{u.fq1}", f"{u.fq2}" ]
+# def get_fastqs(wildcards):
+# 	"""Get raw FASTQ files from unit sheet."""
+# 	if is_single_end(**wildcards):
+# 		return units.loc[ (wildcards.sample, wildcards.lane, wildcards.techrep, wildcards.biorep), "fq1" ]
+# 	else:
+# 		u = units.loc[ (wildcards.sample, wildcards.unit), ["fq1", "fq2"] ].dropna()
+# 		return [ f"{u.fq1}", f"{u.fq2}" ]
 
 
 ####### get raw data from units.tsv #######
