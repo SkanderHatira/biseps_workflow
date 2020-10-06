@@ -74,3 +74,10 @@ An example (using some trivial test data) can be seen [here](https://cdn.rawgit.
 
 ## Testing
 
+To test the pipeline you have to be on a conda enabled machine (preferably linux distro as docker support has not been added yet).
+
+    snakemake --cores $N --use-conda --configfile .test/config/config.yaml
+
+
+
+You can also specify your own config.yaml and provide necessary data (units.tsv,samples.tsv).
