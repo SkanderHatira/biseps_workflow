@@ -1,0 +1,23 @@
+samples: ".test/config/samples.tsv"
+units: ".test/config/units.tsv"
+
+
+resources:
+  ref:
+    genome_directory: ".test/resources/genome"
+    #Directory containing a fasta file with the DNA sequence of the organism sutided.
+  adapters: "test/resources/adapters"
+subsample:
+  activate: 'False'
+params:
+  trimmomatic-pe:
+    trimmer:
+      "ILLUMINACLIP:.test/resources/adapters/TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+    other: ""
+  seqtk:
+    seed: 100
+    other: ""
+  bismark:
+    aligner: bowtie2 #bowtie2/hisat2
+
+   
