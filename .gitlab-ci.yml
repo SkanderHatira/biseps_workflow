@@ -1,14 +1,12 @@
 image:
   name: "continuumio/miniconda3"
-
 stages:
-  - build
-  - test
-  - deploy
+  - dry-run # To make sure it infers rules correctly
+  - minimal-run # To make sure it executes correctly with a given set of parameters
+  - full-run # To get the results of a full scale run
 
 before_script:
  - export PATH="/opt/conda/bin:$PATH"
- - hash -r
  - conda config --set always_yes yes --set changeps1 no
  - conda update -q conda
  # Useful for debugging any issues with conda
@@ -21,7 +19,7 @@ before_script:
  # e.g. make new environment, create index etc.
 
 dry-run:
-  stage: test
+  stage: dry-run
   only:
     - master
   script:
@@ -30,3 +28,4 @@ dry-run:
    # perform a dry-run using .test data:
    - snakemake -n --directory ngs-test-data
 
+   
