@@ -31,6 +31,6 @@ dry-run:
 minimal-run:
   stage: minimal-run
   only:
-    master
+    - master
   script:
     - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
