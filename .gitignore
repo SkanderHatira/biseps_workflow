@@ -9,7 +9,8 @@
 !.gitattributes
 !.editorconfig
 !.test
-!.test/**
+!.test/*
 !LICENSE
 !README.md
 !.gitlab-ci.yml
+

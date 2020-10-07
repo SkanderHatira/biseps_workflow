@@ -3,7 +3,8 @@ rule alignment_pe:
 		rules.genome_preparation.output,
 		unpack(get_trimmed)
 	output:
-		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam'
+		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam',
+		temp=directory('results/alignment/{sample}{lane}{techrep}-{biorep}/temp/')
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -26,7 +27,7 @@ rule alignment_pe:
 	benchmark:
 		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
 	shell:
-		"bismark --{params.aligner} {params.bismark} -p {threads} --parallel {threads} -1 {input.r1} -2 {input.r2} --bam {params.aligner_options} {params.extra} {params.genome} -o {params.out_dir} -B {params.basename} 2> {log}"
+		"bismark --{params.aligner} {params.bismark} -p {threads} --bam {params.aligner_options} {params.extra} --temp_dir {output.temp}  -o {params.out_dir} -B {params.basename} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
 
 rule merge_convert:
 	input:

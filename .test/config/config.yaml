@@ -8,7 +8,7 @@ resources:
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
   adapters: ".test/resources/adapters"
 subsample:
-  activate: 'False'
+  activate: 'true'
 params:
   trimmomatic-pe:
     trimmer: "ILLUMINACLIP"

@@ -27,4 +27,10 @@ dry-run:
    - source activate snakemake
    # perform a dry-run using .test data:
    - snakemake -n --configfile .test/config/config.yaml
-   - lscpu
+
+minimal-run:
+  stage: minimal-run
+  only:
+    master
+  script:
+    - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
