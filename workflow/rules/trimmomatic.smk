@@ -3,9 +3,10 @@ rule trimmomatic_pe:
 		unpack(get_raw)
 	output:
 		r1="results/trimmed/{sample}{lane}{techrep}-{biorep}-1.fq.gz",
-		r2="results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz",
-		# reads where trimming entirely removed the mate
+		# reads where trimming entirely removed the mate in forward
 		r1_unpaired="results/trimmed/{sample}{lane}{techrep}-{biorep}-1.unpaired.fq.gz",
+		r2="results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz",
+		# reads where trimming entirely removed the mate in reverse
 		r2_unpaired="results/trimmed/{sample}{lane}{techrep}-{biorep}-2.unpaired.fq.gz"
 	conda:
 		"../envs/trimmomatic.yaml"
