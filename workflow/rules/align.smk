@@ -3,7 +3,7 @@ rule alignment_pe:
 		rules.genome_preparation.output,
 		unpack(get_trimmed)
 	output:
-		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam',
+		bam='results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam',
 		temp=directory('results/alignment/{sample}{lane}{techrep}-{biorep}/temp/')
 	conda:
 		"../envs/bismark.yaml"
@@ -31,7 +31,7 @@ rule alignment_pe:
 
 rule merge_convert:
 	input:
-		get_bam
+		get_bam_pe
 	output:
 		"results/alignment/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.sam"
 	conda:

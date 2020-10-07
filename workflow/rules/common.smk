@@ -79,8 +79,8 @@ def get_trimmed(wildcards):
         return { 'r1': expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-1.fq.gz", **wildcards) ,'r2' : expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz" , **wildcards)}
 
 ####### get bam files #######
-def get_bam(wildcards):
-	return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2.bam",lane=get_lanes(wildcards),**wildcards)
+def get_bam_pe(wildcards):
+	return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
 
 def get_sample_list(samples):
 	return samples['sample'].tolist()
