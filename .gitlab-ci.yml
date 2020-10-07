@@ -21,7 +21,7 @@ before_script:
 dry-run:
   stage: dry-run
   only:
-    - master
+    - development
   script:
    # activate snakemake environment
    - source activate snakemake
@@ -31,6 +31,6 @@ dry-run:
 minimal-run:
   stage: minimal-run
   only:
-    - master
+    - development
   script:
     - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
