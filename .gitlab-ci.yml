@@ -34,3 +34,10 @@ minimal-run:
     - development
   script:
     - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
+
+full-run:
+  stage: full-run
+  only:
+    - merge_requests
+  script:
+    - echo full run
