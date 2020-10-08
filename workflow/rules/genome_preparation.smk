@@ -15,3 +15,4 @@ rule genome_preparation:
 		2
 	shell:
 		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {threads} --genomic_composition 2> {log} "
+

@@ -80,7 +80,7 @@ def get_trimmed(wildcards):
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
-	return expand("results/alignment/{sample}{lane}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
+	return expand("results/alignment/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
 
 def get_sample_list(samples):
 	return samples['sample'].tolist()

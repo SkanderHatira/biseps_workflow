@@ -33,18 +33,6 @@ def all_input(wildcards):
 
 			)
 		)
-	# Alignments 
-
-
-	wanted_input.extend(
-		expand(
-			[
-				"results/alignment/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_alignment.deduplicated.sam",
-			] ,
-			unit=get_merged(),
-		)
-	)
-
 	# Bismark methylation extraction report 
 	
 	wanted_input.extend(

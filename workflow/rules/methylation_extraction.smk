@@ -1,6 +1,6 @@
 rule methylation_extraction_pe:
 	input:
-		"results/alignment/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.sam"
+		rules.deduplicate.output
 	output:
 		"results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.CX_report.txt"
 	conda:
@@ -16,4 +16,4 @@ rule methylation_extraction_pe:
 	threads:
 		8
 	shell:
-		"bismark_methylation_extractor  {input} --bedGraph --CX --cytosine_report --genome_folder {params.genome} -p  --parallel {threads} -o {params.out_dir} {params.extra} 2> {log}"
+		"bismark_methylation_extractor  {input} --bedGraph --CX --cytosine_report --genome_folder .test/resources/genome -p  --parallel {threads} -o {params.out_dir} {params.extra} 2> {log}; pwd &>> {log}"

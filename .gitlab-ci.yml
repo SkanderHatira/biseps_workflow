@@ -33,6 +33,7 @@ minimal-run:
   only:
     - development
   script:
+    - source activate snakemake
     - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
 
 full-run:
