@@ -122,7 +122,7 @@ def get_merged():
 #### returns CX report for treatment + control ####
 
 def get_CX_reports(wildcards):
-	return expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
+	return expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 
 #### returns samples marked as control to compute DMR against to ####
 

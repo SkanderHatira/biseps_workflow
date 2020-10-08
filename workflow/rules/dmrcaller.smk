@@ -1,6 +1,6 @@
 rule read_control:
 	input:
-		expand("results/methylation_extraction/v31-{biorep}/v31-{biorep}_alignment.deduplicated.CX_report.txt",biorep=[1,2,3,4])
+		expand("results/methylation_extraction/v31-{biorep}/v31-{biorep}_merged.deduplicated.CX_report.txt",biorep=[1,2,3,4])
 	output:
 		rdata="results/methylation_calling/read_control.Rdata",
 	conda:
