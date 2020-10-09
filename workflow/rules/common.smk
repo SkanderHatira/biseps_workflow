@@ -1,6 +1,6 @@
 from snakemake.utils import validate
 import pandas as pd
-
+import os
 
 # this container defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
@@ -166,3 +166,8 @@ def get_treatment():
 
 def get_techrep(wildcards):
 	return list(units.loc[wildcards.sample,'techrep'].unique())
+
+	
+# necessary for bismark extraction rule
+def get_abs(relative_path):
+	return os.path.abspath(relative_path)
