@@ -35,25 +35,24 @@ def all_input(wildcards):
 		)
 	# Bismark methylation extraction report 
 	
+	# wanted_input.extend(
+	# 	expand(
+	# 		[
+	# 			"results/methylation_extraction/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_merged.deduplicated.CX_report.txt"
+	# 		] ,
+	# 		unit=get_merged(),
+	# 	)
+	# )
+
 	wanted_input.extend(
 		expand(
 			[
-				"results/methylation_extraction/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_merged.deduplicated.CX_report.txt"
+				"results/methylation_calling/comparison/{control.sample}{control.techrep}_vs_{treatment.sample}{treatment.techrep}.Rdata"
 			] ,
-			unit=get_merged(),
+			control=get_control(),
+			treatment=get_treatment()
 		)
 	)
-	wanted_input.extend(
-		expand(
-			[
-				"results/methylation_calling/control_vs_{sample}{techrep}.Rdata"
-			] ,
-			sample=samples['sample'],
-			techrep=['1']
-		)
-	)
-
-
 	return wanted_input
 
 rule all:

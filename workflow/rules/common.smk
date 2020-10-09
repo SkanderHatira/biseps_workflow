@@ -142,3 +142,27 @@ def get_raw(wildcards):
 	if is_activated(config['subsample']):
 		return get_sub(wildcards)
 	return get_fastqs(wildcards)
+
+
+def get_control_list(samples):
+	return samples.loc['condition']
+
+def get_control_bioreps(wildcards):
+	samples= units['sample'] == wildcards.control
+	techreps= units['techrep'] == wildcards.ctechrep
+	return list(units[samples & techreps].biorep.unique())
+
+def get_control():
+	csamp = list(samples.loc[lambda samples: samples['condition'] == 'control']['sample'])
+	control = units.loc[csamp][["sample","techrep"]].itertuples(index=False)
+	return list(set(control))
+
+
+def get_treatment():
+	tsamp = list(samples.loc[lambda samples: samples['condition'] != 'control']['sample'])
+	treatment = units.loc[tsamp][["sample","techrep"]].itertuples(index=False)
+	return list(set(treatment))
+
+
+def get_techrep(wildcards):
+	return list(units.loc[wildcards.sample,'techrep'].unique())
