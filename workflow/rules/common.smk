@@ -51,15 +51,6 @@ def get_reads(wildcards):
 def get_seperate(sample,biorep,side):
 	return units.loc[(sample,biorep), "fq{}".format(str(side))]
 
-# def get_fastqs(wildcards):
-# 	"""Get raw FASTQ files from unit sheet."""
-# 	if is_single_end(**wildcards):
-# 		return units.loc[ (wildcards.sample, wildcards.lane, wildcards.techrep, wildcards.biorep), "fq1" ]
-# 	else:
-# 		u = units.loc[ (wildcards.sample, wildcards.unit), ["fq1", "fq2"] ].dropna()
-# 		return [ f"{u.fq1}", f"{u.fq2}" ]
-
-
 ####### get raw data from units.tsv #######
 
 def get_fastqs(wildcards):
@@ -90,15 +81,6 @@ def get_sample_list(samples):
 def is_wanted(wildcards):
 	return config_element['activate'] in {"true","True"}
 
-# def to_merge_or_not_to_merge(wildcards):
-# 	rows = units.loc[(units['sample'] == wildcards.sample) & (units['biorep'] == wildcards.biorep)]['fq1']
-# 	if len(rows) > 1:
-# 		return rows
-
-# def get_genome_directory(wildcards):
-# 	return config['resources']['ref']['genome']v1	4	1
-
-
 #### returns lanes for each sample-techrep-biorep combination ####
 def get_lanes(wildcards):
 	samples= units['sample'] == wildcards.sample
@@ -113,19 +95,16 @@ def get_bioreps(wildcards):
 def get_unit():
 	return units[["sample","lane","techrep","biorep"]].itertuples()
 
-
 #### returns each combination of sample-techrep-biorep ####
 def get_merged():
 	return units[["sample","techrep","biorep"]].itertuples()
-
 
 #### returns CX report for treatment + control ####
 
 def get_CX_reports(wildcards):
 	return expand("results/methylation_extraction/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 
-#### returns samples marked as control to compute DMR against to ####
-
+# returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
     """Get subsampled FASTQ files"""
     if is_single_end(**wildcards):
@@ -133,41 +112,32 @@ def get_sub(wildcards):
     else:
         return expand("results/sub/{sample}{lane}{techrep}-{biorep}-{side}.fq",side=[1,2], **wildcards)
 
-
-def is_activated(config_element):
-    return config_element['activate'] in {"true","True"}
-
 #### Quick-run vs Full-run ####	
 def get_raw(wildcards):
 	if is_activated(config['subsample']):
 		return get_sub(wildcards)
 	return get_fastqs(wildcards)
 
-
-def get_control_list(samples):
-	return samples.loc['condition']
+# for optional rules/steps to execute
+def is_activated(config_element):
+    return config_element['activate'] in {"true","True"}
 
 def get_control_bioreps(wildcards):
 	samples= units['sample'] == wildcards.control
 	techreps= units['techrep'] == wildcards.ctechrep
 	return list(units[samples & techreps].biorep.unique())
-
+# identify control groups to perform pairwise comparisons with
 def get_control():
 	csamp = list(samples.loc[lambda samples: samples['condition'] == 'control']['sample'])
 	control = units.loc[csamp][["sample","techrep"]].itertuples(index=False)
 	return list(set(control))
 
-
+# identify treatment groups to compute dmr for (against control group(s) )
 def get_treatment():
 	tsamp = list(samples.loc[lambda samples: samples['condition'] != 'control']['sample'])
 	treatment = units.loc[tsamp][["sample","techrep"]].itertuples(index=False)
 	return list(set(treatment))
 
-
-def get_techrep(wildcards):
-	return list(units.loc[wildcards.sample,'techrep'].unique())
-
-	
 # necessary for bismark extraction rule
 def get_abs(relative_path):
 	return os.path.abspath(relative_path)
