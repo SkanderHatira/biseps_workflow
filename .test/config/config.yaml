@@ -4,7 +4,7 @@ units: ".test/config/units.tsv"
 
 resources:
   ref:
-    genome_directory: "/home/shatira/mnt/local_workflows/dmr-pipe/.test/resources/genome"
+    genome_directory: ".test/resources/genome"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
   adapters: ".test/resources/adapters"
 subsample:
