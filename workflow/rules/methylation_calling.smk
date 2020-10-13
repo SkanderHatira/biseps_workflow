@@ -22,12 +22,12 @@ rule comparison:
 		controlConditionVector="results/methylation_calling/report_GRanges/conditionVector_{control}{ctechrep}.rds"
 	output:
 		rdata="results/methylation_calling/comparison/{control}{ctechrep}_vs_{treatment}{ttechrep}.Rdata",
-		Meth_profile_genome_wide="results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Genome_Wide_Meth_Profile.png",
-		Meth_coverage="results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Meth_Coverage.png"
+		Meth_profile_genome_wide=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Genome_Wide_Meth_Profile.png" ,caption="../report/plot-genome-wide-methylation.rst", category="Genome Wide Methylation Profile"),
+		Meth_coverage=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Meth_Coverage.png",caption="../report/methylation-coverage.rst", category="Methylation Coverage")
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		"logs/methylation_calling/{control}{ctechrep}_vs_{treatment}{ttechrep}.log"
+		report("logs/methylation_calling/{control}{ctechrep}_vs_{treatment}{ttechrep}.log",category="Logs")
 	threads:
 		2
 	params:
