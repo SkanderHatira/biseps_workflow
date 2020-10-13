@@ -14,6 +14,6 @@ rule methylation_extraction_pe:
 		out_dir="results/methylation_extraction/{sample}{techrep}-{biorep}/",
 		extra="--comprehensive" #include_overlap? #get_p_s_flag?
 	threads:
-		8
+		2
 	shell:
 		"bismark_methylation_extractor  {input} --bedGraph --CX --cytosine_report --genome_folder {params.genome} -p  --parallel {threads} -o {params.out_dir} {params.extra} &> {log} "

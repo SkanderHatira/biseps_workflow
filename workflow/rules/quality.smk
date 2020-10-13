@@ -11,7 +11,7 @@ rule fastqc:
 		# optional parameters
 		extra="",
 	threads:
-		2
+		1
 	shell:
 		"fastqc {input} -o {output} {params.extra} 2> {log}"
 
@@ -29,6 +29,6 @@ rule multiqc:
 		# optional parameters
 		extra="",
 	threads:
-		2
+		1
 	shell:
 		"multiqc {input} -n {output} 2> {log}"

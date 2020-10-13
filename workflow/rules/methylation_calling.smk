@@ -9,7 +9,7 @@ rule read_report:
 	log:
 		"logs/methylation_calling/{sample}{techrep}.log"
 	threads:
-		4
+		1
 	script:
 		"../scripts/read_report.R"
 

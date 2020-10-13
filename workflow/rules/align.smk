@@ -22,12 +22,12 @@ rule alignment_pe:
 		# optional parameters
 		extra=""
 	threads:
-		4
+		2
 	# -p is for the aligner , --parallel for bismark
 	benchmark:
 		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
 	shell:
-		"bismark --{params.aligner} {params.bismark} -p {threads} --bam {params.aligner_options} {params.extra} "
+		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra} "
 		"--temp_dir {params.temp}  -o {params.out_dir} -B {params.basename} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
 
 rule merge_convert:
@@ -42,7 +42,7 @@ rule merge_convert:
 	params:
 		extra=""
 	threads:
-		4
+		1
 	shell:
 		"samtools merge {output} {input} -O sam {params.extra} -@ {threads} &> {log}"
 
@@ -58,7 +58,7 @@ rule sort:
 	params:
 		extra=""
 	threads:
-		4
+		1
 	shell:
 		"samtools sort -n  -o {output} {input}  {params.extra} -@ {threads}  &> {log}"
 
@@ -75,5 +75,7 @@ rule deduplicate:
 		basename="{sample}{techrep}-{biorep}_merged", #not compatible with multiple mode
 		outdir="results/deduplicate/{sample}{techrep}-{biorep}/",
 		extra="" 
+	threads:
+		1
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log}"
