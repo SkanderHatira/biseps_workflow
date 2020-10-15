@@ -5,12 +5,13 @@
 !resources/*
 !workflow
 !workflow/**
+!LICENSE
+!README.md
+!Dockerfile
 !.gitignore
 !.gitattributes
 !.editorconfig
+!.dockerignore
 !.test
 !.test/*
-!LICENSE
-!README.md
 !.gitlab-ci.yml
-

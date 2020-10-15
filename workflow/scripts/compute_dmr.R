@@ -15,10 +15,12 @@ treatment <- readRDS(snakemake@input[['treatment']])
 methylationData = joinReplicates(control,treatment)
 # defining methylation contexts
 contexts = c("CG","CHG","CHH")
+
 #load data condtion vector
 treatmentCondition = readRDS(snakemake@input[['treatmentConditionVector']])
 controlCondition = readRDS(snakemake@input[['controlConditionVector']])
 condition = c(controlCondition,treatmentCondition)
+
 # plot coverage in different contexts
 png(snakemake@output[['Meth_coverage']], width = 3200, height = 2400,res = 350)
 plotMethylationDataCoverage(control,
@@ -42,7 +44,7 @@ plotMethylationProfileFromData(control,
 	context = c("CG"))
 dev.off()
 # compute DMR's with biological replicates , can only call bins/neighborhood methods
-DMRsReplicatesNoiseFilter = computeDMRsReplicates(	methylationData = methylationData,
+DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
 													condition = condition,
 													regions = NULL,
 													context = "CG",
@@ -61,10 +63,12 @@ DMRsReplicatesNoiseFilter = computeDMRsReplicates(	methylationData = methylation
 												)
 
 # generate colours scale for treatment and control
-Ccolor = colorRampPalette(c("red","green"))(length(controlCondition)) #control
-Tcolor = colorRampPalette(c("blue","yellow"))(length(treatmentCondition))  #treatment
-colors = c(Ccolor,Tcolor)
+# Ccolor = colorRampPalette(c("red","green"))(length(controlCondition)) #control
+# Tcolor = colorRampPalette(c("blue","yellow"))(length(treatmentCondition))  #treatment
+# colors = c(Ccolor,Tcolor)
 
+# transform GenomicRanges to data frame for easier manipulation
+df = data.frame(methylationData)
 
 save.image(snakemake@output[['rdata']])
 

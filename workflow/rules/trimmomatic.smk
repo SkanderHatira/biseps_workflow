@@ -24,3 +24,4 @@ rule trimmomatic_pe:
 		" {input} "
 		" {output} "
 		" {params.trimmer}:{params.adapters}:{params.trimmeropts} {params.extra} 2> {log}"
+
