@@ -22,9 +22,9 @@ rule comparison:
 		controlConditionVector="results/methylation_calling/report_GRanges/conditionVector_{control}{ctechrep}.rds"
 	output:
 		rdata="results/methylation_calling/comparison/{control}{ctechrep}_vs_{treatment}{ttechrep}.Rdata",
-		# Meth_profile_genome_wide=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Genome_Wide_Meth_Profile.png" ,caption="../report/plot-genome-wide-methylation.rst", category="Genome Wide Methylation Profile"),
-		# Meth_coverage=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Meth_Coverage.png",caption="../report/methylation-coverage.rst", category="Methylation Coverage")
-		ggplot="results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_ggplot.pdf"
+		Meth_profile_genome_wide=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Genome_Wide_Meth_Profile.pdf" ,caption="../report/plot-genome-wide-methylation.rst", category="Genome Wide Methylation Profile"),
+		Meth_coverage=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Meth_Coverage.pdf",caption="../report/methylation-coverage.rst", category="Methylation Coverage"),
+		ggplot=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_ggplot.pdf", category="ggplot")
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
