@@ -5,6 +5,7 @@ sink(log, type="message")
 # loading necessary packages
 library(DMRcaller)
 library(betareg)
+library(ggplot2)
 source( file.path(snakemake@scriptdir, 'common.R') ) # source from scripts directory
 
 #load data
@@ -13,6 +14,8 @@ treatment <- readRDS(snakemake@input[['treatment']])
 
 # merge data in one dataframe
 methylationData = joinReplicates(control,treatment)
+df = data.frame(methylationData)
+
 # defining methylation contexts
 contexts = c("CG","CHG","CHH")
 
@@ -20,9 +23,12 @@ contexts = c("CG","CHG","CHH")
 treatmentCondition = readRDS(snakemake@input[['treatmentConditionVector']])
 controlCondition = readRDS(snakemake@input[['controlConditionVector']])
 condition = c(controlCondition,treatmentCondition)
+pdf(file = snakemake@output[['ggplot']], width = 14)
+ggplot(data=df,aes(y=readsM1/readsN1,x=start,fill=context,col=context))+geom_point()
+dev.off()
 
 # plot coverage in different contexts
-png(snakemake@output[['Meth_coverage']], width = 3200, height = 2400,res = 350)
+pdf(snakemake@output[['Meth_coverage']], width = 3200, height = 2400)
 plotMethylationDataCoverage(control,
 treatment,
 breaks = c(1,5,10,15),
@@ -35,7 +41,7 @@ contextPerRow = FALSE)
 dev.off()
 
 # Plot Methylation Profile : Context Specific Global changes (10000 bp window)
-png(snakemake@output[['Meth_profile_genome_wide']], width = 3200, height = 2400,res = 350)
+pdf(snakemake@output[['Meth_profile_genome_wide']], width = 3200, height = 2400)
 plotMethylationProfileFromData(control,
 	treatment,
 	conditionsNames = c("control","treatment"),
@@ -43,7 +49,8 @@ plotMethylationProfileFromData(control,
 	autoscale = FALSE,
 	context = c("CG"))
 dev.off()
-# compute DMR's with biological replicates , can only call bins/neighborhood methods
+
+# compute DMR's with biological replicates , can only call bins method
 DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
 													condition = condition,
 													regions = NULL,
@@ -61,14 +68,24 @@ DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
 													minReadsPerCytosine = 4,
 													cores = snakemake@threads[[1]]
 												)
+# compute DMR's with biological replicates , can only call neighborhood method
 
-# generate colours scale for treatment and control
-# Ccolor = colorRampPalette(c("red","green"))(length(controlCondition)) #control
-# Tcolor = colorRampPalette(c("blue","yellow"))(length(treatmentCondition))  #treatment
-# colors = c(Ccolor,Tcolor)
-
-# transform GenomicRanges to data frame for easier manipulation
-df = data.frame(methylationData)
+DMRsReplicatesNeighbourhood = computeDMRsReplicates(	methylationData = methylationData,
+													condition = condition,
+													regions = NULL,
+													context = "CG",
+													method = "neighbourhood",
+													test = "betareg",
+													pseudocountM = 1,
+													pseudocountN = 2,
+													pValueThreshold = 0.01,
+													minCytosinesCount = 4,
+													minProportionDifference = 0.4,
+													minGap = 0,
+													minSize = 50,
+													minReadsPerCytosine = 4,
+													cores = snakemake@threads[[1]]
+												)
 
 save.image(snakemake@output[['rdata']])
 

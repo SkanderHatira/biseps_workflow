@@ -19,3 +19,4 @@ params:
     other: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
+    instances: 1
