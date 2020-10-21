@@ -1,14 +1,17 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
-
+steps:
+  subsample:
+    activate: 'False'
+  quality:
+    activate: 'True'
 resources:
   ref:
     genome_directory: "resources/genome"
   adapters: "resources/adapters/TruSeq3-PE.fa"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
-subsample:
-  activate: 'False'
+
 params:
   trimmomatic-pe:
     trimmer: "ILLUMINACLIP"

@@ -12,14 +12,13 @@ WORKDIR /dmr-pipe
 COPY . /dmr-pipe
 
 ################### Config Conda And Create Snakemake Environment ###################
-RUN conda config --set always_yes yes --set changeps1 no \
-	&& conda config --add channels conda-forge \
-	&& conda config --add channels bioconda \
-	&& conda create -n snakemake snakemake \
-	&& conda clean -a 
-
-RUN	addgroup --gid $GROUP_ID $USERNAME \
-	&& adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID $USERNAME \
+RUN conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
+	&& conda create  -q -c bioconda -c conda-forge -n snakemake snakemake-minimal pandas \
+	&& conda clean -a \
+	&& find /opt/conda/ -follow -type f -name '*.a' -delete \
+    && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+	&& addgroup --gid $GROUP_ID $USERNAME \
+	&& adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID $USERNAME \ 
 	&& chown -R $USERNAME /dmr-pipe \
 	&& chmod -R 755 /dmr-pipe \
 	&& chown -R $USERNAME /opt/conda/ \
