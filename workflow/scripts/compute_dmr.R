@@ -28,7 +28,7 @@ ggplot(data=df,aes(y=readsM1/readsN1,x=start,fill=context,col=context))+geom_poi
 dev.off()
 
 # plot coverage in different contexts
-pdf(snakemake@output[['Meth_coverage']], width = 3200, height = 2400)
+pdf(snakemake@output[['Meth_coverage']])
 plotMethylationDataCoverage(control,
 treatment,
 breaks = c(1,5,10,15),
@@ -41,14 +41,16 @@ contextPerRow = FALSE)
 dev.off()
 
 # Plot Methylation Profile : Context Specific Global changes (10000 bp window)
-pdf(snakemake@output[['Meth_profile_genome_wide']], width = 3200, height = 2400)
+pdf(snakemake@output[['Meth_profile_genome_wide']])
 plotMethylationProfileFromData(control,
 	treatment,
 	conditionsNames = c("control","treatment"),
 	windowSize = 10000,
 	autoscale = FALSE,
-	context = c("CG"))
+	context = "CG")
 dev.off()
+
+
 
 # compute DMR's with biological replicates , can only call bins method
 DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
