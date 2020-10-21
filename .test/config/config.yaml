@@ -1,7 +1,26 @@
 samples: ".test/config/samples.tsv"
 units: ".test/config/units.tsv"
 
-
+# these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
+steps:
+  # minimal vs full run
+    subsample:
+      activate: 'False'
+  # whether to preprocess raw data or not
+    trimming:
+      activate: 'False'
+  # whether to generate read quality reports or not
+    quality:
+      activate: 'True'
+  # whether to perform bisulfite conversion on genome and index it (preparation)
+    genome_preparation:
+      activate: 'True'
+  # whether to generate CX reports
+    methylation_extraction:
+      activate: 'True'
+  # whether to compute DMR's
+    methylation_calling:
+      activate: 'True'
 resources:
   ref:
     genome_directory: ".test/resources/genome"
