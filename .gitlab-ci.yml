@@ -4,6 +4,7 @@ stages:
   - dry-run # To make sure it infers rules correctly
   - minimal-run # To make sure it executes correctly with a given set of parameters
   - full-run # To get the results of a full scale run
+  - build
 
 before_script:
  - export PATH="/opt/conda/bin:$PATH"
@@ -42,3 +43,14 @@ full-run:
     - merge_requests
   script:
     - echo full run
+build:
+  stage: build
+  only: 
+    - development
+  artifacts:
+    paths:
+      - image/
+    expire_in: 1 day
+  script:
+    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda
+
