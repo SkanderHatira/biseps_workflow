@@ -1,35 +1,23 @@
-# image:
-#   name: "continuumio/miniconda3"
-# stages:
-#   - dry-run # To make sure it infers rules correctly
-#   - minimal-run # To make sure it executes correctly with a given set of parameters
-#   - full-run # To get the results of a full scale run
-#   - build
+image: docker:19.03.12
+services:
+  - docker:19.03.12-dind
+stages:
+  - build # Build docker image
+  - dry-run # To make sure it infers rules correctly
+  - minimal-run # To make sure it executes correctly with a given set of parameters
+ 
 
-# before_script:
-#  - export PATH="/opt/conda/bin:$PATH"
-#  - conda config --set always_yes yes --set changeps1 no
-#  - conda update -q conda
-#  # Useful for debugging any issues with conda
-#  - conda info -a
-#  - conda config --add channels defaults
-#  - conda config --add channels conda-forge
-#  - conda config --add channels bioconda
-#  - conda create -q -n snakemake snakemake>=5.23.0
-#  # add additional stuff to setup below
-#  # e.g. make new environment, create index etc.
-
-# dry-run:
+before_script:
+ - mkdir -p $(pwd)/.test
+ - mkdir -p $(pwd)/dock_result/
+# minimal-run:
 #   stage: dry-run
 #   only:
 #     - development
 #   script:
-#    # activate snakemake environment
-#    - source activate snakemake
-#    # perform a dry-run using .test data:
-#    - snakemake -n --configfile .test/config/config.yaml
+#    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda 
 
-# minimal-run:
+# dry-run:
 #   stage: minimal-run
 #   only:
 #     - development
@@ -37,29 +25,10 @@
 #     - source activate snakemake
 #     - snakemake --cores 6 --use-conda --configfile .test/config/config.yaml
 
-# full-run:
-#   stage: full-run
-#   only:
-#     - merge_requests
-#   script:
-#     - echo full run
-
-image: docker:19.03.12
-services:
-  - docker:19.03.12-dind
-variables:
-  TEST: "HELLO WORLD"
 build:
   stage: build
   only: 
-    - development
-  artifacts:
-    paths:
-      - image/
-    expire_in: 1 day
+    - master
   script:
-    - mkdir -p $(pwd)/.test
-    - mkdir -p $(pwd)/dock_result/
-    - docker build -t dmr-pipe-reduced --build-arg USER_ID=$CI_JOB_ID --build-arg GROUP_ID=$CI_JOB_ID --build-arg USERNAME=$CI_JOB_NAME .
-    # - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda
-
+    # - docker build -t dmr-pipe-reduced --build-arg USER_ID=$CI_JOB_ID --build-arg GROUP_ID=$CI_JOB_ID --build-arg USERNAME=$CI_JOB_NAME .
+    - docker -v
