@@ -59,5 +59,6 @@ build:
   script:
     - mkdir -p $(pwd)/.test
     - mkdir -p $(pwd)/dock_result/
-    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda
+    - docker build -t dmr-pipe-reduced --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg USERNAME=$USER .
+    # - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda
 
