@@ -51,7 +51,6 @@ build:
   stage: build
   only: 
     - development
-    expire_in: 1 day
   script:
     - mkdir -p $(pwd)/.test
     - mkdir -p $(pwd)/dock_result/
