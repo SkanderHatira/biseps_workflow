@@ -44,13 +44,17 @@
 #   script:
 #     - echo full run
 
-image: docker:19.03.11
+image: docker:19.03.12
 services:
-  - docker:19.03.11-dind
+  - docker:19.03.12-dind
 build:
   stage: build
   only: 
     - development
+  artifacts:
+    paths:
+      - image/
+    expire_in: 1 day
   script:
     - mkdir -p $(pwd)/.test
     - mkdir -p $(pwd)/dock_result/
