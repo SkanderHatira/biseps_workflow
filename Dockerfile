@@ -19,7 +19,8 @@ RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set ad
 	# for use of continuumio/miniconda3:latest base image
 	# && addgroup --gid $GROUP_ID $USERNAME \
 	# && adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID $USERNAME \ 
-	&& addgroup -g $GROUP_ID $USERNAME  \
+	&& echo $USERNAME \
+	&& /usr/sbin/addgroup -g $GROUP_ID $USERNAME  \
 	&& /usr/sbin/adduser -u $USER_ID -S $USERNAME -G $USERNAME \
 	&& chown -R $USERNAME /dmr-pipe \
 	&& chmod -R 755 /dmr-pipe \
