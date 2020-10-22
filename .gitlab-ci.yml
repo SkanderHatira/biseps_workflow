@@ -44,10 +44,9 @@
 #   script:
 #     - echo full run
 
-image: docker:19.03.8
+image: docker:19.03.11
 services:
-  - docker:19.03.8-dind
-
+  - docker:19.03.11-dind
 build:
   stage: build
   only: 
