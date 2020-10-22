@@ -24,14 +24,16 @@ dry-run:
   only:
     - development
   script:
-    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced -n --configfile .test/config/config.yaml
+    - docker pull $IMAGE_TAG
+    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results $IMAGE_TAG -n --configfile .test/config/config.yaml
 
 minimal-run:
   stage: minimal-run
   only:
     - master
   script:
-   - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results dmr-pipe-reduced --configfile .test/config/config.yaml --cores 6 --use-conda 
+    - docker pull $IMAGE_TAG
+    - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly -it --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda 
 
 
 
