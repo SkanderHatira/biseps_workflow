@@ -51,9 +51,6 @@ build:
   stage: build
   only: 
     - development
-  artifacts:
-    paths:
-      - image/
     expire_in: 1 day
   script:
     - mkdir -p $(pwd)/.test
