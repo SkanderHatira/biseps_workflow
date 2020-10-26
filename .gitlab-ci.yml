@@ -25,7 +25,7 @@ dry-run:
     - development
   script:
     - docker pull $IMAGE_TAG
-    - docker run --mount type=bind,src=$CI_PROJECT_DIR,dst=/dmr-pipe/.test $IMAGE_TAG -n --configfile .test/config/config.yaml
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR,dst/.test=/dmr-pipe/.test $IMAGE_TAG -n --configfile .test/config/config.yaml
 
 minimal-run:
   stage: minimal-run
@@ -33,4 +33,4 @@ minimal-run:
     - master
   script:
     - docker pull $IMAGE_TAG
-    - docker run --mount type=bind,src=$CI_PROJECT_DIR,dst=/dmr-pipe/.test  $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda 
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/dmr-pipe/.test  $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda 
