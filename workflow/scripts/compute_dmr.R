@@ -27,28 +27,28 @@ pdf(file = snakemake@output[['ggplot']], width = 14)
 ggplot(data=df,aes(y=readsM1/readsN1,x=start,fill=context,col=context))+geom_point()
 dev.off()
 
-# plot coverage in different contexts
-pdf(snakemake@output[['Meth_coverage']])
-plotMethylationDataCoverage(control,
-treatment,
-breaks = c(1,5,10,15),
-regions = NULL,
-conditionsNames=c("control","treatment"),
-context = contexts,
-proportion = TRUE,
-labels=LETTERS,
-contextPerRow = FALSE)
-dev.off()
+# # plot coverage in different contexts
+# pdf(snakemake@output[['Meth_coverage']])
+# plotMethylationDataCoverage(control,
+# treatment,
+# breaks = c(1,5,10,15),
+# regions = NULL,
+# conditionsNames=c("control","treatment"),
+# context = contexts,
+# proportion = TRUE,
+# labels=LETTERS,
+# contextPerRow = FALSE)
+# dev.off()
 
-# Plot Methylation Profile : Context Specific Global changes (10000 bp window)
-pdf(snakemake@output[['Meth_profile_genome_wide']])
-plotMethylationProfileFromData(control,
-	treatment,
-	conditionsNames = c("control","treatment"),
-	windowSize = 10000,
-	autoscale = FALSE,
-	context = "CG")
-dev.off()
+# # Plot Methylation Profile : Context Specific Global changes (10000 bp window)
+# pdf(snakemake@output[['Meth_profile_genome_wide']])
+# plotMethylationProfileFromData(control,
+# 	treatment,
+# 	conditionsNames = c("control","treatment"),
+# 	windowSize = 10000,
+# 	autoscale = FALSE,
+# 	context = "CG")
+# dev.off()
 
 
 

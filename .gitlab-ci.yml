@@ -34,6 +34,3 @@ minimal-run:
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly  --mount type=bind,src="$(pwd)/dock_result/",dst=/dmr-pipe/results $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda 
-
-
-

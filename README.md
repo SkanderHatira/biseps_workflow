@@ -81,3 +81,4 @@ To test the pipeline you have to be on a `conda` enabled machine (preferably `li
 The `.test` directory contains subsampled `.fastq` files for two samples (multi-lane + biological replicates) and a `.fasta` file containing genome sequence from [NCBI](https://www.ncbi.nlm.nih.gov/nuccore/NC_041792.1?report=fasta).
 
 You can also specify your own config.yaml and provide necessary data (`units.tsv`,`samples.tsv`).
+
