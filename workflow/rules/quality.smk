@@ -1,6 +1,6 @@
 rule fastqc:
 	input:
-		unpack(get_trimmed)
+		unpack(get_data)
 	output:
 		directory("results/quality/fastqc/{sample}{lane}{techrep}-{biorep}/")
 	conda:

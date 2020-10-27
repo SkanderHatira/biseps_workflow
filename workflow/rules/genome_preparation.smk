@@ -1,6 +1,6 @@
 rule genome_preparation:
 	output:
-		directory(config['resources']['ref']['genome_directory'] + "/Bisulfite_Genome")
+		config['resources']['ref']['genome_directory'] + "/genomic_nucleotide_frequencies.txt"
 	conda:
 		"../envs/bismark.yaml"
 	log:

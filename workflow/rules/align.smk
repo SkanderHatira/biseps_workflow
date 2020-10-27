@@ -1,7 +1,7 @@
 rule alignment_pe:
 	input:
 		rules.genome_preparation.output,
-		unpack(get_trimmed)
+		unpack(get_data)
 	output:
 		bam='results/alignment/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam',
 	conda:

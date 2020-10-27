@@ -4,7 +4,7 @@ import os
 
 # this container defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
-singularity: "docker://continuumio/miniconda3"
+singularity: "docker://continuumio/miniconda3:latest"
 
 ##### load config and sample sheets #####
 
@@ -68,6 +68,16 @@ def get_trimmed(wildcards):
         return {'single' : expand("results/trimmed/{sample}{lane}{techrep}-{biorep}.fq.gz", **wildcards)}
     else:
         return { 'r1': expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-1.fq.gz", **wildcards) ,'r2' : expand("results/trimmed/{sample}{lane}{techrep}-{biorep}-2.fq.gz" , **wildcards)}
+#### Quick-run vs Full-run ####	
+def get_raw(wildcards):
+	if is_activated(config['steps']['subsample']):
+		return get_sub(wildcards)
+	return get_fastqs(wildcards)
+
+def get_data(wildcards):
+	if is_activated(config["steps"]["trimming"]):
+		return get_trimmed(wildcards)
+	return get_raw(wildcards)
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
@@ -106,17 +116,11 @@ def get_CX_reports(wildcards):
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
-    """Get subsampled FASTQ files"""
+    """Get merged FASTQ files."""
     if is_single_end(**wildcards):
-        return expand("results/sub/{sample}{lane}{techrep}-{biorep}.fq", **wildcards)
+        return {'single' : expand("results/sub/{sample}{lane}{techrep}-{biorep}.fq", **wildcards)}
     else:
-        return expand("results/sub/{sample}{lane}{techrep}-{biorep}-{side}.fq",side=[1,2], **wildcards)
-
-#### Quick-run vs Full-run ####	
-def get_raw(wildcards):
-	if is_activated(config['subsample']):
-		return get_sub(wildcards)
-	return get_fastqs(wildcards)
+        return { 'r1': expand("results/sub/{sample}{lane}{techrep}-{biorep}-1.fq", **wildcards) ,'r2' : expand("results/sub/{sample}{lane}{techrep}-{biorep}-2.fq" , **wildcards)}
 
 # for optional rules/steps to execute
 def is_activated(config_element):
