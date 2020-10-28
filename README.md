@@ -66,13 +66,30 @@ After successful execution, you can create a self-contained interactive `.html` 
 
     snakemake --report report.html
 
+### Build docker image
+ 
+A docker image of this workflow can be built from the repository by running this command:
+
+    docker build -t dmr-pipe --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg USERNAME=$USER .
+
+To run this container with your data you need to bind volumes specyfing raw data, configuration files, and necessary resources
+ 
 ## Testing
-
-To test the pipeline you have to be on a `conda` enabled machine (preferably `linux` distro as `docker` support has not been added yet).
-
-    snakemake --cores $N --use-conda --configfile .test/config/config.yaml
 
 The `.test` directory contains subsampled `.fastq` files for two samples (multi-lane + biological replicates) and a `.fasta` file containing genome sequence from [NCBI](https://www.ncbi.nlm.nih.gov/nuccore/NC_041792.1?report=fasta).
 
 You can also specify your own config.yaml and provide necessary data (`units.tsv`,`samples.tsv`).
+
+To test the pipeline you have to be on a `conda` enabled machine :
+
+    snakemake --cores $N --use-conda --configfile .test/config/config.yaml
+
+or a `docker` enabled machine to build and run the image with a mounted folder containing necessary data and configuration files pointing to that data:
+
+    docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly dmr-pipe \ 
+	
+	--cores $N --use-conda --configfile .test/config/config.yaml 
+
+Note that your output data won't be accessible as it isn't mounted/stored in a `docker` `volume`, refer to `docker` [documentation](https://docs.docker.com/storage/volumes/) on best practices to persist data in running containers.
+
 
