@@ -20,8 +20,6 @@ COPY . /dmr-pipe
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
 	&& /opt/conda/bin/conda create  -q  -c anaconda -c bioconda -c conda-forge -n snakemake snakemake \
 	&& /opt/conda/bin/conda clean -a \
-	&& find /opt/conda/ -follow -type f -name '*.a' -delete \
-	&& find /opt/conda/ -follow -type f -name '*.pyc' -delete \
 	# for use of continuumio/miniconda3:latest base image
 	&& addgroup --gid $GROUP_ID $USERNAME \
 	&& adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID $USERNAME \ 
