@@ -2,7 +2,12 @@
 FROM continuumio/miniconda3:latest
 USER root
 # MAINTAINER Skander Hatira skander.hatira@inrae.fr
-LABEL Name=dmr-pipe Version=1.
+LABEL Name=dmr-pipe Version=1.0
+
+# ENV USERNAME user
+# ENV USER_ID 1005
+# ENV GROUP_ID 1005
+
 ARG USERNAME
 ARG USER_ID
 ARG GROUP_ID
@@ -13,7 +18,7 @@ COPY . /dmr-pipe
 
 ################### Config Conda And Create Snakemake Environment ###################
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
-	&& /opt/conda/bin/conda create  -q -c bioconda -c conda-forge -n snakemake snakemake-minimal pandas \
+	&& /opt/conda/bin/conda create  -q  -c anaconda -c bioconda -c conda-forge -n snakemake snakemake \
 	&& /opt/conda/bin/conda clean -a \
 	&& find /opt/conda/ -follow -type f -name '*.a' -delete \
 	&& find /opt/conda/ -follow -type f -name '*.pyc' -delete \

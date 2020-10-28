@@ -34,7 +34,7 @@ rule merge_convert:
 	input:
 		get_bam_pe
 	output:
-		"results/merging/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.sam"
+		temp("results/merging/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.sam")
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -50,7 +50,7 @@ rule sort:
 	input:
 		rules.merge_convert.output
 	output:
-		"results/sorted/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment_sorted.sam"
+		temp("results/sorted/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_alignment_sorted.sam")
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -66,7 +66,7 @@ rule deduplicate:
 	input:
 		rules.sort.output
 	output:
-		"results/deduplicate/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.deduplicated.sam"
+		temp("results/deduplicate/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.deduplicated.sam")
 	conda:
 		"../envs/bismark.yaml"
 	log:

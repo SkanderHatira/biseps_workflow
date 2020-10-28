@@ -56,9 +56,6 @@ or
 
     snakemake --use-conda --drmaa --jobs 100
 
-If you not only want to fix the software stack but also the underlying OS, use
-
-    snakemake --use-conda --use-singularity
 
 in combination with any of the modes above.
 See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
@@ -68,9 +65,6 @@ See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/exe
 After successful execution, you can create a self-contained interactive `.html` report with all results via:
 
     snakemake --report report.html
-
-This report can, e.g., be forwarded to your collaborators.
-An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/rna-seq-kallisto-sleuth/master/.test/report.html).
 
 ## Testing
 
