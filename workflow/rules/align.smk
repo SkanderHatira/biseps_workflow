@@ -20,14 +20,14 @@ rule alignment_pe:
 		# aligners parameters (see manual)
 		aligner_options= "",
 		# optional parameters
-		instances= config['params']['bismark']['instances'],
+		# instances= config['params']['bismark']['instances'],
 		extra=""
 	threads:
-		5*config['params']['bismark']['instances']
+		5 # 5*config['params']['bismark']['instances'] incompatible with basename for now, bismark issue to be fixed
 	benchmark:
 		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
 	shell:
-		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra} --parallel {params.instances} "
+		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra}"
 		"--temp_dir {params.temp}  -o {params.out_dir} -B {params.basename} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
 
 rule merge_convert:
