@@ -11,7 +11,7 @@ steps:
       activate: 'False'
   # whether to generate read quality reports or not
     quality:
-      activate: 'True'
+      activate: 'False'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation:
       activate: 'True'
@@ -20,7 +20,7 @@ steps:
       activate: 'True'
   # whether to compute DMR's
     methylation_calling:
-      activate: 'True'
+      activate: 'False'
 resources:
   ref:
     genome_directory: ".test/resources/genome"
@@ -38,4 +38,4 @@ params:
     other: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-    instances: 1
+    instances: 3

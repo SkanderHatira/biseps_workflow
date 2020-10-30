@@ -3,7 +3,7 @@ rule alignment_pe:
 		rules.genome_preparation.output,
 		unpack(get_data)
 	output:
-		bam='results/alignment/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}_bismark_bt2_pe.bam',
+		bam='results/alignment/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-1_bismark_bt2_pe.bam',
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -11,7 +11,6 @@ rule alignment_pe:
 	params:
 		#genome_directory
 		genome= config['resources']['ref']['genome_directory'],
-		basename= '{sample}{lane}{techrep}-{biorep}_bismark_bt2',
 		# bismark parameters
 		bismark= "-N 1 -L 20 -score_min L,0,-0.6",
 		aligner= config["params"]["bismark"]["aligner"],
@@ -20,15 +19,15 @@ rule alignment_pe:
 		# aligners parameters (see manual)
 		aligner_options= "",
 		# optional parameters
-		# instances= config['params']['bismark']['instances'],
+		instances= config['params']['bismark']['instances'],
 		extra=""
 	threads:
-		5 # 5*config['params']['bismark']['instances'] incompatible with basename for now, bismark issue to be fixed
+		5*config['params']['bismark']['instances']
 	benchmark:
 		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
 	shell:
 		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra}"
-		"--temp_dir {params.temp}  -o {params.out_dir} -B {params.basename} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
+		"--temp_dir {params.temp}  -o {params.out_dir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
 
 rule merge_convert:
 	input:
