@@ -17,11 +17,10 @@ def all_input(wildcards):
 
 	wanted_input = []
 	# Genome_preparation
-	if config["steps"]["genome_preparation"]["activate"]:
+	if is_activated(config["steps"]["genome_preparation"]):
 		wanted_input.extend(
 				expand(
 					[
-						"results/quality/multiqc/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}/multiqc_report.html",
 						config['resources']['ref']['genome_directory'] + "/genomic_nucleotide_frequencies.txt"
 
 					],
@@ -30,7 +29,7 @@ def all_input(wildcards):
 				)	
 			)
 	# Quality report
-	if config["steps"]["quality"]["activate"]:
+	if is_activated(config["steps"]["quality"]):
 		wanted_input.extend(
 				expand(
 					[
@@ -42,7 +41,7 @@ def all_input(wildcards):
 				)
 			)
 	# Bismark methylation extraction report 
-	if config["steps"]["methylation_extraction"]["activate"]:
+	if is_activated(config["steps"]["methylation_extraction"]):
 		wanted_input.extend(
 			expand(
 				[
@@ -52,7 +51,7 @@ def all_input(wildcards):
 			)
 		)
 	# Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
-	if config["steps"]["methylation_calling"]["activate"]:	
+	if is_activated(config["steps"]["methylation_calling"]):	
 		wanted_input.extend(
 			expand(
 				[
@@ -60,6 +59,15 @@ def all_input(wildcards):
 				] ,
 				control=get_control(),
 				treatment=get_treatment()
+			)
+		)
+	if is_activated(config["steps"]["methylation_extraction"]):	
+		wanted_input.extend(
+			expand(
+				[
+					'results/alignment_bsmap/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}-out_pair.bsp'
+				] ,
+				unit=get_unit(),
 			)
 		)
 	return wanted_input

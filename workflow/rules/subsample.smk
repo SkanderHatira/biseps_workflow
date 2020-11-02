@@ -11,10 +11,11 @@ rule seqtk_pe:
 	params:
 		# Random seed
 		seed=config["params"]["seqtk"]["seed"],
+		size=config["params"]["seqtk"]["size"],
 		# optional parameters
 		extra="",
 	threads:
 		1
 	shell:
-		"seqtk sample -s {params.seed} {input.r1} 10000 > {output.r1} 2>> {log} ;"
-		"seqtk sample -s {params.seed} {input.r2} 10000 > {output.r2} 2>> {log}  "
+		"seqtk sample -s {params.seed} {input.r1} {params.size} > {output.r1} 2>> {log} ;"
+		"seqtk sample -s {params.seed} {input.r2} {params.size} > {output.r2} 2>> {log}  "

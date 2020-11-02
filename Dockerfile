@@ -34,4 +34,5 @@ RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set ad
 USER $USERNAME
 
 #################################### Run dmr-pipe ###################################
-ENTRYPOINT [ "/opt/conda/bin/conda" , "run" , "-n" ,"snakemake","snakemake" ]
+ENTRYPOINT [ "/opt/conda/bin/conda" , "run" , "-n" ,"snakemake","snakemake", ]
+CMD ["--conda-cleanup-pkgs","-n","--configfile .test/config/config.yaml","--use-conda","--conda-frontend mamba"]

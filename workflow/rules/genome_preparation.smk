@@ -11,6 +11,8 @@ rule genome_preparation:
 		aligner=config["params"]["bismark"]["aligner"],
 		# optional parameters
 		extra="",
+	benchmark:
+		repeat("benchmarks/genome_preparation/genome_prep.tsv",3)
 	threads:
 		2
 	shell:

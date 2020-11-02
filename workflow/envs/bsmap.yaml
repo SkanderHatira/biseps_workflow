@@ -1,0 +1,36 @@
+name: bsmap
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=1_gnu
+  - bsmap=2.90=py27heb12742_3
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2020.10.14=0
+  - certifi=2020.6.20=pyhd3eb1b0_3
+  - htslib=1.11=hd3b49d5_0
+  - krb5=1.18.2=h173b8e3_0
+  - libcurl=7.71.1=h20c2e04_1
+  - libdeflate=1.6=h516909a_0
+  - libedit=3.1.20191231=h14c3975_1
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=9.3.0=h5dbcf3e_17
+  - libgomp=9.3.0=h5dbcf3e_17
+  - libssh2=1.9.0=h1ba5d50_1
+  - libstdcxx-ng=9.3.0=h2ae2ef3_17
+  - ncurses=6.2=he6710b0_1
+  - openssl=1.1.1h=h7b6447c_0
+  - pip=20.1.1=pyh9f0ad1d_0
+  - python=2.7.18=h15b4118_1
+  - python_abi=2.7=1_cp27mu
+  - readline=8.0=h7b6447c_0
+  - samtools=1.11=h6270b1f_0
+  - setuptools=44.0.0=py27_0
+  - sqlite=3.33.0=h62c20be_0
+  - tk=8.6.10=hbc83047_0
+  - wheel=0.35.1=py_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+prefix: /home/shatira/miniconda3/envs/bsmap

@@ -17,6 +17,8 @@ rule trimmomatic_pe:
 		adapters=config["resources"]["adapters"],
 		# optional parameters
 		extra="",
+	benchmark:
+		repeat("benchmarks/trimmomatic/{sample}{lane}{techrep}-{biorep}.tsv",3)
 	threads:
 		2
 	shell:

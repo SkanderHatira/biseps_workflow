@@ -22,12 +22,33 @@ rule alignment_pe:
 		instances= config['params']['bismark']['instances'],
 		extra=""
 	threads:
-		5*config['params']['bismark']['instances']
+		2*config['params']['bismark']['instances']
 	benchmark:
-		"benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv"
+		repeat("benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv",3)
 	shell:
 		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra}"
 		"--temp_dir {params.temp}  -o {params.out_dir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
+rule alignment_bsmap:
+	input:
+		rules.genome_preparation.output,
+		unpack(get_data)
+	output:
+		'results/alignment_bsmap/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-out_pair.bsp',
+	conda:
+		"../envs/bsmap.yaml"
+	log:
+		"logs/alignment_bsmap/{sample}{lane}{techrep}-{biorep}/align.log"
+	params:
+		#genome_directory
+		genome= config['params']['bsmap']['genome'],
+		extra=""
+	threads:
+		2
+	benchmark:
+		repeat("benchmarks/alignment_bsmap/{sample}{lane}{techrep}-{biorep}.tsv",3)
+	shell:
+		"bsmap -a {input.r1} -b {input.r2} -d {params.genome} "
+		"-o {output} -p 8 -w 100 -v 5 2> {log}"
 
 rule merge_convert:
 	input:
@@ -40,10 +61,12 @@ rule merge_convert:
 		"logs/merging/{sample}{techrep}-{biorep}/bam_to_sam.log"
 	params:
 		extra=""
+	benchmark:
+		repeat("benchmarks/merging/{sample}{techrep}-{biorep}.tsv",3)
 	threads:
 		1
 	shell:
-		"samtools merge {output} {input} -O sam {params.extra} -@ {threads} &> {log}"
+		"samtools merge {output} {input} -f -O sam {params.extra} -@ {threads} &> {log}"
 
 rule sort:
 	input:
@@ -56,6 +79,8 @@ rule sort:
 		"logs/sorted/{sample}{techrep}-{biorep}/sort_by_name.log"
 	params:
 		extra=""
+	benchmark:
+		repeat("benchmarks/sorted/{sample}{techrep}-{biorep}.tsv",3)
 	threads:
 		1
 	shell:
@@ -74,6 +99,8 @@ rule deduplicate:
 		basename="{sample}{techrep}-{biorep}_merged", #not compatible with multiple mode
 		outdir="results/deduplicate/{sample}{techrep}-{biorep}/",
 		extra="" 
+	benchmark:
+		repeat("benchmarks/deduplicate/{sample}{techrep}-{biorep}.tsv",3)
 	threads:
 		1
 	shell:
