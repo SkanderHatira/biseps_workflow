@@ -80,8 +80,11 @@ def get_data(wildcards):
 	return get_raw(wildcards)
 
 ####### get bam files #######
-def get_bam_pe(wildcards):
+def get_bam_bismark_pe(wildcards):
 	return expand("results/alignment/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-1_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
+
+def get_bam_bsmap_pe(wildcards):
+	return expand("results/alignment_bsmap/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-out_pair.bsp",lane=get_lanes(wildcards),**wildcards)	
 
 def get_sample_list(samples):
 	return samples['sample'].tolist()
@@ -145,3 +148,6 @@ def get_treatment():
 # necessary for bismark extraction rule
 def get_abs(relative_path):
 	return os.path.abspath(relative_path)
+def get_bsmap_ext():
+	if config['alignment_tool']['tool'] == 'bsmap':
+		return ['bam']

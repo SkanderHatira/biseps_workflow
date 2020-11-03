@@ -22,18 +22,19 @@ rule alignment_pe:
 		instances= config['params']['bismark']['instances'],
 		extra=""
 	threads:
-		2*config['params']['bismark']['instances']
+		3*config['params']['bismark']['instances']
 	benchmark:
 		repeat("benchmarks/alignment/{sample}{lane}{techrep}-{biorep}.tsv",3)
 	shell:
 		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra}"
 		"--temp_dir {params.temp}  -o {params.out_dir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}"
+
 rule alignment_bsmap:
 	input:
 		rules.genome_preparation.output,
 		unpack(get_data)
 	output:
-		'results/alignment_bsmap/{sample}{techrep}-{biorep}/{sample}{lane}{techrep}-{biorep}-out_pair.bsp',
+		expand('results/alignment_bsmap/{{sample}}{{techrep}}-{{biorep}}/{{sample}}{{lane}}{{techrep}}-{{biorep}}-out_pair.bsp'),
 	conda:
 		"../envs/bsmap.yaml"
 	log:
@@ -52,7 +53,7 @@ rule alignment_bsmap:
 
 rule merge_convert:
 	input:
-		get_bam_pe
+		get_bam_bismark_pe
 	output:
 		temp("results/merging/{sample}{techrep}-{biorep}/{sample}{techrep}-{biorep}_merged.sam")
 	conda:

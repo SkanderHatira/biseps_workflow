@@ -41,11 +41,30 @@ def all_input(wildcards):
 				)
 			)
 	# Bismark methylation extraction report 
-	if is_activated(config["steps"]["methylation_extraction"]):
+	if is_activated(config["steps"]["methylation_extraction_bismark"]):
 		wanted_input.extend(
 			expand(
 				[
-					"results/methylation_extraction/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_merged.deduplicated.CX_report.txt"
+					"results/methylation_extraction_bismark/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_merged.deduplicated.CX_report.txt"
+				] ,
+				unit=get_merged(),
+			)
+		)
+	# Bsmap methylation extraction report 
+	if is_activated(config["steps"]["methylation_extraction_bismark"]):
+		wanted_input.extend(
+			expand(
+				[
+					"results/methylation_extraction_bsmap/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_bsmap_report.txt"
+				] ,
+				unit=get_merged(),
+			)
+		)
+	if is_activated(config["steps"]["methylation_extraction_bismark"]):
+		wanted_input.extend(
+			expand(
+				[
+					"results/methylation_extraction_bsmap/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.techrep}-{unit.biorep}_bsmap_CX_report.txt"
 				] ,
 				unit=get_merged(),
 			)
@@ -59,15 +78,6 @@ def all_input(wildcards):
 				] ,
 				control=get_control(),
 				treatment=get_treatment()
-			)
-		)
-	if is_activated(config["steps"]["methylation_extraction"]):	
-		wanted_input.extend(
-			expand(
-				[
-					'results/alignment_bsmap/{unit.sample}{unit.techrep}-{unit.biorep}/{unit.sample}{unit.lane}{unit.techrep}-{unit.biorep}-out_pair.bsp'
-				] ,
-				unit=get_unit(),
 			)
 		)
 	return wanted_input

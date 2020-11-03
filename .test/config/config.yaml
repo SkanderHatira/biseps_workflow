@@ -16,13 +16,19 @@ steps:
     genome_preparation:
       activate: 'False'
   # whether to generate CX reports
-    methylation_extraction:
+    methylation_extraction_bismark:
+      activate: 'True'
+    methylation_extraction_bsmap:
       activate: 'True'
   # whether to compute DMR's
     methylation_calling:
       activate: 'False'
     use_bsmap:
       activate: 'True'
+# Alignment tool
+alignment_tool:
+  tool: bsmap # bsmap | bismark
+
 resources:
   ref:
     genome_directory: ".test/resources/genome"
@@ -33,11 +39,11 @@ params:
   trimmomatic-pe:
     trimmer: "ILLUMINACLIP"
     trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
-    other: ""
+    extra: ""
   seqtk:
     seed: 100
     size: 10000
-    other: ""
+    extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
     instances: 3
