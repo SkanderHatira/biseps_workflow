@@ -4,7 +4,7 @@ rule genome_preparation:
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		"logs/genome_preparation.log"
+		"logs/common/genome_preparation.log"
 	params:
 		# list of trimmers (see manual)
 		genome=config['resources']['ref']['genome_directory'],
@@ -12,7 +12,7 @@ rule genome_preparation:
 		# optional parameters
 		extra="",
 	benchmark:
-		repeat("benchmarks/genome_preparation/genome_prep.tsv",3)
+		repeat("benchmarks/common/genome_preparation.tsv",benchmark)
 	threads:
 		2
 	shell:

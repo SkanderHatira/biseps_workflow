@@ -1,6 +1,7 @@
 samples: ".test/config/samples.tsv"
 units: ".test/config/units.tsv"
-
+general:
+  benchmark: 3
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
@@ -8,13 +9,13 @@ steps:
       activate: 'True'
   # whether to preprocess raw data or not
     trimming:
-      activate: 'False'
+      activate: 'True'
   # whether to generate read quality reports or not
     quality:
-      activate: 'False'
+      activate: 'True'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation:
-      activate: 'False'
+      activate: 'True'
   # whether to generate CX reports
     methylation_extraction_bismark:
       activate: 'True'
@@ -22,7 +23,7 @@ steps:
       activate: 'True'
   # whether to compute DMR's
     methylation_calling:
-      activate: 'False'
+      activate: 'True'
     use_bsmap:
       activate: 'True'
 # Alignment tool
@@ -46,6 +47,6 @@ params:
     extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-    instances: 3
+    instances: 1
   bsmap:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"

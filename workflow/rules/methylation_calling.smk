@@ -2,12 +2,12 @@ rule read_report:
 	input:
 		get_CX_reports,
 	output:
-		rds="results/methylation_calling/report_GRanges/report_{sample}{techrep}.rds",
-		conditionVector="results/methylation_calling/report_GRanges/conditionVector_{sample}{techrep}.rds"
+		rds="results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds",
+		conditionVector="results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds"
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		"logs/methylation_calling/{sample}{techrep}.log"
+		"logs/methylation_calling/{sample}-{techrep}.log"
 	threads:
 		1
 	script:
@@ -16,19 +16,17 @@ rule read_report:
 
 rule comparison:
 	input:
-		treatment="results/methylation_calling/report_GRanges/report_{treatment}{ttechrep}.rds",
-		treatmentConditionVector="results/methylation_calling/report_GRanges/conditionVector_{treatment}{ttechrep}.rds",
-		control="results/methylation_calling/report_GRanges/report_{control}{ctechrep}.rds",
-		controlConditionVector="results/methylation_calling/report_GRanges/conditionVector_{control}{ctechrep}.rds"
+		treatment="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-report.rds",
+		treatmentConditionVector="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-vector.rds",
+		control="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-report.rds",
+		controlConditionVector="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-vector.rds"
 	output:
-		rdata="results/methylation_calling/comparison/{control}{ctechrep}_vs_{treatment}{ttechrep}.Rdata",
-		# Meth_profile_genome_wide=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Genome_Wide_Meth_Profile.pdf" ,caption="../report/plot-genome-wide-methylation.rst", category="Genome Wide Methylation Profile"),
-		# Meth_coverage=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_Meth_Coverage.pdf",caption="../report/methylation-coverage.rst", category="Methylation Coverage"),
-		ggplot=report("results/methylation_calling/plots/{control}{ctechrep}_vs_{treatment}{ttechrep}_ggplot.pdf", category="ggplot")
+		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
+		ggplot=report("results/methylation_calling/{control}-TechRep_{ctechrep}/plots/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_ggplot.pdf", category="ggplot")
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		report("logs/methylation_calling/{control}{ctechrep}_vs_{treatment}{ttechrep}.log",category="Logs")
+		report("logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log",category="Logs")
 	threads:
 		2
 	script:

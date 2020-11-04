@@ -1,13 +1,13 @@
-rule seqtk_pe:
+rule subsampling:
 	input:
 		unpack(get_fastqs)
 	output:
-		r1="results/sub/{sample}{lane}{techrep}-{biorep}-1.fq",
-		r2="results/sub/{sample}{lane}{techrep}-{biorep}-2.fq"
+		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-1.fq",
+		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-2.fq"
 	conda:
 		"../envs/seqtk.yaml"
 	log:
-		"logs/seqtk/{sample}{lane}{techrep}-{biorep}.log"
+		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-L_{lane}-subsampling.log"
 	params:
 		# Random seed
 		seed=config["params"]["seqtk"]["seed"],

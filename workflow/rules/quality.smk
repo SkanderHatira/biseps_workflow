@@ -2,11 +2,11 @@ rule fastqc:
 	input:
 		unpack(get_data)
 	output:
-		directory("results/quality/fastqc/{sample}{lane}{techrep}-{biorep}/")
+		directory("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/quality/{sample}-L_{lane}/")
 	conda:
 		"../envs/quality.yaml"
 	log:
-		"logs/fastqc/{sample}{lane}{techrep}-{biorep}.log"
+		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-L_{lane}-fastqc.log"
 	params:
 		# optional parameters
 		extra="",
@@ -18,13 +18,13 @@ rule fastqc:
 
 rule multiqc:
 	input:
-		rules.fastqc.output
+		lambda wildcards : expand("results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/quality/{{sample}}-L_{lane}/",lane=get_lanes(wildcards))
 	output:
-		"results/quality/multiqc/{sample}{lane}{techrep}-{biorep}/multiqc_report.html"
+		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report.html"
 	conda:
 		"../envs/quality.yaml"
 	log:
-		"logs/multiqc/{sample}{lane}{techrep}-{biorep}.log"
+		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-multiqc.log"
 	params:
 		# optional parameters
 		extra="",
