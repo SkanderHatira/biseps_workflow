@@ -1,13 +1,13 @@
 rule genome_preparation:
 	output:
-		config['resources']['ref']['genome_directory'] + "/genomic_nucleotide_frequencies.txt"
+		get_abs(config['resources']['ref']['genome']) + "/genomic_nucleotide_frequencies.txt"
 	conda:
 		"../envs/bismark.yaml"
 	log:
 		"logs/common/genome_preparation.log"
 	params:
 		# list of trimmers (see manual)
-		genome=config['resources']['ref']['genome_directory'],
+		genome=get_abs(config['resources']['ref']['genome']),
 		aligner=config["params"]["bismark"]["aligner"],
 		# optional parameters
 		extra="",

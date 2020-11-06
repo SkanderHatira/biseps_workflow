@@ -1,38 +1,36 @@
 samples: ".test/config/samples.tsv"
 units: ".test/config/units.tsv"
 general:
-  benchmark: 3
+  benchmark: 1
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
     subsample:
-      activate: 'True'
+      activate: 'true'
   # whether to preprocess raw data or not
     trimming:
-      activate: 'True'
-  # whether to generate read quality reports or not
+      activate: 'False'
+  # whether to generate quality reports or not
     quality:
       activate: 'True'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation:
       activate: 'True'
-  # whether to generate CX reports
+  # whether to perform methylation extraction
     methylation_extraction_bismark:
       activate: 'True'
     methylation_extraction_bsmap:
-      activate: 'True'
-  # whether to compute DMR's
+      activate: 'False'
+  # whether to perform differential methylation calling
     methylation_calling:
-      activate: 'True'
+      activate: 'False'
+  # which reports to use True|true : bsmap ,else bismark 
     use_bsmap:
-      activate: 'True'
-# Alignment tool
-alignment_tool:
-  tool: bsmap # bsmap | bismark
+      activate: 'False'
 
 resources:
   ref:
-    genome_directory: ".test/resources/genome"
+    genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
   adapters: ".test/resources/adapters"
 
@@ -47,6 +45,6 @@ params:
     extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-    instances: 1
+    instances: 2
   bsmap:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"

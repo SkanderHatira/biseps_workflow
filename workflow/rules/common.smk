@@ -30,8 +30,10 @@ wildcard_constraints:
 	lane="|".join(units["lane"]),
 	techrep="|".join(units["techrep"]),
 	biorep="|".join(units["biorep"])
+	
 ####### general config #####
 benchmark = config['general']['benchmark']
+
 ####### helpers ###########
 
 def is_single_end(sample,lane,techrep,biorep):
@@ -52,6 +54,17 @@ def get_reads(wildcards):
 def get_seperate(sample,biorep,side):
 	return units.loc[(sample,biorep), "fq{}".format(str(side))]
 
+#### Quick-run vs Full-run ####	
+def get_raw(wildcards):
+	if is_activated(config['steps']['subsample']):
+		return get_sub(wildcards)
+	return get_fastqs(wildcards)
+
+def get_data(wildcards):
+	if is_activated(config["steps"]["trimming"]):
+		return get_trimmed(wildcards)
+	return get_raw(wildcards)
+
 ####### get raw data from units.tsv #######
 
 def get_fastqs(wildcards):
@@ -69,31 +82,17 @@ def get_trimmed(wildcards):
         return {'single' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}.fq.gz", **wildcards)}
     else:
         return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-2.fq.gz" , **wildcards)}
-#### Quick-run vs Full-run ####	
-def get_raw(wildcards):
-	if is_activated(config['steps']['subsample']):
-		return get_sub(wildcards)
-	return get_fastqs(wildcards)
-
-def get_data(wildcards):
-	if is_activated(config["steps"]["trimming"]):
-		return get_trimmed(wildcards)
-	return get_raw(wildcards)
 
 ####### get bam files #######
-def get_bam_bismark_pe(wildcards):
+def get_bam_pe(wildcards):
+	if is_activated(config['steps']['use_bsmap']):
+		return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bsmap/{sample}-L_{lane}-bsmap_pe.bam",lane=get_lanes(wildcards),**wildcards)
 	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-L_{lane}-1_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
 
-def get_bam_bsmap_pe(wildcards):
-	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bsmap/{sample}-L_{lane}-bsmap_pe.bsp",lane=get_lanes(wildcards),**wildcards)	
-
-def get_sample_list(samples):
-	return samples['sample'].tolist()
-
+		
 ####### step status  #######
-
-def is_wanted(wildcards):
-	return config_element['activate'] in {"true","True"}
+def is_activated(config_element):
+    return config_element['activate'] in {"true","True"}
 
 #### returns lanes for each sample-techrep-biorep combination ####
 def get_lanes(wildcards):
@@ -113,10 +112,13 @@ def get_unit():
 def get_merged():
 	return units[["sample","techrep","biorep"]].itertuples()
 
-#### returns CX report for treatment + control ####
+#### returns CX report for treatment + control #### 
 
 def get_CX_reports(wildcards):
+	if is_activated(config['steps']['use_bsmap']):
+		return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bsmap/{sample}-bsmap_CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
+	
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
@@ -126,14 +128,7 @@ def get_sub(wildcards):
     else:
         return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-2.fq" , **wildcards)}
 
-# for optional rules/steps to execute
-def is_activated(config_element):
-    return config_element['activate'] in {"true","True"}
 
-def get_control_bioreps(wildcards):
-	samples= units['sample'] == wildcards.control
-	techreps= units['techrep'] == wildcards.ctechrep
-	return list(units[samples & techreps].biorep.unique())
 # identify control groups to perform pairwise comparisons with
 def get_control():
 	csamp = list(samples.loc[lambda samples: samples['condition'] == 'control']['sample'])
@@ -148,7 +143,4 @@ def get_treatment():
 
 # necessary for bismark extraction rule
 def get_abs(relative_path):
-	return os.path.abspath(relative_path)
-def get_bsmap_ext():
-	if config['alignment_tool']['tool'] == 'bsmap':
-		return ['bam']
+	return os.path.dirname(os.path.abspath(relative_path))

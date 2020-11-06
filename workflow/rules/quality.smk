@@ -18,7 +18,8 @@ rule fastqc:
 
 rule multiqc:
 	input:
-		lambda wildcards : expand("results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/quality/{{sample}}-L_{lane}/",lane=get_lanes(wildcards))
+		fqc=lambda wildcards : expand("results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/quality/{{sample}}-L_{lane}/",lane=get_lanes(wildcards)),
+		report="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-sorted.deduplicated.CX_report.txt"
 	output:
 		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report.html"
 	conda:
@@ -26,9 +27,11 @@ rule multiqc:
 	log:
 		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-multiqc.log"
 	params:
+		aligndir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/",
+		extractdir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		# optional parameters
 		extra="",
 	threads:
 		1
 	shell:
-		"multiqc {input} -n {output} 2> {log}"
+		"multiqc {input.fqc} {params.aligndir} {params.extractdir}-n {output} 2> {log}"

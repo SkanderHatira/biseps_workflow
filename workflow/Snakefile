@@ -21,7 +21,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						config['resources']['ref']['genome_directory'] + "/genomic_nucleotide_frequencies.txt"
+						get_abs(config['resources']['ref']['genome']) + "/genomic_nucleotide_frequencies.txt"
 
 					],
 					unit=get_unit(),
@@ -45,13 +45,13 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
+					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-sorted.deduplicated.CX_report.txt"
 				] ,
 				unit=get_merged(),
 			)
 		)
 	# Bsmap methylation extraction report 
-	if is_activated(config["steps"]["methylation_extraction_bismark"]):
+	if is_activated(config["steps"]["methylation_extraction_bsmap"]):
 		wanted_input.extend(
 			expand(
 				[
@@ -60,7 +60,7 @@ def all_input(wildcards):
 				unit=get_merged(),
 			)
 		)
-	if is_activated(config["steps"]["methylation_extraction_bismark"]):
+	if is_activated(config["steps"]["methylation_extraction_bsmap"]):
 		wanted_input.extend(
 			expand(
 				[

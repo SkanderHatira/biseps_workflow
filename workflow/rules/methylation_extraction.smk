@@ -2,14 +2,14 @@ rule methylation_extraction_bismark:
 	input:
 		rules.deduplicate.output
 	output:
-		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt"
+		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-sorted.deduplicated.CX_report.txt"
 	conda:
 		"../envs/bisgraph.yaml"
 	log:
 		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-methylation_extraction_bismark.log"
 	params:
 		#genome directory
-		genome=get_abs(config['resources']['ref']['genome_directory']),
+		genome=get_abs(config['resources']['ref']['genome']),
 		# optional parameters
 		out_dir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		extra="--comprehensive" #include_overlap? #get_p_s_flag?
@@ -20,7 +20,7 @@ rule methylation_extraction_bismark:
 
 rule methylation_extraction_bsmap:
 	input:
-		get_bam_bsmap_pe
+		rules.deduplicate.output
 	output:
 		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bsmap/{sample}-bsmap_report.txt"
 	conda:
@@ -35,7 +35,7 @@ rule methylation_extraction_bsmap:
 	threads:
 		2
 	shell:
-		"methratio.py -d {params.genome} -o {output} -p {input}  &> {log}"
+		"methratio.py --remove-duplicate -z -d {params.genome} -o {output} -p {input}  &> {log}"
 
 rule bsp_to_cx:
 	input:
