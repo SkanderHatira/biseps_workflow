@@ -22,10 +22,7 @@ def all_input(wildcards):
 				expand(
 					[
 						get_abs(config['resources']['ref']['genome']) + "/genomic_nucleotide_frequencies.txt"
-
 					],
-					unit=get_unit(),
-
 				)	
 			)
 	# Quality report
@@ -34,8 +31,19 @@ def all_input(wildcards):
 				expand(
 					[
 						"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/multiqc_report.html"
+					]
+					,
+					unit=get_merged(),
 
-					],
+				)
+			)
+	if is_activated(config["steps"]["quality"]):
+		wanted_input.extend(
+				expand(
+					[
+						"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-bismark_report.html"
+					]
+					,
 					unit=get_unit(),
 
 				)
@@ -45,43 +53,24 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-sorted.deduplicated.CX_report.txt"
+					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
 				] ,
 				unit=get_merged(),
 			)
 		)
-	# Bsmap methylation extraction report 
-	if is_activated(config["steps"]["methylation_extraction_bsmap"]):
-		wanted_input.extend(
-			expand(
-				[
-					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bsmap/{unit.sample}-bsmap_report.txt"
-				] ,
-				unit=get_merged(),
-			)
-		)
-	if is_activated(config["steps"]["methylation_extraction_bsmap"]):
-		wanted_input.extend(
-			expand(
-				[
-					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bsmap/{unit.sample}-bsmap_CX_report.txt"
-				] ,
-				unit=get_merged(),
-			)
-		)
+
+
 	# Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
 	if is_activated(config["steps"]["methylation_calling"]):	
 		wanted_input.extend(
 			expand(
 				[
-					"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata"
+					"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
 				] ,
 				control=get_control(),
 				treatment=get_treatment()
 			)
 		)
 	return wanted_input
-
 rule all:
 	input: all_input
-

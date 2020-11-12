@@ -9,7 +9,7 @@ steps:
       activate: 'true'
   # whether to preprocess raw data or not
     trimming:
-      activate: 'False'
+      activate: 'True'
   # whether to generate quality reports or not
     quality:
       activate: 'True'
@@ -19,14 +19,9 @@ steps:
   # whether to perform methylation extraction
     methylation_extraction_bismark:
       activate: 'True'
-    methylation_extraction_bsmap:
-      activate: 'False'
   # whether to perform differential methylation calling
     methylation_calling:
-      activate: 'False'
-  # which reports to use True|true : bsmap ,else bismark 
-    use_bsmap:
-      activate: 'False'
+      activate: 'True'
 
 resources:
   ref:
@@ -45,6 +40,4 @@ params:
     extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-    instances: 2
-  bsmap:
-    genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
+    instances: 4

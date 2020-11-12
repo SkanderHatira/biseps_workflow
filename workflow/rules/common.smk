@@ -58,7 +58,7 @@ def get_seperate(sample,biorep,side):
 def get_raw(wildcards):
 	if is_activated(config['steps']['subsample']):
 		return get_sub(wildcards)
-	return get_fastqs(wildcards)
+	return get_merged_data(wildcards)
 
 def get_data(wildcards):
 	if is_activated(config["steps"]["trimming"]):
@@ -77,19 +77,16 @@ def get_fastqs(wildcards):
 ####### get trimmed data #######
 
 def get_trimmed(wildcards):
-    """Get merged FASTQ files."""
-    if is_single_end(**wildcards):
-        return {'single' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}.fq.gz", **wildcards)}
-    else:
-        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-2.fq.gz" , **wildcards)}
+    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq.gz" , **wildcards)}
+####### get merged data #######
+
+def get_merged_data(wildcards):
+    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq.gz" , **wildcards)}
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
-	if is_activated(config['steps']['use_bsmap']):
-		return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bsmap/{sample}-L_{lane}-bsmap_pe.bam",lane=get_lanes(wildcards),**wildcards)
-	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-L_{lane}-1_bismark_bt2_pe.bam",lane=get_lanes(wildcards),**wildcards)
+	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.bam",**wildcards)
 
-		
 ####### step status  #######
 def is_activated(config_element):
     return config_element['activate'] in {"true","True"}
@@ -108,25 +105,20 @@ def get_bioreps(wildcards):
 def get_unit():
 	return units[["sample","lane","techrep","biorep"]].itertuples()
 
-#### returns each combination of sample-techrep-biorep ####
+#### returns unique combinations of sample-techrep-biorep ####
 def get_merged():
-	return units[["sample","techrep","biorep"]].itertuples()
+	return list(set(units[["sample","techrep","biorep"]].itertuples(index=False)))
 
 #### returns CX report for treatment + control #### 
 
 def get_CX_reports(wildcards):
-	if is_activated(config['steps']['use_bsmap']):
-		return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bsmap/{sample}-bsmap_CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 	
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
-    """Get merged FASTQ files."""
-    if is_single_end(**wildcards):
-        return {'single' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}.fq", **wildcards)}
-    else:
-        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-L_{lane}-2.fq" , **wildcards)}
+	"""Get merged FASTQ files."""
+        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
 
 
 # identify control groups to perform pairwise comparisons with

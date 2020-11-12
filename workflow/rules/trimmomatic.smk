@@ -2,14 +2,14 @@ rule trimmomatic_pe:
 	input:
 		unpack(get_raw)
 	output:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-1.fq.gz",
-		r1_unpaired="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-1.unpaired.fq.gz",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-2.fq.gz",
-		r2_unpaired="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-L_{lane}-2.unpaired.fq.gz"
+		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq.gz",
+		r1_unpaired="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.unpaired.fq.gz",
+		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq.gz",
+		r2_unpaired="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.unpaired.fq.gz",
 	conda:
 		"../envs/trimmomatic.yaml"
 	log:
-		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-L_{lane}-trimmomatic.log"
+		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log"
 	params:
 		# list of trimmers (see manual)
 		trimmer=config["params"]["trimmomatic-pe"]["trimmer"],
@@ -18,7 +18,7 @@ rule trimmomatic_pe:
 		# optional parameters
 		extra="",
 	benchmark:
-		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-L_{lane}-trimmomatic.tsv",benchmark)
+		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
 	threads:
 		2
 	shell:
