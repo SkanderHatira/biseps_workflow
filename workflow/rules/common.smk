@@ -85,7 +85,7 @@ def get_merged_data(wildcards):
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
-	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.bam",**wildcards)
+	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam",**wildcards)
 
 ####### step status  #######
 def is_activated(config_element):

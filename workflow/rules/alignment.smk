@@ -3,10 +3,9 @@ rule alignment_bismark_pe:
 		rules.genome_preparation.output,
 		unpack(get_data)
 	output:
-		bam='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.bam',
-		report='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_PE_report.txt',
-		nucl='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.nucleotide_stats.txt',
-
+		bam=temp('results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.bam'),
+		report=temp('results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_PE_report.txt'),
+		nucl=temp('results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.nucleotide_stats.txt'),
 		tempdir=temp(directory('results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-tmp/')),
 	conda:
 		"../envs/bismark.yaml"
@@ -31,6 +30,22 @@ rule alignment_bismark_pe:
 	shell:
 		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra} "
 		"--temp_dir {output.tempdir}  -o {params.outdir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}; "
+
+rule override_bismark_naming:
+	input:
+		bam='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.bam',
+		report='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_PE_report.txt',
+		nucl='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.nucleotide_stats.txt',		
+	output:
+		bam='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam',
+		report='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_PE_report.txt',
+		nucl='results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.nucleotide_stats.txt',
+	threads:
+		1
+	shell:
+		"mv {input.bam} {output.bam}; "
+		"mv {input.report} {output.report}; "
+		"mv {input.nucl} {output.nucl}; "
 rule convert:
 	input:
 		get_bam_pe
