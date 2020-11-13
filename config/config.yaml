@@ -1,42 +1,43 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
-
+general:
+  benchmark: 1
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
-# minimal vs full run
-  subsample:
-    activate: 'False'
-# whether to preprocess raw data or not
-  trimming:
-    activate: 'False'
-# whether to generate read quality reports or not
-  quality:
-    activate: 'True'
-# whether to perform bisulfite conversion on genome and index it (preparation)
-  genome_preparation:
-    activate: 'True'
-# whether to generate CX reports
-  methylation_extraction:
-    activate: 'True'
-# whether to compute DMR's
-  methylation_calling:
-    activate: 'True'
+  # minimal vs full run
+    subsample:
+      activate: 'False'
+  # whether to preprocess raw data or not
+    trimming:
+      activate: 'True'
+  # whether to generate quality reports or not
+    quality:
+      activate: 'True'
+  # whether to perform bisulfite conversion on genome and index it (preparation)
+    genome_preparation:
+      activate: 'True'
+  # whether to perform methylation extraction
+    methylation_extraction_bismark:
+      activate: 'True'
+  # whether to perform differential methylation calling
+    methylation_calling:
+      activate: 'True'
+
 resources:
   ref:
-    genome_directory: "resources/genome"
-  adapters: "resources/adapters/TruSeq3-PE.fa"
+    genome: "resources/genome/190502MalusdomesticaV4chrchrs.fa"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
+  adapters: ".test/resources/adapters"
 
-# params for all tools used by the pipeline
 params:
   trimmomatic-pe:
     trimmer: "ILLUMINACLIP"
     trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
-    other: ""
+    extra: ""
   seqtk:
     seed: 100
-    other: ""
+    size: 10000
+    extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
-    instances: 1
-
+    instances: 2

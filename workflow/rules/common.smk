@@ -36,7 +36,7 @@ benchmark = config['general']['benchmark']
 
 ####### helpers ###########
 
-def is_single_end(sample,lane,techrep,biorep):
+def is_single_end(sample,lane,techrep,biorep,ext):
 	"""Determine whether unit is single-end."""
 	fq2_present = pd.isnull(units.loc[(sample,lane,techrep,biorep), "fq2"])
 	if isinstance(fq2_present, pd.core.series.Series):
@@ -48,11 +48,6 @@ def is_single_end(sample,lane,techrep,biorep):
 		)
 	return fq2_present
 
-def get_reads(wildcards):
-	return get_seperate(**wildcards)
-
-def get_seperate(sample,biorep,side):
-	return units.loc[(sample,biorep), "fq{}".format(str(side))]
 
 #### Quick-run vs Full-run ####	
 def get_raw(wildcards):
@@ -64,7 +59,12 @@ def get_data(wildcards):
 	if is_activated(config["steps"]["trimming"]):
 		return get_trimmed(wildcards)
 	return get_raw(wildcards)
+####### get file extension #######
 
+def get_ext(wildcards):
+	u = units.loc[wildcards.sample].fq1.tolist()[0]
+	filename, file_ext = os.path.splitext(u)
+	return file_ext
 ####### get raw data from units.tsv #######
 
 def get_fastqs(wildcards):
@@ -77,11 +77,12 @@ def get_fastqs(wildcards):
 ####### get trimmed data #######
 
 def get_trimmed(wildcards):
-    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq.gz" , **wildcards)}
+    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq" , **wildcards)}
 ####### get merged data #######
 
 def get_merged_data(wildcards):
-    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq.gz", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq.gz" , **wildcards)}
+	return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq{ext}",ext=['.gz'], **wildcards) 
+	,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq{ext}",ext=['.gz'] , **wildcards)}
 
 ####### get bam files #######
 def get_bam_pe(wildcards):

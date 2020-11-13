@@ -22,9 +22,9 @@ rule alignment_bismark_pe:
 		aligner_options= "",
 		# optional parameters
 		instances= config['params']['bismark']['instances'],
-		extra="--nucleotide_coverage"
+		extra="--nucleotide_coverage",
 	threads:
-		4*config['params']['bismark']['instances']
+		3*config['params']['bismark']['instances']
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:

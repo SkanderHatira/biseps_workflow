@@ -2,8 +2,8 @@ rule rename:
 	input:
 		unpack(get_fastqs)
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/link/{sample}-L_{lane}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/link/{sample}-L_{lane}-2.fq")
+		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq{ext}"),
+		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq{ext}")
 	threads:
 		1
 	shell:
@@ -12,11 +12,11 @@ rule rename:
 
 rule merge_lanes_pe:
 	input:
-		r1= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/link/{sample}-L_{lane}-1.fq",lane=get_lanes(wildcards),**wildcards),
-		r2= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/link/{sample}-L_{lane}-2.fq",lane=get_lanes(wildcards),**wildcards)
+		r1= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq{ext}",lane=get_lanes(wildcards),**wildcards),
+		r2= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq{ext}",lane=get_lanes(wildcards),**wildcards)
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq")
+		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq{ext}"),
+		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq{ext}")
 	threads:
 		1
 	run:
@@ -29,15 +29,13 @@ rule merge_lanes_pe:
 
 rule subsampling:
 	input:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq"
+		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq{ext}",
+		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq{ext}"
 	output:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq"
+		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq{ext}",
+		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq{ext}"
 	conda:
 		"../envs/seqtk.yaml"
-	log:
-		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-subsampling.log"
 	params:
 		# Random seed
 		seed=config["params"]["seqtk"]["seed"],
