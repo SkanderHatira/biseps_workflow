@@ -36,7 +36,7 @@ benchmark = config['general']['benchmark']
 
 ####### helpers ###########
 
-def is_single_end(sample,lane,techrep,biorep,ext):
+def is_single_end(sample,lane,techrep,biorep):
 	"""Determine whether unit is single-end."""
 	fq2_present = pd.isnull(units.loc[(sample,lane,techrep,biorep), "fq2"])
 	if isinstance(fq2_present, pd.core.series.Series):
@@ -62,9 +62,13 @@ def get_data(wildcards):
 ####### get file extension #######
 
 def get_ext(wildcards):
-	u = units.loc[wildcards.sample].fq1.tolist()[0]
-	filename, file_ext = os.path.splitext(u)
-	return file_ext
+	if is_single_end(**wildcards):
+		ext1 = os.path.splitext(units.loc[ (wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), "fq1" ])[1]
+		return {'s' : f"{ext1}" }
+	else:
+		ext1 = os.path.splitext(units.loc[(wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), "fq1" ])[1]
+		ext2 = os.path.splitext(units.loc[(wildcards.sample, wildcards.lane,wildcards.techrep,wildcards.biorep), "fq2" ])[1]
+		return { 'r1' : f"{ext1}", 'r2' : f"{ext2}" }
 ####### get raw data from units.tsv #######
 
 def get_fastqs(wildcards):
@@ -81,8 +85,8 @@ def get_trimmed(wildcards):
 ####### get merged data #######
 
 def get_merged_data(wildcards):
-	return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq{ext}",ext=['.gz'], **wildcards) 
-	,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq{ext}",ext=['.gz'] , **wildcards)}
+	return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq", **wildcards) 
+	,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq" , **wildcards)}
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
@@ -119,7 +123,8 @@ def get_CX_reports(wildcards):
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
 	"""Get merged FASTQ files."""
-        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
+        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,
+		'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
 
 
 # identify control groups to perform pairwise comparisons with
