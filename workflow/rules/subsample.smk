@@ -2,8 +2,8 @@ rule rename:
 	input:
 		unpack(get_fastqs)
 	output:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq"
+		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq"),
+		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq")
 	threads:
 		1
 
