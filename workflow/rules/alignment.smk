@@ -15,7 +15,9 @@ rule alignment_bismark_pe:
 		#genome_directory
 		genome= get_abs(config['resources']['ref']['genome']),
 		# bismark parameters
-		bismark=  "",#-N 1 -L 20 -score_min L,0,-0.6" default aligmnment params (irrespective of alignment tool)
+		bismark=  "", #-N 1 -L 20 -score_min L,0,-0.6" default aligmnment params (irrespective of alignment tool)
+		N= config["params"]["bismark"]["N"],
+		L= config["params"]["bismark"]["L"], 
 		aligner= config["params"]["bismark"]["aligner"],
 		outdir= 'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/',
 		# aligners parameters (see manual) either bowtie2 or hisat2 specific option
@@ -28,7 +30,7 @@ rule alignment_bismark_pe:
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
-		"bismark --{params.aligner} {params.bismark}  --bam {params.aligner_options} {params.extra} "
+		"bismark --{params.aligner} -N {params.N} -L {params.L} {params.bismark}  --bam {params.aligner_options} {params.extra} "
 		"--temp_dir {output.tempdir}  -o {params.outdir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}; "
 
 rule override_bismark_naming:

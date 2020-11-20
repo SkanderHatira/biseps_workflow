@@ -41,3 +41,5 @@ params:
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
     instances: 4
+    N: 1
+    L: 32

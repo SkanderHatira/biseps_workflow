@@ -12,6 +12,8 @@ condition = rep(snakemake@wildcards[['sample']],length(files))
 if (length(files) > 1){
 	joinedSample = sample[[1]]
 	joinedSample = joinBio(sample[-1],joinedSample)
+}	else {
+	joinedSample = sample[[1]]
 }
 
 saveRDS(condition, snakemake@output[['conditionVector']])

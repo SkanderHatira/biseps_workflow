@@ -23,12 +23,12 @@ contexts = c("CG","CHG","CHH")
 treatmentCondition = readRDS(snakemake@input[['treatmentConditionVector']])
 controlCondition = readRDS(snakemake@input[['controlConditionVector']])
 condition = c(controlCondition,treatmentCondition)
-pdf(file = snakemake@output[['ggplot']], width = 14)
+svg(file = snakemake@output[['ggplot']], width = 14)
 ggplot(data=df,aes(y=readsM1/readsN1,x=start,fill=context,col=context))+geom_point()
 dev.off()
 
 # # plot coverage in different contexts
-# pdf(snakemake@output[['Meth_coverage']])
+# svg(snakemake@output[['Meth_coverage']])
 # plotMethylationDataCoverage(control,
 # treatment,
 # breaks = c(1,5,10,15),
@@ -41,7 +41,7 @@ dev.off()
 # dev.off()
 
 # # Plot Methylation Profile : Context Specific Global changes (10000 bp window)
-# pdf(snakemake@output[['Meth_profile_genome_wide']])
+# svg(snakemake@output[['Meth_profile_genome_wide']])
 # plotMethylationProfileFromData(control,
 # 	treatment,
 # 	conditionsNames = c("control","treatment"),
@@ -88,6 +88,6 @@ DMRsReplicatesNeighbourhood = computeDMRsReplicates(	methylationData = methylati
 													minReadsPerCytosine = 4,
 													cores = snakemake@threads[[1]]
 												)
-
+saveRDS(DMRsReplicatesBins, snakemake@output[['rds']])
 save.image(snakemake@output[['rdata']])
 

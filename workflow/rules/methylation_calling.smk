@@ -21,8 +21,9 @@ rule comparison:
 		control="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-report.rds",
 		controlConditionVector="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-vector.rds"
 	output:
-		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
-		ggplot=report("results/methylation_calling/{control}-TechRep_{ctechrep}/plots/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_ggplot.pdf", category="ggplot")
+		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
+		rds="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/DMRsReplicates.rds",
+		ggplot="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/ggplot.svg"
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
