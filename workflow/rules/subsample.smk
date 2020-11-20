@@ -2,17 +2,17 @@ rule rename:
 	input:
 		unpack(get_fastqs)
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq")
+		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq",
+		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq"
 	threads:
 		1
 
 	run:
-		if os.path.splitext(input.r1) == '.gz':
+		if os.path.splitext(input.r1)[1] == '.gz':
 			shell("gzip -c {input.r1} > {output.r1}; ")
 		else:
 			shell("ln -sr {input.r1} {output.r1}; ")
-		if os.path.splitext(input.r2) == '.gz':
+		if os.path.splitext(input.r2)[1] == '.gz':
 			shell("gzip -c {input.r2} > {output.r2}; ")
 		else:
 			shell("ln -sr {input.r2} {output.r2}; ")
