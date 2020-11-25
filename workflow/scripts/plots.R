@@ -8,7 +8,7 @@ control <- readRDS(snakemake@input[['control']])
 treatment <- readRDS(snakemake@input[['treatment']])
 contexts = c("CG","CHG","CHH")
 
-svg(snakemake@output[['low_resolution_profiles']])
+pdf(snakemake@output[['low_resolution_profiles']])
 for (c in contexts) {
 	plotMethylationProfileFromData(control,
 	treatment,
@@ -20,7 +20,7 @@ for (c in contexts) {
 
 dev.off()
 
-svg(snakemake@output[['methylation_data_coverage']])
+pdf(snakemake@output[['methylation_data_coverage']])
 for (c in contexts) {
 	plotMethylationDataCoverage(control,
 	treatment,

@@ -23,7 +23,7 @@ rule comparison:
 	output:
 		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
 		rds="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/DMRsReplicates.rds",
-		ggplot="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/ggplot.svg"
+		ggplot="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/ggplot.pdf"
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:

@@ -23,34 +23,9 @@ contexts = c("CG","CHG","CHH")
 treatmentCondition = readRDS(snakemake@input[['treatmentConditionVector']])
 controlCondition = readRDS(snakemake@input[['controlConditionVector']])
 condition = c(controlCondition,treatmentCondition)
-svg(file = snakemake@output[['ggplot']], width = 14)
+pdf(file = snakemake@output[['ggplot']], width = 14)
 ggplot(data=df,aes(y=readsM1/readsN1,x=start,fill=context,col=context))+geom_point()
 dev.off()
-
-# # plot coverage in different contexts
-# svg(snakemake@output[['Meth_coverage']])
-# plotMethylationDataCoverage(control,
-# treatment,
-# breaks = c(1,5,10,15),
-# regions = NULL,
-# conditionsNames=c("control","treatment"),
-# context = contexts,
-# proportion = TRUE,
-# labels=LETTERS,
-# contextPerRow = FALSE)
-# dev.off()
-
-# # Plot Methylation Profile : Context Specific Global changes (10000 bp window)
-# svg(snakemake@output[['Meth_profile_genome_wide']])
-# plotMethylationProfileFromData(control,
-# 	treatment,
-# 	conditionsNames = c("control","treatment"),
-# 	windowSize = 10000,
-# 	autoscale = FALSE,
-# 	context = "CG")
-# dev.off()
-
-
 
 # compute DMR's with biological replicates , can only call bins method
 DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
@@ -58,10 +33,10 @@ DMRsReplicatesBins = computeDMRsReplicates(	methylationData = methylationData,
 													regions = NULL,
 													context = "CG",
 													method = "bins",
-													binSize = 100,
+													binSize = 200,
 													test = "betareg",
-													pseudocountM = 1,
-													pseudocountN = 2,
+													pseudocountM = 0,
+													pseudocountN = 0,
 													pValueThreshold = 0.01,
 													minCytosinesCount = 4,
 													minProportionDifference = 0.4,
