@@ -14,23 +14,24 @@ rule alignment_bismark_pe:
 	params:
 		#genome_directory
 		genome= get_abs(config['resources']['ref']['genome']),
-		# bismark parameters
-		bismark=  "", #-N 1 -L 20 -score_min L,0,-0.6" default aligmnment params (irrespective of alignment tool)
+		# alignments parameters
+		score_min = config["params"]["bismark"]["score_min"],
 		N= config["params"]["bismark"]["N"],
 		L= config["params"]["bismark"]["L"], 
 		aligner= config["params"]["bismark"]["aligner"],
 		outdir= 'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/',
 		# aligners parameters (see manual) either bowtie2 or hisat2 specific option
-		aligner_options= "",
+		aligner_options= config['params']['bismark']['aligner_options'],
 		# optional parameters
 		instances= config['params']['bismark']['instances'],
-		extra="--nucleotide_coverage",
+		flags= unpack_boolean_flags(config['params']['bismark']['bool_flags']),
+		extra= config['params']['bismark']['extra']
 	threads:
 		3*config['params']['bismark']['instances']
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
-		"bismark --{params.aligner} -N {params.N} -L {params.L} {params.bismark}  --bam {params.aligner_options} {params.extra} "
+		"bismark --score_min {params.score_min} -N {params.N} -L {params.L} --{params.aligner}  --bam {params.aligner_options} {params.flags} {params.extra} "
 		"--temp_dir {output.tempdir}  -o {params.outdir} --parallel {params.instances} {params.genome} -1 {input.r1} -2 {input.r2} 2> {log}; "
 
 rule override_bismark_naming:
@@ -57,14 +58,12 @@ rule convert:
 		"../envs/bismark.yaml"
 	log:
 		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.log"
-	params:
-		extra=""
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.tsv",benchmark)
 	threads:
 		1
 	shell:
-		"samtools view -h -@ {threads} {params.extra} -o {output} {input}  2> {log}"
+		"samtools view -h -@ {threads} -o {output} {input}  2> {log}"
 
 rule deduplicate:
 	input:
@@ -79,7 +78,7 @@ rule deduplicate:
 	params:
 		basename="{sample}",
 		outdir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
-		extra="" 
+		extra=config['params']['deduplicate']['extra'] 
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.tsv",benchmark)
 	threads:

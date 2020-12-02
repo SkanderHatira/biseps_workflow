@@ -15,8 +15,10 @@ rule methylation_extraction_bismark:
 		# optional parameters
 		out_dir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		instances= config['params']['bismark']['instances'],
-		extra="--comprehensive" #include_overlap? #get_p_s_flag?
+		# flags
+		flags= unpack_boolean_flags(config['params']['methylation_extraction']['bool_flags']),
+		extra= config['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
 	threads:
 		4*config['params']['bismark']['instances']
 	shell:
-		"bismark_methylation_extractor  {input} --bedGraph --CX --cytosine_report --genome_folder {params.genome} -p  --parallel {params.instances} -o {params.out_dir} {params.extra} 2> {log} "
+		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "

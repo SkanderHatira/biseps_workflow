@@ -5,23 +5,23 @@ general:
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
-    subsample:
-      activate: 'False'
+    subsample: 
+      activated: 'False'
   # whether to preprocess raw data or not
-    trimming:
-      activate: 'True'
+    trimming: 
+      activated: 'True'
   # whether to generate quality reports or not
-    quality:
-      activate: 'True'
+    quality: 
+      activated: 'True'
   # whether to perform bisulfite conversion on genome and index it (preparation)
-    genome_preparation:
-      activate: 'True'
+    genome_preparation: 
+      activated: 'True'
   # whether to perform methylation extraction
-    methylation_extraction_bismark:
-      activate: 'True'
+    methylation_extraction_bismark: 
+      activated: 'True'
   # whether to perform differential methylation calling
-    methylation_calling:
-      activate: 'True'
+    methylation_calling: 
+      activated: 'True'
 
 resources:
   ref:
@@ -33,6 +33,7 @@ params:
   trimmomatic-pe:
     trimmer: "ILLUMINACLIP"
     trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+    threads: 4
     extra: ""
   seqtk:
     seed: 100
@@ -40,6 +41,29 @@ params:
     extra: ""
   bismark:
     aligner: bowtie2 #bowtie2/hisat2
+    aligner_options: ""
     instances: 4
+    score_min: L,0,-0.8
     N: 1
     L: 32
+    extra: ""
+    bool_flags: 
+      nucleotide_coverage: "True"
+      no_dovetail: "False"
+      non_directional: "False"
+  deduplicate:
+    extra: "" # see deduplicate_bismark documentation
+  genome_preparation:
+    threads: 2
+    extra: ""
+  methylation_extraction:
+    bool_flags:
+      bedGraph: "True"
+      CX:  "True"
+      cytosine_report:  "True"
+      comprehensive:  "True"
+    extra: ""
+  fastqc:
+    extra : ""
+  multiqc:
+    extra : ""

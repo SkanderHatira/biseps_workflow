@@ -2,9 +2,6 @@ from snakemake.utils import validate
 import pandas as pd
 import os
 
-# this container defines the underlying OS for each job when using the workflow
-# with --use-conda --use-singularity
-singularity: "docker://continuumio/miniconda3:latest"
 
 ##### load config and sample sheets #####
 
@@ -48,6 +45,12 @@ def is_single_end(sample,lane,techrep,biorep):
 		)
 	return fq2_present
 
+def unpack_boolean_flags(bool_flags):
+	flags = ""
+	for f in bool_flags:
+		if bool_flags[f'{f}'] in {'true','True'} :
+			flags = flags + f'--{f} '
+	return flags
 
 #### Quick-run vs Full-run ####	
 def get_raw(wildcards):
@@ -94,7 +97,7 @@ def get_bam_pe(wildcards):
 
 ####### step status  #######
 def is_activated(config_element):
-    return config_element['activate'] in {"true","True"}
+    return config_element['activated'] in {"true","True"}
 
 #### returns lanes for each sample-techrep-biorep combination ####
 def get_lanes(wildcards):
@@ -122,7 +125,6 @@ def get_CX_reports(wildcards):
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
-	"""Get merged FASTQ files."""
         return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,
 		'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
 

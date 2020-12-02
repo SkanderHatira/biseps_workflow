@@ -20,7 +20,7 @@ rule trimmomatic_pe:
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
 	threads:
-		2
+		config['params']['trimmomatic-pe']['threads']
 	shell:
 		"trimmomatic PE -phred33 -threads {threads} -trimlog {log}"
 		" {input} "

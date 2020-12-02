@@ -1,4 +1,4 @@
-rule rename:
+rule entrypoint:
 	input:
 		unpack(get_fastqs)
 	output:
@@ -25,13 +25,10 @@ rule merge_lanes_pe:
 		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq")
 	threads:
 		1
-	run:
-		if len(get_lanes(wildcards)) > 1:
-			shell("cat {input.r1} > {output.r1}")
-			shell("cat {input.r2} > {output.r2}")
-		else:
-			shell("ln -sr {input.r1} {output.r1}")
-			shell("ln -sr {input.r2} {output.r2}")
+	shell:
+		"cat {input.r1} > {output.r1};"
+		"cat {input.r2} > {output.r2}"
+
 
 rule subsampling:
 	input:

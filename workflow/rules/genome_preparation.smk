@@ -10,11 +10,11 @@ rule genome_preparation:
 		genome=get_abs(config['resources']['ref']['genome']),
 		aligner=config["params"]["bismark"]["aligner"],
 		# optional parameters
-		extra="",
+		extra=config["params"]["genome_preparation"]["extra"]
 	benchmark:
 		repeat("benchmarks/common/genome_preparation.tsv",benchmark)
 	threads:
-		2
+		config['params']['genome_preparation']['threads']
 	shell:
-		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {threads} --genomic_composition 2> {log} "
+		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {threads} --genomic_composition {params.extra} 2> {log} "
 

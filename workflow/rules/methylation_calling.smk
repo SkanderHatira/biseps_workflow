@@ -2,8 +2,8 @@ rule read_report:
 	input:
 		get_CX_reports,
 	output:
-		rds="results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds",
-		conditionVector="results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds"
+		rds=temp("results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds"),
+		conditionVector=temp("results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds")
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
@@ -22,13 +22,11 @@ rule comparison:
 		controlConditionVector="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-vector.rds"
 	output:
 		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
-		rds="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/DMRsReplicates.rds",
-		ggplot="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/ggplot.pdf"
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		report("logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log",category="Logs")
+		"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log"
 	threads:
 		2
 	script:
-		"../scripts/compute_dmr.R"
+		"../scripts/pairwise_reports.R"
