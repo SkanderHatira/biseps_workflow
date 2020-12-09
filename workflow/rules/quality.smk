@@ -2,22 +2,23 @@ rule fastqc:
 	input:
 		unpack(get_data)
 	output:
-		directory("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/quality/{sample}/")
+		directory("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/quality/")
 	conda:
 		"../envs/quality.yaml"
 	log:
-		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-fastqc.log"
+		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/fastqc.log"
 	params:
 		# optional parameters
 		extra=  config['params']['fastqc']['extra'],
 	threads:
 		1
 	shell:
+		"mkdir -p {output} ; "
 		"fastqc {input} -o {output} {params.extra} 2> {log}"
 
 rule multiqc:
 	input:
-		fqc="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/quality/{sample}/",
+		fqc=rules.fastqc.output,
 		report="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",
 	output:
 		file="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report.html",
