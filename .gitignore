@@ -17,3 +17,5 @@
 !.test/data/**
 !.test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta
 !.gitlab-ci.yml
+!shinyapp
+!shinyapp/**
