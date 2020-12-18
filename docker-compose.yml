@@ -1,0 +1,17 @@
+version: '3'
+services:
+    gui:
+        build: ./shinyapp
+        container_name: bisspropgui
+        hostname: bisspropgui
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - bissprop
+        ports:
+            - "8080:8080"
+
+    bissprop:
+        build: ./
+        container_name: bissprop
+        hostname: bissprop

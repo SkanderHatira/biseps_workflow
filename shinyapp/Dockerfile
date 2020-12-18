@@ -1,24 +1,19 @@
-# FROM continuumio/miniconda3:4.7.12-alpine
 FROM continuumio/miniconda3:latest
 USER root
 # MAINTAINER Skander Hatira skander.hatira@inrae.fr
-LABEL Name=BiSSProP Version=1.0
-
-# ENV USERNAME user
-# ENV USER_ID 1005
-# ENV GROUP_ID 1005
+LABEL Name=BiSSProP-GUI Version=1.0
 
 ARG USERNAME
 ARG USER_ID
 ARG GROUP_ID
 
 ########################### Copy Necessary Files For Image ##########################
-WORKDIR /dmr-pipe
-COPY . /dmr-pipe
+WORKDIR /BiSSProP
+COPY . /BiSSProP
 
-################### Config Conda And Create Snakemake Environment ###################
+
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
-	&& /opt/conda/bin/conda create  -q  -c anaconda -c bioconda -c conda-forge -n snakemake snakemake \
+	&& /opt/conda/bin/conda env create  -q -n shiny -f shiny.yaml \
 	&& /opt/conda/bin/conda clean -a \
 	# for use of continuumio/miniconda3:latest base image
 	&& addgroup --gid $GROUP_ID $USERNAME \
@@ -26,12 +21,11 @@ RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set ad
 	# for use of continuumio/miniconda3:4.7.12-alpine base image
 	# && /usr/sbin/addgroup -g $GROUP_ID $USERNAME  \
 	# && /usr/sbin/adduser -u $USER_ID -S $USERNAME -G $USERNAME \
-	&& chown -R $USERNAME /dmr-pipe \
-	&& chmod -R 755 /dmr-pipe \
+	&& chown -R $USERNAME /BiSSProP \
+	&& chmod -R 755 /BiSSProP \
 	&& chown -R $USERNAME /opt/conda/ \
 	&& chmod -R 755 /opt/conda/
 	
 USER $USERNAME
-
-#################################### Run dmr-pipe ###################################
-ENTRYPOINT [ "/opt/conda/bin/conda" , "run" , "-n" ,"snakemake","snakemake"]
+EXPOSE 8080
+ENTRYPOINT [ "/opt/conda/bin/conda" , "run" , "-n" ,"shiny","R", "-e", "shiny::runApp('/BiSSProP/main.R', host = '0.0.0.0', port = 8080)"]

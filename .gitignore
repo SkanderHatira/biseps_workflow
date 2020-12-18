@@ -19,3 +19,4 @@
 !.gitlab-ci.yml
 !shinyapp
 !shinyapp/**
+!docker-compose.yml
