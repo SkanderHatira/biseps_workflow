@@ -13,8 +13,8 @@ ARG USER_ID
 ARG GROUP_ID
 
 ########################### Copy Necessary Files For Image ##########################
-WORKDIR /dmr-pipe
-COPY . /dmr-pipe
+WORKDIR /BiSSProP
+COPY . /BiSSProP
 
 ################### Config Conda And Create Snakemake Environment ###################
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
@@ -26,12 +26,12 @@ RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set ad
 	# for use of continuumio/miniconda3:4.7.12-alpine base image
 	# && /usr/sbin/addgroup -g $GROUP_ID $USERNAME  \
 	# && /usr/sbin/adduser -u $USER_ID -S $USERNAME -G $USERNAME \
-	&& chown -R $USERNAME /dmr-pipe \
-	&& chmod -R 755 /dmr-pipe \
+	&& chown -R $USERNAME /BiSSProP \
+	&& chmod -R 755 /BiSSProP \
 	&& chown -R $USERNAME /opt/conda/ \
 	&& chmod -R 755 /opt/conda/
 	
 USER $USERNAME
 
-#################################### Run dmr-pipe ###################################
+#################################### Run BiSSProP ###################################
 ENTRYPOINT [ "/opt/conda/bin/conda" , "run" , "-n" ,"snakemake","snakemake"]
