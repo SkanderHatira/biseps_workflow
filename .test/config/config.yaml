@@ -16,7 +16,7 @@ steps:
       activated: 'True'
   # whether to generate quality reports or not
     quality: 
-      activated: 'False'
+      activated: 'True'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation: 
       activated: 'True'
@@ -25,7 +25,7 @@ steps:
       activated: 'True'
   # whether to perform differential methylation calling
     methylation_calling: 
-      activated: 'False'
+      activated: 'True'
 
 resources:
   ref:
