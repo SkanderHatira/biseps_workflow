@@ -15,19 +15,19 @@ rule alignment_bismark_pe:
 		#genome_directory
 		genome= get_abs(config['resources']['ref']['genome']),
 		# alignments parameters
-		score_min = config["params"]["bismark"]["score_min"],
-		N= config["params"]["bismark"]["N"],
-		L= config["params"]["bismark"]["L"], 
-		aligner= config["params"]["bismark"]["aligner"],
+		score_min = lambda wildcards : config[wildcards.sample]["params"]["bismark"]["score_min"],
+		N= lambda wildcards : config[wildcards.sample]["params"]["bismark"]["N"],
+		L= lambda wildcards : config[wildcards.sample]["params"]["bismark"]["L"], 
+		aligner= lambda wildcards : config[wildcards.sample]["params"]["bismark"]["aligner"],
 		outdir= 'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/',
 		# aligners parameters (see manual) either bowtie2 or hisat2 specific option
-		aligner_options= config['params']['bismark']['aligner_options'],
+		aligner_options= lambda wildcards : config[wildcards.sample]['params']['bismark']['aligner_options'],
 		# optional parameters
-		instances= config['params']['bismark']['instances'],
-		flags= unpack_boolean_flags(config['params']['bismark']['bool_flags']),
-		extra= config['params']['bismark']['extra']
+		instances= lambda wildcards : config[wildcards.sample]['params']['bismark']['instances'],
+		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['bismark']['bool_flags']),
+		extra= lambda wildcards : config[wildcards.sample]['params']['bismark']['extra']
 	threads:
-		3*config['params']['bismark']['instances']
+		lambda wildcards : 3*config[wildcards.sample]['params']['bismark']['instances']
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
@@ -78,7 +78,7 @@ rule deduplicate:
 	params:
 		basename="{sample}",
 		outdir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
-		extra=config['params']['deduplicate']['extra'] 
+		extra= lambda wildcards : config[wildcards.sample]['params']['deduplicate']['extra'] 
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.tsv",benchmark)
 	threads:

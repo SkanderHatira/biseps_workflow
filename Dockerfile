@@ -4,10 +4,13 @@ USER root
 # MAINTAINER Skander Hatira skander.hatira@inrae.fr
 LABEL Name=BiSSProP Version=1.0
 
-ENV USERNAME bissprop
-ENV USER_ID 1005
-ENV GROUP_ID 1005
+# ENV USERNAME bissprop
+# ENV USER_ID 1005
+# ENV GROUP_ID 1005
 
+ARG USERNAME
+ARG USER_ID
+ARG GROUP_ID
 
 ########################### Copy Necessary Files For Image ##########################
 WORKDIR /BiSSProP

@@ -4,7 +4,8 @@ rule methylation_extraction_bismark:
 	output:
 		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",
 		'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated_splitting_report.txt',
-		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.M-bias.txt"
+		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.M-bias.txt",
+		temp(expand("results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{context}_context_{{sample}}.deduplicated.txt",context = ['CHH','CHG','CpG']))
 	conda:
 		"../envs/bisgraph.yaml"
 	log:
@@ -14,11 +15,11 @@ rule methylation_extraction_bismark:
 		genome=get_abs(config['resources']['ref']['genome']),
 		# optional parameters
 		out_dir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
-		instances= config['params']['bismark']['instances'],
+		instances= lambda wildcards : config[wildcards.sample]['params']['bismark']['instances'],
 		# flags
-		flags= unpack_boolean_flags(config['params']['methylation_extraction']['bool_flags']),
-		extra= config['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
+		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['methylation_extraction']['bool_flags']),
+		extra= lambda wildcards :  config[wildcards.sample]['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
 	threads:
-		4*config['params']['bismark']['instances']
+		lambda wildcards : 4*config[wildcards.sample]['params']['bismark']['instances']
 	shell:
 		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "

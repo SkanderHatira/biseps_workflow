@@ -12,7 +12,7 @@ steps:
       activated: 'True'
   # whether to generate quality reports or not
     quality: 
-      activated: 'True'
+      activated: 'False'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation: 
       activated: 'True'
@@ -21,49 +21,90 @@ steps:
       activated: 'True'
   # whether to perform differential methylation calling
     methylation_calling: 
-      activated: 'True'
+      activated: 'False'
 
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
   adapters: ".test/resources/adapters"
-
-params:
-  trimmomatic-pe:
-    trimmer: "ILLUMINACLIP"
-    trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
-    threads: 4
-    extra: ""
-  seqtk:
-    seed: 100
-    size: 10000
-    extra: ""
-  bismark:
-    aligner: bowtie2 #bowtie2/hisat2
-    aligner_options: ""
-    instances: 4
-    score_min: L,0,-0.8
-    N: 1
-    L: 32
-    extra: ""
-    bool_flags: 
-      nucleotide_coverage: "True"
-      no_dovetail: "False"
-      non_directional: "False"
-  deduplicate:
-    extra: "" # see deduplicate_bismark documentation
-  genome_preparation:
-    threads: 2
-    extra: ""
-  methylation_extraction:
-    bool_flags:
-      bedGraph: "True"
-      CX:  "True"
-      cytosine_report:  "True"
-      comprehensive:  "True"
-    extra: ""
-  fastqc:
-    extra : ""
-  multiqc:
-    extra : ""
+v1:
+  params:
+    trimmomatic-pe:
+      trimmer: "ILLUMINACLIP"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+      threads: 4
+      extra: ""
+    seqtk:
+      seed: 100
+      size: 10000
+      extra: ""
+    bismark:
+      aligner: bowtie2 #bowtie2/hisat2
+      aligner_options: ""
+      instances: 4
+      score_min: L,0,-0.8
+      N: 1
+      L: 32
+      extra: ""
+      bool_flags: 
+        nucleotide_coverage: "True"
+        no_dovetail: "False"
+        non_directional: "False"
+    deduplicate:
+      extra: "" # see deduplicate_bismark documentation
+    genome_preparation:
+      threads: 2
+      extra: ""
+    methylation_extraction:
+      bool_flags:
+        bedGraph: "True"
+        CX:  "True"
+        cytosine_report:  "True"
+        comprehensive:  "True"
+        split_by_chromosome: "False"
+      extra: ""
+    fastqc:
+      extra : ""
+    multiqc:
+      extra : ""
+v3:
+  params:
+    trimmomatic-pe:
+      trimmer: "ILLUMINACLIP"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+      threads: 4
+      extra: ""
+    seqtk:
+      seed: 100
+      size: 10000
+      extra: ""
+    bismark:
+      aligner: bowtie2 #bowtie2/hisat2
+      aligner_options: ""
+      instances: 4
+      score_min: L,0,-0.8
+      N: 1
+      L: 32
+      extra: ""
+      bool_flags: 
+        nucleotide_coverage: "True"
+        no_dovetail: "False"
+        non_directional: "False"
+    deduplicate:
+      extra: "" # see deduplicate_bismark documentation
+    genome_preparation:
+      threads: 2
+      extra: ""
+    methylation_extraction:
+      bool_flags:
+        bedGraph: "True"
+        CX:  "True"
+        cytosine_report:  "True"
+        comprehensive:  "True"
+        split_by_chromosome: "False"
+      extra: ""
+    fastqc:
+      extra : ""
+    multiqc:
+      extra : ""

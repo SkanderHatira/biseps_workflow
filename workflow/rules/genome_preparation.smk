@@ -8,13 +8,13 @@ rule genome_preparation:
 	params:
 		# list of trimmers (see manual)
 		genome=get_abs(config['resources']['ref']['genome']),
-		aligner=config["params"]["bismark"]["aligner"],
+		aligner= lambda wildcards : config[wildcards.sample]["params"]["bismark"]["aligner"],
 		# optional parameters
-		extra=config["params"]["genome_preparation"]["extra"]
+		extra= lambda wildcards : config[wildcards.sample]["params"]["genome_preparation"]["extra"]
 	benchmark:
 		repeat("benchmarks/common/genome_preparation.tsv",benchmark)
 	threads:
-		config['params']['genome_preparation']['threads']
+		lambda wildcards : config[wildcards.sample]['params']['genome_preparation']['threads']
 	shell:
 		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {threads} --genomic_composition {params.extra} 2> {log} "
 

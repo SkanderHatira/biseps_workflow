@@ -12,15 +12,15 @@ rule trimmomatic_pe:
 		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log"
 	params:
 		# list of trimmers (see manual)
-		trimmer=config["params"]["trimmomatic-pe"]["trimmer"],
-		trimmeropts=config["params"]["trimmomatic-pe"]["trimmer-options"],
+		trimmer= lambda wildcards :config[wildcards.sample]["params"]["trimmomatic-pe"]["trimmer"],
+		trimmeropts= lambda wildcards :config[wildcards.sample]["params"]["trimmomatic-pe"]["trimmer-options"],
 		adapters=config["resources"]["adapters"],
 		# optional parameters
 		extra="",
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
 	threads:
-		config['params']['trimmomatic-pe']['threads']
+		lambda wildcards :config[wildcards.sample]['params']['trimmomatic-pe']['threads']
 	shell:
 		"trimmomatic PE -phred33 -threads {threads} -trimlog {log}"
 		" {input} "

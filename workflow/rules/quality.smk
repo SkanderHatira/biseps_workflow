@@ -9,7 +9,7 @@ rule fastqc:
 		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/fastqc.log"
 	params:
 		# optional parameters
-		extra=  config['params']['fastqc']['extra'],
+		extra=  lambda wildcards : config[wildcards.sample]['params']['fastqc']['extra'],
 	threads:
 		1
 	shell:
@@ -31,7 +31,7 @@ rule multiqc:
 		aligndir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/",
 		methdir="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		# optional parameters
-		extra=config['params']['multiqc']['extra'],
+		extra=lambda wildcards : config[wildcards.sample]['params']['multiqc']['extra'],
 	threads:
 		1
 	shell:
