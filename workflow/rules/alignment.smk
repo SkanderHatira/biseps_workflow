@@ -53,7 +53,7 @@ rule convert:
 	input:
 		get_bam_pe
 	output:
-		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.sam"
+		temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.sam")
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -69,7 +69,7 @@ rule deduplicate:
 	input:
 		rules.convert.output
 	output:
-		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.sam",
+		temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.sam"),
 		"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplication_report.txt"
 	conda:
 		"../envs/bismark.yaml"

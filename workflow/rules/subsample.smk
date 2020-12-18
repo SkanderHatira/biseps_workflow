@@ -35,8 +35,8 @@ rule subsampling:
 		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq",
 		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq"
 	output:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq"
+		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq"),
+		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq")
 	conda:
 		"../envs/seqtk.yaml"
 	params:

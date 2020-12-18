@@ -14,7 +14,7 @@ rule read_report:
 		"../scripts/read_report.R"
 
 
-rule comparison:
+rule pairwise_reports:
 	input:
 		treatment="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-report.rds",
 		treatmentConditionVector="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-vector.rds",

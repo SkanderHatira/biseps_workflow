@@ -1,7 +1,8 @@
 version: '3'
 services:
     gui:
-        build: ./shinyapp
+        build: 
+            context: ./shinyapp
         container_name: bisspropgui
         hostname: bisspropgui
         volumes:
@@ -10,8 +11,8 @@ services:
             - bissprop
         ports:
             - "8080:8080"
-
     bissprop:
-        build: ./
+        build:
+            context: ./
         container_name: bissprop
         hostname: bissprop
