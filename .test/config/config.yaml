@@ -2,6 +2,10 @@ samples: ".test/config/samples.tsv"
 units: ".test/config/units.tsv"
 general:
   benchmark: 1
+  genome_preparation:
+    threads: 2
+    extra: ""
+    aligner: bowtie2
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
@@ -53,9 +57,6 @@ v1:
         non_directional: "False"
     deduplicate:
       extra: "" # see deduplicate_bismark documentation
-    genome_preparation:
-      threads: 2
-      extra: ""
     methylation_extraction:
       bool_flags:
         bedGraph: "True"
@@ -93,9 +94,6 @@ v3:
         non_directional: "False"
     deduplicate:
       extra: "" # see deduplicate_bismark documentation
-    genome_preparation:
-      threads: 2
-      extra: ""
     methylation_extraction:
       bool_flags:
         bedGraph: "True"
