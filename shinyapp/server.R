@@ -31,12 +31,12 @@ server <- function(input, output) {
     
     })
     observeEvent(input$quickrun ,{
-        system('docker run  --mount type=bind,src=/home/shatira/mnt/local_workflows/shiny-app/.test,dst=/dmr-pipe/.test,readonly \\
-      --mount type=bind,src="$(pwd)/docker-out/logs",dst=/dmr-pipe/logs \\
-      --mount type=bind,src="$(pwd)/docker-out/resources",dst=/dmr-pipe/resources \\
-      --mount type=bind,src="$(pwd)/docker-out/.snakemake",dst=/dmr-pipe/.snakemake \\
-      --mount type=bind,src="$(pwd)/docker-out/results",dst=/dmr-pipe/results \\
-      --mount type=bind,src="$(pwd)/.test/config/",dst=/dmr-pipe/config dmr-pipe --configfile config/config.yaml -n ', wait=FALSE)
+        system('docker run  --mount type=bind,src=/home/shatira/mnt/local_workflows/shiny-app/.test,dst=/BiSSProP/.test,readonly \\
+      --mount type=bind,src="$(pwd)/docker-out/logs",dst=/BiSSProP/logs \\
+      --mount type=bind,src="$(pwd)/docker-out/resources",dst=/BiSSProP/resources \\
+      --mount type=bind,src="$(pwd)/docker-out/.snakemake",dst=/BiSSProP/.snakemake \\
+      --mount type=bind,src="$(pwd)/docker-out/results",dst=/BiSSProP/results \\
+      --mount type=bind,src="$(pwd)/.test/config/",dst=/BiSSProP/config bissprop --configfile config/config.yaml -n ', wait=FALSE)
         showModal(modalDialog(
         title = "Task Failed Successfully!",
         "Le pipeline a été lancé en mode rapide ",
@@ -87,12 +87,12 @@ server <- function(input, output) {
 
   }) 
   observeEvent(input$fullrun, {
-      system('docker run  --mount type=bind,src=/home/shatira/mnt/local_workflows/shiny-app/.test,dst=/dmr-pipe/.test,readonly \\
-      --mount type=bind,src="$(pwd)/docker-out/logs",dst=/dmr-pipe/logs \\
-      --mount type=bind,src="$(pwd)/docker-out/resources",dst=/dmr-pipe/resources \\
-      --mount type=bind,src="$(pwd)/docker-out/.snakemake",dst=/dmr-pipe/.snakemake \\
-      --mount type=bind,src="$(pwd)/docker-out/results",dst=/dmr-pipe/results \\
-      --mount type=bind,src="$(pwd)/.test/config/",dst=/dmr-pipe/config dmr-pipe --configfile config/config.yaml --cores 6 --use-conda -k ', wait=FALSE)
+      system('docker run  --mount type=bind,src=/home/shatira/mnt/local_workflows/shiny-app/.test,dst=/BiSSProP/.test,readonly \\
+      --mount type=bind,src="$(pwd)/docker-out/logs",dst=/BiSSProP/logs \\
+      --mount type=bind,src="$(pwd)/docker-out/resources",dst=/BiSSProP/resources \\
+      --mount type=bind,src="$(pwd)/docker-out/.snakemake",dst=/BiSSProP/.snakemake \\
+      --mount type=bind,src="$(pwd)/docker-out/results",dst=/BiSSProP/results \\
+      --mount type=bind,src="$(pwd)/.test/config/",dst=/BiSSProP/config bissprop --configfile config/config.yaml --cores 6 --use-conda -k ', wait=FALSE)
       showModal(modalDialog(
         title = "Task Failed Successfully!",
         "Le pipeline a bien été lancé tkt :D ",

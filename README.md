@@ -1,4 +1,4 @@
-# Snakemake workflow: dmr-pipe
+# Snakemake workflow: bissprop
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.23.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 
@@ -6,7 +6,7 @@ This is a `snakemake` pipeline for bisulfite sequencing data, it implements:
 1. 	Adapter trimming and quality check
 2.	Quality reports and statistics (`fastqc`+ `multiqc`)
 3.	Methylation extraction with `bismark` (`bowtie2`/`hisat2` as aligners)
-4.	DMR identification with `dmraller` (in all contexts) : in progress
+4.	DMR identification with `dmrcaller` (in all contexts) : in progress
 
 ## Authors
 
@@ -20,7 +20,7 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 [Clone](https://help.github.com/en/articles/cloning-a-repository) the newly created repository to your local system, into the place where you want to perform the data analysis.
 
-	git clone git@forgemia.inra.fr:skander.hatira/dmr-pipe.git
+	git clone git@forgemia.inra.fr:skander.hatira/bissprop.git
 
 ### Step 2: Configure workflow
 
@@ -70,7 +70,7 @@ After successful execution, you can create a self-contained interactive `.html` 
  
 A docker image of this workflow can be built from the repository by running this command:
 
-    docker build -t dmr-pipe --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg USERNAME=$USER .
+    docker build -t bissprop --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg USERNAME=$USER .
 
 To run this container with your data you need to bind volumes specyfing raw data, configuration files, and necessary resources
  
@@ -86,7 +86,7 @@ To test the pipeline you have to be on a `conda` enabled machine :
 
 or a `docker` enabled machine to build and run the image with a mounted folder containing necessary data and configuration files pointing to that data:
 
-    docker run --mount type=bind,src="$(pwd)/.test",dst=/dmr-pipe/.test,readonly dmr-pipe \ 
+    docker run --mount type=bind,src="$(pwd)/.test",dst=/BiSSProP/.test,readonly bissprop \ 
 	
 	--cores $N --use-conda --configfile .test/config/config.yaml 
 
