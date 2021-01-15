@@ -27,7 +27,7 @@ rule alignment_bismark_pe:
 		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['bismark']['bool_flags']),
 		extra= lambda wildcards : config[wildcards.sample]['params']['bismark']['extra']
 	threads:
-		lambda wildcards : 3*config[wildcards.sample]['params']['bismark']['instances']
+		lambda wildcards : 5*config[wildcards.sample]['params']['bismark']['instances']
 	benchmark:
 		repeat("benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
