@@ -2,12 +2,12 @@ rule read_report:
 	input:
 		get_CX_reports,
 	output:
-		rds=temp("results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds"),
-		conditionVector=temp("results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds")
+		rds=temp(outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds"),
+		conditionVector=temp(outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds")
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		"logs/methylation_calling/{sample}-{techrep}.log"
+		outdir+"logs/methylation_calling/{sample}-{techrep}.log"
 	threads:
 		1
 	script:
@@ -16,16 +16,16 @@ rule read_report:
 
 rule pairwise_reports:
 	input:
-		treatment="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-report.rds",
-		treatmentConditionVector="results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-vector.rds",
-		control="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-report.rds",
-		controlConditionVector="results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-vector.rds"
+		treatment=outdir+"results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-report.rds",
+		treatmentConditionVector=outdir+"results/methylation_calling/{treatment}-TechRep_{ttechrep}/{treatment}-{ttechrep}-vector.rds",
+		control=outdir+"results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-report.rds",
+		controlConditionVector=outdir+"results/methylation_calling/{control}-TechRep_{ctechrep}/{control}-{ctechrep}-vector.rds"
 	output:
-		rdata="results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
+		rdata=outdir+"results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.Rdata",
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:
-		"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log"
+		outdir+"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log"
 	threads:
 		2
 	script:

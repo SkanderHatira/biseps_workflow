@@ -19,7 +19,7 @@ units.index.names = ["sample_id","lane_id","techrep_id","biorep_id"]
 units.index = units.index.set_levels(
 	[i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="../schemas/units.schema.yaml")
-
+outdir = config['general']['outdir']
 ##### wildcard constraints #####
 
 wildcard_constraints:
@@ -84,16 +84,16 @@ def get_fastqs(wildcards):
 ####### get trimmed data #######
 
 def get_trimmed(wildcards):
-    return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq", **wildcards) ,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq" , **wildcards)}
+    return { 'r1': expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq", **wildcards) ,'r2' : expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq" , **wildcards)}
 ####### get merged data #######
 
 def get_merged_data(wildcards):
-	return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq", **wildcards) 
-	,'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq" , **wildcards)}
+	return { 'r1': expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq", **wildcards) 
+	,'r2' : expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq" , **wildcards)}
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
-	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam",**wildcards)
+	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam",**wildcards)
 
 ####### step status  #######
 def is_activated(config_element):
@@ -120,13 +120,13 @@ def get_merged():
 #### returns CX report for treatment + control #### 
 
 def get_CX_reports(wildcards):
-	return expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
+	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 	
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
 def get_sub(wildcards):
-        return { 'r1': expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,
-		'r2' : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
+        return { 'r1': expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq", **wildcards) ,
+		'r2' : expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq" , **wildcards)}
 
 
 # identify control groups to perform pairwise comparisons with

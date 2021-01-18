@@ -2,6 +2,7 @@ samples: ".test/config/samples.tsv"
 units: ".test/config/units.tsv"
 general:
   benchmark: 1
+  outdir: ""
   genome_preparation:
     threads: 2
     extra: ""

@@ -2,8 +2,8 @@ rule entrypoint:
 	input:
 		unpack(get_fastqs)
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq")
+		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq"),
+		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq")
 	threads:
 		1
 	run:
@@ -18,11 +18,11 @@ rule entrypoint:
 
 rule merge_lanes_pe:
 	input:
-		r1= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq",lane=get_lanes(wildcards),**wildcards),
-		r2= lambda wildcards : expand("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq",lane=get_lanes(wildcards),**wildcards)
+		r1= lambda wildcards : expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq",lane=get_lanes(wildcards),**wildcards),
+		r2= lambda wildcards : expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq",lane=get_lanes(wildcards),**wildcards)
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq")
+		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq"),
+		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq")
 	threads:
 		1
 	shell:
@@ -32,11 +32,11 @@ rule merge_lanes_pe:
 
 rule subsampling:
 	input:
-		r1="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq",
-		r2="results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq"
+		r1=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq",
+		r2=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq"
 	output:
-		r1=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq"),
-		r2=temp("results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq")
+		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq"),
+		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq")
 	conda:
 		"../envs/seqtk.yaml"
 	params:

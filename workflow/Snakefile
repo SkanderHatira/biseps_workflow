@@ -31,7 +31,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/multiqc_report.html"
+						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/multiqc_report.html"
 					]
 					,
 					unit=get_merged(),
@@ -42,7 +42,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-bismark_report.html"
+						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-bismark_report.html"
 					]
 					,
 					unit=get_unit(),
@@ -54,7 +54,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
+					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
 				] ,
 				unit=get_merged(),
 			)
@@ -66,7 +66,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
+					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
 				] ,
 				control=get_control(),
 				treatment=get_treatment()
@@ -76,7 +76,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}_low_resolution_profiles.pdf",
+					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}_low_resolution_profiles.pdf",
 				] ,
 				control=get_control(),
 				treatment=get_treatment()

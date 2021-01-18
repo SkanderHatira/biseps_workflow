@@ -1,9 +1,10 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 general:
+  outdir: ""
   benchmark: 1
   genome_preparation:
-    threads: 2
+    threads: 6
     extra: ""
     aligner: bowtie2
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
@@ -29,9 +30,9 @@ steps:
 
 resources:
   ref:
-    genome: "resources/genome/190502MalusdomesticaV4chrchrs.fa"
+    genome: "/scratch/shatira/genome/190502MalusdomesticaV4chrchrs.fa"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
-  adapters: ".test/resources/adapters"
+  adapters: "/scratch/shatira/resources/adapters"
 
 Rossa:
   params:
