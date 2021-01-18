@@ -2,26 +2,30 @@ samples: "config/samples.tsv"
 units: "config/units.tsv"
 general:
   benchmark: 1
+  genome_preparation:
+    threads: 2
+    extra: ""
+    aligner: bowtie2
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
     subsample:
-      activate: 'False'
+      activated: 'False'
   # whether to preprocess raw data or not
     trimming:
-      activate: 'True'
+      activated: 'True'
   # whether to generate quality reports or not
     quality:
-      activate: 'True'
+      activated: 'True'
   # whether to perform bisulfite conversion on genome and index it (preparation)
     genome_preparation:
-      activate: 'True'
+      activated: 'True'
   # whether to perform methylation extraction
     methylation_extraction_bismark:
-      activate: 'True'
+      activated: 'True'
   # whether to perform differential methylation calling
     methylation_calling:
-      activate: 'True'
+      activated: 'True'
 
 resources:
   ref:
@@ -43,7 +47,7 @@ Rossa:
     bismark:
       aligner: bowtie2 #bowtie2/hisat2
       aligner_options: ""
-      instances: 4
+      instances: 8
       score_min: L,0,-0.6
       N: 1
       L: 32
