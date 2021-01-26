@@ -1,10 +1,10 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 general:
-  outdir: ""
+  outdir: "/scratch/shatira/batch/"
   benchmark: 1
   genome_preparation:
-    threads: 6
+    threads: 12
     extra: ""
     aligner: bowtie2
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
@@ -38,7 +38,7 @@ Rossa:
   params:
     trimmomatic-pe:
       trimmer: "ILLUMINACLIP"
-      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
       threads: 32
       extra: ""
     seqtk:
@@ -48,10 +48,10 @@ Rossa:
     bismark:
       aligner: bowtie2 #bowtie2/hisat2
       aligner_options: ""
-      instances: 8
-      score_min: L,0,-0.6
-      N: 1
-      L: 32
+      instances: 8 
+      score_min: L,0,-0.8
+      N: 0
+      L: 20
       extra: ""
       bool_flags: 
         nucleotide_coverage: "True"

@@ -9,7 +9,7 @@ rule trimmomatic_pe:
 	conda:
 		"../envs/trimmomatic.yaml"
 	log:
-		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log"
+		temp(outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log")
 	params:
 		# list of trimmers (see manual)
 		trimmer= lambda wildcards : config[wildcards.sample]["params"]["trimmomatic-pe"]["trimmer"],

@@ -37,7 +37,7 @@ v1:
   params:
     trimmomatic-pe:
       trimmer: "ILLUMINACLIP"
-      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
       threads: 4
       extra: ""
     seqtk:
@@ -48,9 +48,9 @@ v1:
       aligner: bowtie2 #bowtie2/hisat2
       aligner_options: ""
       instances: 4
-      score_min: L,0,-0.8
-      N: 1
-      L: 32
+      score_min: L,0,-0.6
+      N: 0
+      L: 20
       extra: ""
       bool_flags: 
         nucleotide_coverage: "True"
@@ -60,7 +60,7 @@ v1:
       extra: "" # see deduplicate_bismark documentation
     methylation_extraction:
       bool_flags:
-        bedGraph: "True"
+        bedGraph: "True" #one of these must be available for CX report to be valid bed or cytosine report...
         CX:  "True"
         cytosine_report:  "True"
         comprehensive:  "True"
@@ -74,7 +74,7 @@ v3:
   params:
     trimmomatic-pe:
       trimmer: "ILLUMINACLIP"
-      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
       threads: 4
       extra: ""
     seqtk:
@@ -85,9 +85,9 @@ v3:
       aligner: bowtie2 #bowtie2/hisat2
       aligner_options: ""
       instances: 4
-      score_min: L,0,-0.8
-      N: 1
-      L: 32
+      score_min: L,0,-0.6
+      N: 0
+      L: 20
       extra: ""
       bool_flags: 
         nucleotide_coverage: "True"
