@@ -1,0 +1,7 @@
+sample	lane	techrep	biorep	fq1	fq2
+Rossa	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
+Rossa	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
+Rossa	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
+Gala	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L3_APPncfMAAACAAA-50_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L3_APPncfMAAACAAA-50_2.fq.gz
+Gala	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L4_APPncfMAAACAAA-50_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L4_APPncfMAAACAAA-50_2.fq.gz
+Gala	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L5_APPncfMAAACAAA-50_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/3-1/FCHMJLJCCXY_L5_APPncfMAAACAAA-50_2.fq.gz
