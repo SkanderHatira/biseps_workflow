@@ -50,8 +50,8 @@ Rossa:
       aligner_options: ""
       instances: 8 
       score_min: L,0,-0.7
-      N: 0
-      L: 20
+      N: 1
+      L: 32
       extra: ""
       bool_flags: 
         nucleotide_coverage: "True"
