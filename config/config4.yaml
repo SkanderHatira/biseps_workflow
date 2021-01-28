@@ -1,7 +1,7 @@
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 general:
-  outdir: "/scratch/shatira/batch/"
+  outdir: "/scratch/shatira/batch4/"
   benchmark: 1
   genome_preparation:
     threads: 12
