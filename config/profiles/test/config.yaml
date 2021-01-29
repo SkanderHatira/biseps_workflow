@@ -1,0 +1,6 @@
+configfile: .test/config/config.yaml
+# default-resources: [cpus=4, mem_mb=2000, time_min=60]
+use-conda: true
+dry-run: true
+keep-going: true
+cores: all
