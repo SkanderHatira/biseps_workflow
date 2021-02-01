@@ -19,10 +19,11 @@ rule trimmomatic_pe:
 		extra="",
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
-	threads:
-		lambda wildcards : config[wildcards.sample]['params']['trimmomatic-pe']['threads']
+	resources:
+		cpus=lambda wildcards : config[wildcards.sample]['params']['trimmomatic-pe']['threads'],
+		time_min=1440
 	shell:
-		"trimmomatic PE -phred33 -threads {threads} -trimlog {log}"
+		"trimmomatic PE -phred33 -threads {resources.cpus} -trimlog {log}"
 		" {input} "
 		" {output} "
 		" {params.trimmer}:{params.adapters}:{params.trimmeropts} {params.extra} 2> {log}"

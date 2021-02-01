@@ -9,7 +9,5 @@ rule plots_dmrcaller:
 		"../envs/dmrcaller.yaml"
 	log:
 		outdir+"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_plots_dmrcaller.log"
-	threads:
-		1
 	script:
 		"../scripts/plots.R"

@@ -8,8 +8,9 @@ rule read_report:
 		"../envs/dmrcaller.yaml"
 	log:
 		outdir+"logs/methylation_calling/{sample}-{techrep}.log"
-	threads:
-		1
+	resources:
+		mem_mb= int(genomeSize*11),
+		time_min=1440
 	script:
 		"../scripts/read_report.R"
 
@@ -26,7 +27,8 @@ rule pairwise_reports:
 		"../envs/dmrcaller.yaml"
 	log:
 		outdir+"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}.log"
-	threads:
-		2
+	resources:
+		mem_mb= int(genomeSize*11),
+		time_min=1440
 	script:
 		"../scripts/pairwise_reports.R"

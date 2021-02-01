@@ -19,7 +19,9 @@ rule methylation_extraction_bismark:
 		# flags
 		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['methylation_extraction']['bool_flags']),
 		extra= lambda wildcards :  config[wildcards.sample]['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
-	threads:
-		lambda wildcards : 4*config[wildcards.sample]['params']['bismark']['instances']
+	resources:
+		cpus=lambda wildcards : 4*config[wildcards.sample]['params']['bismark']['instances'],
+		mem_mb= int(genomeSize*11),
+		time_min=1440
 	shell:
 		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "

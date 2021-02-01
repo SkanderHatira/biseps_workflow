@@ -1,8 +1,8 @@
 jobs: 5
 cluster: "sbatch -t {resources.time_min} --mem={resources.mem_mb} -c {resources.cpus} -o logs_slurm/{rule}_{wildcards} -e logs_slurm/{rule}_{wildcards} --mail-type=BEGIN --mail-user=skander.hatira@inrae.fr"
-default-resources: [cpus=40, mem_mb=40000, time_min=1440]
+default-resources: [cpus=1, mem_mb=5000, time_min=1440]
+resources: [cpus=40, mem_mb=40000, time_min=1440]
 configfile: config/config.yaml
 use-conda: true
 keep-going: true
 dry-run: true
-cores: 4

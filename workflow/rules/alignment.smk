@@ -26,8 +26,10 @@ rule alignment_bismark_pe:
 		instances= lambda wildcards : config[wildcards.sample]['params']['bismark']['instances'],
 		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['bismark']['bool_flags']),
 		extra= lambda wildcards : config[wildcards.sample]['params']['bismark']['extra']
-	threads:
-		lambda wildcards : 5*config[wildcards.sample]['params']['bismark']['instances']
+	resources:
+		cpus=lambda wildcards : 5*config[wildcards.sample]['params']['bismark']['instances'],
+		mem_mb=30000,
+		time_min=1440
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
@@ -43,8 +45,6 @@ rule override_bismark_naming:
 		bam=temp(outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam'),
 		report=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_PE_report.txt',
 		nucl=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.nucleotide_stats.txt',
-	threads:
-		1
 	shell:
 		"mv {input.bam} {output.bam}; "
 		"mv {input.report} {output.report}; "
@@ -60,10 +60,8 @@ rule convert:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.log"
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.tsv",benchmark)
-	threads:
-		1
 	shell:
-		"samtools view -h -@ {threads} -o {output} {input}  2> {log}"
+		"samtools view -h -@ {resources.cpus} -o {output} {input}  2> {log}"
 
 rule deduplicate:
 	input:
@@ -81,7 +79,5 @@ rule deduplicate:
 		extra= lambda wildcards : config[wildcards.sample]['params']['deduplicate']['extra'] 
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.tsv",benchmark)
-	threads:
-		1
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"

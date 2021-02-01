@@ -4,8 +4,6 @@ rule entrypoint:
 	output:
 		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-1.fq"),
 		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/.tmp/{sample}-L_{lane}-2.fq")
-	threads:
-		1
 	run:
 		if os.path.splitext(input.r1)[1] == '.gz':
 			shell("gunzip -c {input.r1} > {output.r1}; ")
@@ -23,8 +21,6 @@ rule merge_lanes_pe:
 	output:
 		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-1.fq"),
 		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/merged/{sample}-2.fq")
-	threads:
-		1
 	shell:
 		"cat {input.r1} > {output.r1};"
 		"cat {input.r2} > {output.r2}"
@@ -45,8 +41,6 @@ rule subsampling:
 		size= lambda wildcards : config[wildcards.sample]["params"]["seqtk"]["size"],
 		# optional parameters
 		extra="",
-	threads:
-		1
 	shell:
 		"seqtk sample -s {params.seed} {input.r1} {params.size} > {output.r1} ; "
 		"seqtk sample -s {params.seed} {input.r2} {params.size} > {output.r2}   "

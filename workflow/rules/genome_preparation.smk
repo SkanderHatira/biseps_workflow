@@ -13,8 +13,10 @@ rule genome_preparation:
 		extra= config["general"]["genome_preparation"]["extra"]
 	benchmark:
 		repeat(outdir+"benchmarks/common/genome_preparation.tsv",benchmark)
-	threads:
-		config['general']['genome_preparation']['threads']
+	resources:
+		cpus=config['general']['genome_preparation']['threads'],
+		mem_mb=30000,
+		time_min=1440
 	shell:
-		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {threads} --genomic_composition {params.extra} 2> {log} "
+		"bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {resources.cpus} --genomic_composition {params.extra} 2> {log} "
 

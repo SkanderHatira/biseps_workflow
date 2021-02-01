@@ -10,8 +10,6 @@ rule fastqc:
 	params:
 		# optional parameters
 		extra=  lambda wildcards : config[wildcards.sample]['params']['fastqc']['extra'],
-	threads:
-		1
 	shell:
 		"mkdir -p {output} ; "
 		"fastqc {input} -o {output} {params.extra} 2> {log}"
@@ -32,8 +30,6 @@ rule multiqc:
 		methdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		# optional parameters
 		extra=lambda wildcards : config[wildcards.sample]['params']['multiqc']['extra'],
-	threads:
-		1
 	shell:
 		"multiqc {input.fqc} {params.aligndir} {params.methdir} -n {output.file} 2> {log}"
 
@@ -57,8 +53,6 @@ rule bismark_html_report:
 		filename="{sample}-bismark_report.html",
 		# optional parameters
 		extra="",
-	threads:
-		1
 	shell:
 		"bismark2report --alignment_report {input.align} "
 		"--dedup_report {input.dedup} "

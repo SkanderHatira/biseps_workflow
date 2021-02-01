@@ -32,7 +32,7 @@ wildcard_constraints:
 benchmark = config['general']['benchmark']
 
 ####### helpers ###########
-
+genomeSize= os.path.getsize(config['resources']['ref']['genome'])/(1024*1024)
 def is_single_end(sample,lane,techrep,biorep):
 	"""Determine whether unit is single-end."""
 	fq2_present = pd.isnull(units.loc[(sample,lane,techrep,biorep), "fq2"])
