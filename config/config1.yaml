@@ -34,7 +34,44 @@ resources:
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
   adapters: "/scratch/shatira/resources/adapters"
 
-Rossa:
+Rossa_1:
+  params:
+    trimmomatic-pe:
+      trimmer: "ILLUMINACLIP"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
+      threads: 32
+      extra: ""
+    seqtk:
+      seed: 100
+      size: 10000
+      extra: ""
+    bismark:
+      aligner: bowtie2 #bowtie2/hisat2
+      aligner_options: ""
+      instances: 8 
+      score_min: L,0,-0.6
+      N: 0
+      L: 20
+      extra: ""
+      bool_flags: 
+        nucleotide_coverage: "True"
+        no_dovetail: "False"
+        non_directional: "False"
+    deduplicate:
+      extra: "" # see deduplicate_bismark documentation
+    methylation_extraction:
+      bool_flags:
+        bedGraph: "True"
+        CX:  "True"
+        cytosine_report:  "True"
+        comprehensive:  "True"
+        split_by_chromosome: "False"
+      extra: ""
+    fastqc:
+      extra : ""
+    multiqc:
+      extra : ""
+Rossa_2:
   params:
     trimmomatic-pe:
       trimmer: "ILLUMINACLIP"
@@ -52,6 +89,80 @@ Rossa:
       score_min: L,0,-0.8
       N: 0
       L: 20
+      extra: ""
+      bool_flags: 
+        nucleotide_coverage: "True"
+        no_dovetail: "False"
+        non_directional: "False"
+    deduplicate:
+      extra: "" # see deduplicate_bismark documentation
+    methylation_extraction:
+      bool_flags:
+        bedGraph: "True"
+        CX:  "True"
+        cytosine_report:  "True"
+        comprehensive:  "True"
+        split_by_chromosome: "False"
+      extra: ""
+    fastqc:
+      extra : ""
+    multiqc:
+      extra : ""
+Rossa_3:
+  params:
+    trimmomatic-pe:
+      trimmer: "ILLUMINACLIP"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
+      threads: 32
+      extra: ""
+    seqtk:
+      seed: 100
+      size: 10000
+      extra: ""
+    bismark:
+      aligner: bowtie2 #bowtie2/hisat2
+      aligner_options: ""
+      instances: 8 
+      score_min: L,0,-0.6
+      N: 1
+      L: 20
+      extra: ""
+      bool_flags: 
+        nucleotide_coverage: "True"
+        no_dovetail: "False"
+        non_directional: "False"
+    deduplicate:
+      extra: "" # see deduplicate_bismark documentation
+    methylation_extraction:
+      bool_flags:
+        bedGraph: "True"
+        CX:  "True"
+        cytosine_report:  "True"
+        comprehensive:  "True"
+        split_by_chromosome: "False"
+      extra: ""
+    fastqc:
+      extra : ""
+    multiqc:
+      extra : ""
+Rossa_4:
+  params:
+    trimmomatic-pe:
+      trimmer: "ILLUMINACLIP"
+      trimmer-options: "2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:100"
+      threads: 32
+      extra: ""
+    seqtk:
+      seed: 100
+      size: 10000
+      extra: ""
+    bismark:
+      aligner: bowtie2 #bowtie2/hisat2
+      aligner_options: ""
+      instances: 8 
+      score_min: L,0,-0.6
+      N: 1
+      L: 
       extra: ""
       bool_flags: 
         nucleotide_coverage: "True"

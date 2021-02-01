@@ -1,4 +1,13 @@
 sample	lane	techrep	biorep	fq1	fq2
-Rossa	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
-Rossa	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
-Rossa	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
+Rossa_1	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
+Rossa_1	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
+Rossa_1	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
+Rossa_2	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
+Rossa_2	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
+Rossa_2	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
+Rossa_3	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
+Rossa_3	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
+Rossa_3	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
+Rossa_4	3	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L3_APPncfMAAABAAA-48_2.fq.gz
+Rossa_4	4	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L4_APPncfMAAABAAA-48_2.fq.gz
+Rossa_4	5	1	1	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_1.fq.gz	/home/genouest/inra_umr1345/shatira/WGBS2018/2-1/FCHMJLJCCXY_L5_APPncfMAAABAAA-48_2.fq.gz
