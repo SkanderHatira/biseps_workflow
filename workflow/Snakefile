@@ -61,27 +61,27 @@ def all_input(wildcards):
 		)
 
 
-	# Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
-	if is_activated(config["steps"]["methylation_calling"]):	
-		wanted_input.extend(
-			expand(
-				[
-					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
-				] ,
-				control=get_control(),
-				treatment=get_treatment()
-			)
-		)
-	if is_activated(config["steps"]["methylation_calling"]):	
-		wanted_input.extend(
-			expand(
-				[
-					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}_low_resolution_profiles.pdf",
-				] ,
-				control=get_control(),
-				treatment=get_treatment()
-			)
-		)
+	# # Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
+	# if is_activated(config["steps"]["methylation_calling"]):	
+	# 	wanted_input.extend(
+	# 		expand(
+	# 			[
+	# 				outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
+	# 			] ,
+	# 			control=get_control(),
+	# 			treatment=get_treatment()
+	# 		)
+	# 	)
+	# if is_activated(config["steps"]["methylation_calling"]):	
+	# 	wanted_input.extend(
+	# 		expand(
+	# 			[
+	# 				outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}_low_resolution_profiles.pdf",
+	# 			] ,
+	# 			control=get_control(),
+	# 			treatment=get_treatment()
+	# 		)
+	# 	)
 		
 	return wanted_input
 rule all:

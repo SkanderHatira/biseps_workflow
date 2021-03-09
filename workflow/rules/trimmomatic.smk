@@ -12,15 +12,15 @@ rule trimmomatic_pe:
 		temp(outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log")
 	params:
 		# list of trimmers (see manual)
-		trimmer= lambda wildcards : config[wildcards.sample]["params"]["trimmomatic-pe"]["trimmer"],
-		trimmeropts= lambda wildcards : config[wildcards.sample]["params"]["trimmomatic-pe"]["trimmer-options"],
+		trimmer= lambda wildcards : config["params"]["trimmomatic-pe"]["trimmer"],
+		trimmeropts= lambda wildcards : config["params"]["trimmomatic-pe"]["trimmer-options"],
 		adapters=config["resources"]["adapters"],
 		# optional parameters
 		extra="",
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
 	resources:
-		cpus=lambda wildcards : config[wildcards.sample]['params']['trimmomatic-pe']['threads'],
+		cpus=lambda wildcards : config['params']['trimmomatic-pe']['threads'],
 		time_min=1440
 	shell:
 		"trimmomatic PE -phred33 -threads {resources.cpus} -trimlog {log}"

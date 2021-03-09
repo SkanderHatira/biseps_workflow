@@ -9,8 +9,6 @@ properties:
     type: string
   lanes:
     type: string
-    
-required:
-  - samples
-  - units
 
+required:
+  - units

@@ -8,9 +8,9 @@ import os
 # configfile: "config/config.yaml"
 validate(config, schema="../schemas/config.schema.yaml")
 
-samples = pd.read_csv(config["samples"], sep="\t").set_index("sample", drop=False)
-samples.index.names = ["sample_id"]
-validate(samples, schema="../schemas/samples.schema.yaml")
+# samples = pd.read_csv(config["samples"], sep="\t").set_index("sample", drop=False)
+# samples.index.names = ["sample_id"]
+# validate(samples, schema="../schemas/samples.schema.yaml")
 
 units = pd.read_csv(
 	config["units"], dtype=str, sep="\t").set_index(["sample","lane","techrep","biorep"], drop=False)
@@ -23,7 +23,7 @@ outdir = config['general']['outdir']
 ##### wildcard constraints #####
 
 wildcard_constraints:
-	sample="|".join(samples.index),
+	# sample="|".join(samples.index),
 	lane="|".join(units["lane"]),
 	techrep="|".join(units["techrep"]),
 	biorep="|".join(units["biorep"])

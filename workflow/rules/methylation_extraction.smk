@@ -15,12 +15,12 @@ rule methylation_extraction_bismark:
 		genome=get_abs(config['resources']['ref']['genome']),
 		# optional parameters
 		out_dir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
-		instances= lambda wildcards : config[wildcards.sample]['params']['bismark']['instances'],
+		instances= lambda wildcards : config['params']['bismark']['instances'],
 		# flags
-		flags= lambda wildcards : unpack_boolean_flags(config[wildcards.sample]['params']['methylation_extraction']['bool_flags']),
-		extra= lambda wildcards :  config[wildcards.sample]['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
+		flags= lambda wildcards : unpack_boolean_flags(config['params']['methylation_extraction']['bool_flags']),
+		extra= lambda wildcards :  config['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
 	resources:
-		cpus=lambda wildcards : 4*config[wildcards.sample]['params']['bismark']['instances'],
+		cpus=lambda wildcards : 4*config['params']['bismark']['instances'],
 		mem_mb= int(genomeSize*11),
 		time_min=1440
 	shell:

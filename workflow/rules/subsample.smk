@@ -37,8 +37,8 @@ rule subsampling:
 		"../envs/seqtk.yaml"
 	params:
 		# Random seed
-		seed= lambda wildcards : config[wildcards.sample]["params"]["seqtk"]["seed"],
-		size= lambda wildcards : config[wildcards.sample]["params"]["seqtk"]["size"],
+		seed= lambda wildcards : config["params"]["seqtk"]["seed"],
+		size= lambda wildcards : config["params"]["seqtk"]["size"],
 		# optional parameters
 		extra="",
 	shell:

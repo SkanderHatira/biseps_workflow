@@ -9,7 +9,7 @@ rule fastqc:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/fastqc.log"
 	params:
 		# optional parameters
-		extra=  lambda wildcards : config[wildcards.sample]['params']['fastqc']['extra'],
+		extra=  lambda wildcards : config['params']['fastqc']['extra'],
 	shell:
 		"mkdir -p {output} ; "
 		"fastqc {input} -o {output} {params.extra} 2> {log}"
@@ -29,7 +29,7 @@ rule multiqc:
 		aligndir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/",
 		methdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
 		# optional parameters
-		extra=lambda wildcards : config[wildcards.sample]['params']['multiqc']['extra'],
+		extra=lambda wildcards : config['params']['multiqc']['extra'],
 	shell:
 		"multiqc {input.fqc} {params.aligndir} {params.methdir} -n {output.file} 2> {log}"
 
