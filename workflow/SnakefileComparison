@@ -1,0 +1,37 @@
+from snakemake.utils import validate
+import pandas as pd
+import os
+include: "rules/methylation_calling.smk"
+
+def all_input(wildcards):
+	"""
+	Function defining all requested inputs for the rule all (below).
+	"""
+
+	wanted_input = []
+	
+		wanted_input.extend(
+			expand(
+				
+				[
+					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
+				] ,
+				control=get_control(),
+				treatment=get_treatment()
+			)
+		)
+		wanted_input.extend(
+			expand(
+				[
+					outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}_low_resolution_profiles.pdf",
+				] ,
+				control=get_control(),
+				treatment=get_treatment()
+			)
+		)
+		
+	return wanted_input
+
+
+rule all:
+	input: all_input

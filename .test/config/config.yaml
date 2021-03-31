@@ -14,7 +14,7 @@ steps:
     activated: "False"
   # whether to preprocess raw data or not
   trimming:
-    activated: "True"
+    activated: "False"
   # whether to generate quality reports or not
   quality:
     activated: "True"
@@ -23,10 +23,10 @@ steps:
     activated: "True"
   # whether to perform methylation extraction
   methylation_extraction_bismark:
-    activated: "True"
+    activated: "False"
   # whether to perform differential methylation calling
   methylation_calling:
-    activated: "True"
+    activated: "False"
 
 resources:
   ref:
