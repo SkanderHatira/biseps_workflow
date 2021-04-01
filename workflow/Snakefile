@@ -50,28 +50,37 @@ def all_input(wildcards):
 				)
 			)
 	# Bismark methylation extraction report 
-	if is_activated(config["steps"]["methylation_extraction_bismark"]):
-		wanted_input.extend(
-			expand(
-				[
-					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
-				] ,
-				unit=get_merged(),
-			)
-		)
-
-
-	# # Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
-	# if is_activated(config["steps"]["methylation_calling"]):	
+	# if is_activated(config["steps"]["methylation_extraction_bismark"]):
 	# 	wanted_input.extend(
 	# 		expand(
 	# 			[
-	# 				outdir+"results/methylation_calling/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}/{control.sample}-{control.techrep}_vs_{treatment.sample}-{treatment.techrep}.Rdata",
+	# 				outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.deduplicated.CX_report.txt"
 	# 			] ,
-	# 			control=get_control(),
-	# 			treatment=get_treatment()
+	# 			unit=get_merged(),
 	# 		)
 	# 	)
+
+	if is_activated(config["steps"]["quality"]):
+		wanted_input.extend(
+			expand(
+				[
+					outdir+"results/methylation_calling/{unit.sample}-TechRep_{unit.techrep}/{unit.sample}-report.rds"
+				] ,
+			unit=get_reports(),
+			)
+		)
+
+	# Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
+	# if is_activated(config["steps"]["methylation_extraction_bismark"]):
+	# 	wanted_input.extend(
+	# 		expand(
+	# 			[
+	# 				outdir+"results/methylation_calling/{unit.sample}-TechRep_{unit.techrep}/{unit.sample}-report.rds",
+	# 			] ,
+	# 		unit=get_reports(),
+	# 		)
+	# 	)
+
 	# if is_activated(config["steps"]["methylation_calling"]):	
 	# 	wanted_input.extend(
 	# 		expand(

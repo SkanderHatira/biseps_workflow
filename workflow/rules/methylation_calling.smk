@@ -2,8 +2,8 @@ rule read_report:
 	input:
 		get_CX_reports,
 	output:
-		rds=temp(outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-report.rds"),
-		conditionVector=temp(outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-{techrep}-vector.rds")
+		rds=outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-report.rds",
+		conditionVector=outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-vector.rds"
 	conda:
 		"../envs/dmrcaller.yaml"
 	log:

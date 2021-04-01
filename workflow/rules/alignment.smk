@@ -54,8 +54,7 @@ rule convert:
 		get_bam_pe
 	output:
 		sam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.sam"),
-		sort_bam=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-sorted.bam",
-		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-sorted.bam.bai"
+
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -63,15 +62,18 @@ rule convert:
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.tsv",benchmark)
 	shell:
-		"workflow/scripts/parallel_commands.sh \'samtools view -h -@ {resources.cpus} -o {output.sam} {input}\' \' samtools sort {input} -o {output.sort_bam}   \'  2> {log} ;"
-		"samtools index {output.sort_bam}"
+		"samtools view -h -@ {resources.cpus} -o {output.sam} {input}  2> {log} ;"
+	
 
 rule deduplicate:
 	input:
 		rules.convert.output[0]
 	output:
-		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.sam",
-		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplication_report.txt"
+		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.sam",
+		dedupReport=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplication_report.txt",
+		sort_bam=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.bam",
+		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.bam.bai"
+
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -84,3 +86,6 @@ rule deduplicate:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.tsv",benchmark)
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"
+		"samtools sort {output.dedup} -o {output.sort_bam} ;"
+		"samtools index {output.sort_bam}"
+

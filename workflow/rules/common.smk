@@ -144,3 +144,5 @@ def get_treatment():
 # necessary for bismark extraction rule
 def get_abs(relative_path):
 	return os.path.dirname(os.path.abspath(relative_path))
+def get_reports():
+	return list(set(units[["sample","techrep"]].itertuples(index=False)))

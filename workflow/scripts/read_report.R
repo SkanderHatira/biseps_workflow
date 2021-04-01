@@ -5,6 +5,7 @@ library(DMRcaller)
 source( file.path(snakemake@scriptdir, 'common.R') ) # source from scripts directory
 ### create files vector
 files = c(snakemake@input)
+files
 ### join biological replicates
 sample = lapply(files,aggregate)
 ### create conditions vector
