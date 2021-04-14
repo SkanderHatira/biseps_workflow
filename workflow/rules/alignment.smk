@@ -29,7 +29,7 @@ rule alignment_bismark_pe:
 	resources:
 		cpus=lambda wildcards : 5*config['params']['bismark']['instances'],
 		mem_mb=30000,
-		time_min=1440
+		time_min=5440
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.tsv",benchmark)
 	shell:
@@ -77,7 +77,7 @@ rule deduplicate:
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.log"
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.log"
 	params:
 		basename="{sample}",
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",

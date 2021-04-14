@@ -22,6 +22,6 @@ rule methylation_extraction_bismark:
 	resources:
 		cpus=lambda wildcards : 4*config['params']['bismark']['instances'],
 		mem_mb= int(genomeSize*11),
-		time_min=1440
+		time_min=5440
 	shell:
 		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "

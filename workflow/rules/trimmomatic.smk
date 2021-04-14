@@ -21,7 +21,7 @@ rule trimmomatic_pe:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.tsv",benchmark)
 	resources:
 		cpus=lambda wildcards : config['params']['trimmomatic-pe']['threads'],
-		time_min=1440
+		time_min=5440
 	shell:
 		"trimmomatic PE -phred33 -threads {resources.cpus} -trimlog {log}"
 		" {input} "
