@@ -1,6 +1,7 @@
 from snakemake.utils import validate
 import pandas as pd
 import os
+container: "docker://continuumio/miniconda3:4.4.10"
 
 
 ##### load config and sample sheets #####
