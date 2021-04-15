@@ -8,8 +8,5 @@ rule read_report:
 		"../envs/dmrcaller.yaml"
 	log:
 		outdir+"logs/methylation_calling/{sample}-{techrep}.log"
-	resources:
-		mem_mb= int(genomeSize*11),
-		time_min=1440
 	script:
 		"../scripts/read_report.R"
