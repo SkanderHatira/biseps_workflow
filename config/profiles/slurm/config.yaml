@@ -1,7 +1,8 @@
 jobs: 20
 cluster: "sbatch -t {resources.time_min} --mem={resources.mem_mb} -c {resources.cpus} -o logs_slurm/{rule}_{wildcards} -e logs_slurm/{rule}_{wildcards} --mail-type=FAIL,END --mail-user=skander.hatira@inrae.fr"
-default-resources: [cpus=2, mem_mb=10000, time_min=240]
-configfile: config/config_gddh.yaml
+default-resources: [cpus=2, mem_mb=50000, time_min=5440]
+configfile: config/config.yaml
 use-conda: true
 keep-going: true
+rerun-incomplete: true
 dry-run: false
