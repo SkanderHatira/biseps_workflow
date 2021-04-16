@@ -5,11 +5,9 @@ rule trimmomatic_pe:
 		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.fq"),
 		r1_unpaired=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-1.unpaired.fq"),
 		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq"),
-		r2_unpaired=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.unpaired.fq"),
+		r2_unpaired=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.unpaired.fq")
 	conda:
 		"../envs/trimmomatic.yaml"
-	log:
-		temp(outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-trimmomatic.log")
 	params:
 		# list of trimmers (see manual)
 		trimmer= lambda wildcards : config["params"]["trimmomatic-pe"]["trimmer"],
@@ -23,8 +21,8 @@ rule trimmomatic_pe:
 		cpus=lambda wildcards : config['params']['trimmomatic-pe']['threads'],
 		time_min=5440
 	shell:
-		"trimmomatic PE -phred33 -threads {resources.cpus} -trimlog {log}"
+		"trimmomatic PE -phred33 -threads {resources.cpus} "
 		" {input} "
 		" {output} "
-		" {params.trimmer}:{params.adapters}:{params.trimmeropts} {params.extra} 2> {log}"
+		" {params.trimmer}:{params.adapters}:{params.trimmeropts} {params.extra}"
 

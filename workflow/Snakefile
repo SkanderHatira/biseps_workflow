@@ -10,11 +10,11 @@ include: "rules/generate_plots.smk"
 
 # report template
 report: "report/workflow.rst"
-
 def all_input(wildcards):
 	"""
 	Function defining all requested inputs for the rule all (below).
 	"""
+	
 
 	wanted_input = []
 	# Genome_preparation
