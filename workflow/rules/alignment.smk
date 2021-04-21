@@ -42,9 +42,9 @@ rule override_bismark_naming:
 		report=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_PE_report.txt',
 		nucl=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.nucleotide_stats.txt',		
 	output:
-		bam=temp(outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam'),
-		report=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_PE_report.txt',
-		nucl=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.nucleotide_stats.txt',
+		bam=temp(outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_pe.bam'),
+		report=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_PE_report.txt',
+		nucl=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_pe.nucleotide_stats.txt',
 	shell:
 		"mv {input.bam} {output.bam}; "
 		"mv {input.report} {output.report}; "
@@ -53,8 +53,7 @@ rule convert:
 	input:
 		get_bam_pe
 	output:
-		sam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.sam"),
-
+		sam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.sam"),
 	conda:
 		"../envs/bismark.yaml"
 	log:
@@ -69,21 +68,21 @@ rule deduplicate:
 	input:
 		rules.convert.output[0]
 	output:
-		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.sam",
-		dedupReport=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplication_report.txt",
-		sort_bam=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.bam",
-		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.deduplicated.bam.bai"
+		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.sam",
+		dedupReport=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplication_report.txt",
+		sort_bam=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.bam",
+		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.bam.bai"
 
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.log"
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}.TechRep_{techrep}.BioRep_{biorep}-deduplicate.log"
 	params:
-		basename="{sample}",
+		basename="{sample}.TechRep_{techrep}.BioRep_{biorep}",
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
 		extra= lambda wildcards : config['params']['deduplicate']['extra'] 
 	benchmark:
-		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-deduplicate.tsv",benchmark)
+		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}.TechRep_{techrep}.BioRep_{biorep}-deduplicate.tsv",benchmark)
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"
 		"samtools sort {output.dedup} -o {output.sort_bam} ;"

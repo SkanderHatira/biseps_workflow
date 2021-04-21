@@ -42,7 +42,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-bismark_report.html"
+						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}.TechRep_{unit.techrep}.BioRep_{unit.biorep}-bismark_report.html"
 					]
 					,
 					unit=get_unit(),

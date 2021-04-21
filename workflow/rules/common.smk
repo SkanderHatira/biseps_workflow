@@ -95,7 +95,7 @@ def get_merged_data(wildcards):
 
 ####### get bam files #######
 def get_bam_pe(wildcards):
-	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-bismark_bt2_pe.bam",**wildcards)
+	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_pe.bam",**wildcards)
 
 ####### step status  #######
 def is_activated(config_element):
@@ -122,7 +122,7 @@ def get_merged():
 #### returns CX report for treatment + control #### 
 
 def get_CX_reports(wildcards):
-	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
+	return expand(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.CX_report.txt",biorep=get_bioreps(wildcards),**wildcards)
 	
 
 # returns subsamples of your data to run the pipeline on, ideal for making sure your configuration doesn't break the pipeline e.g not respecting input files type/ data type of parameters... 
