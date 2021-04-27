@@ -15,18 +15,19 @@ wildcard_constraints:
 	
 def get_CX_reports(wildcards):
 	u = comparisons.loc[ wildcards.id, ["control", "treatment"] ].dropna()
-	print(u)
-	return { 'control' : f"{u.control}", 'treatment' : f"{u.treatment}" }
+	print(u.control)
+	print(u.treatment)
+	return { 'control' : u.control.split(",") , 'treatment' : u.treatment.split(",") }
 print(comparisons)
 rule compute:
 	input:
-		control=["chr3test_a_thaliana_met13.CX_report"],
-		treatment=["chr3test_a_thaliana_wt.CX_report"]
+		unpack(get_CX_reports)
 	output:
 		output="results/comparisons/{id}/{id}.bed"
 	log:
 		"results/comparisons/{id}/{id}_log.out"
 	conda:
 		"../envs/dmrcaller.yaml"
+	threads: 4
 	script:
 		"../scripts/compute.R"

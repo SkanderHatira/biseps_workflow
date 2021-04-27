@@ -75,7 +75,7 @@ if( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
     minGap = 0,
     minSize = 50,
     minReadsPerCytosine = 4,
-    cores = 6)
+    cores = 8)
 DMRs
 
   #  with at least 2 bioreps in both conditions
