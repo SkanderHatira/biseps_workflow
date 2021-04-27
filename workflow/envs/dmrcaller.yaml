@@ -1,25 +1,34 @@
-name: DMRcaller
+name: dmrcaller
 channels:
+  - conda-forge
   - bioconda
   - defaults
-  - conda-forge
 dependencies:
   - _libgcc_mutex=0.1=main
   - _r-mutex=1.0.0=anacondar_1
   - binutils_impl_linux-64=2.33.1=he6710b0_7
   - binutils_linux-64=2.33.1=h9595d00_15
+  - bioconductor-biobase=2.48.0=r40h037d062_0
   - bioconductor-biocgenerics=0.34.0=r40_0
+  - bioconductor-biocparallel=1.22.0=r40h5f743cb_0
+  - bioconductor-biostrings=2.56.0=r40h037d062_0
+  - bioconductor-delayedarray=0.14.0=r40h037d062_0
   - bioconductor-dmrcaller=1.20.0=r40h5f743cb_0
   - bioconductor-genomeinfodb=1.24.0=r40_0
   - bioconductor-genomeinfodbdata=1.2.3=r40_0
+  - bioconductor-genomicalignments=1.24.0=r40h037d062_0
   - bioconductor-genomicranges=1.40.0=r40h037d062_0
   - bioconductor-iranges=2.22.1=r40h037d062_0
+  - bioconductor-rhtslib=1.20.0=r40h037d062_0
+  - bioconductor-rsamtools=2.4.0=r40h5f743cb_0
+  - bioconductor-rtracklayer=1.48.0=r40h037d062_0
   - bioconductor-s4vectors=0.26.0=r40h037d062_0
+  - bioconductor-summarizedexperiment=1.18.1=r40_0
   - bioconductor-xvector=0.28.0=r40h037d062_0
   - bioconductor-zlibbioc=1.34.0=r40h037d062_0
   - bwidget=1.9.11=1
   - bzip2=1.0.8=h7b6447c_0
-  - ca-certificates=2020.10.14=0
+  - ca-certificates=2020.12.5=ha878542_0
   - cairo=1.16.0=hcf35c78_1003
   - curl=7.69.1=hbc83047_0
   - fontconfig=2.13.1=h86ecdb6_1001
@@ -60,7 +69,8 @@ dependencies:
   - lz4-c=1.9.2=he6710b0_1
   - make=4.2.1=h1bed415_1
   - ncurses=6.2=he6710b0_1
-  - openssl=1.1.1h=h7b6447c_0
+  - openssl=1.1.1h=h516909a_0
+  - pandoc=2.12=h7f98852_0
   - pango=1.42.4=h7062337_4
   - pcre=8.44=he6710b0_0
   - pcre2=10.35=h2f06484_0
@@ -68,7 +78,9 @@ dependencies:
   - r-assertthat=0.2.1=r40h6115d3f_2
   - r-backports=1.1.10=r40hcdcec82_0
   - r-base=4.0.1=h95c6c4b_0
+  - r-base64enc=0.1_3=r40hcdcec82_1004
   - r-betareg=3.1_3=r40h6115d3f_1
+  - r-bh=1.75.0_0=r40hc72bb7e_0
   - r-bitops=1.0_6=r40hcdcec82_1004
   - r-callr=3.5.1=r40h142f84f_0
   - r-cli=2.1.0=r40h142f84f_0
@@ -84,24 +96,37 @@ dependencies:
   - r-farver=2.0.3=r40h0357c0b_1
   - r-flexmix=2.3_15=r40h6115d3f_2
   - r-foreach=1.5.0=r40h6115d3f_1
+  - r-formatr=1.9=r40hc72bb7e_0
   - r-formula=1.2_3=r40h6115d3f_1003
+  - r-futile.logger=1.4.3=r40h6115d3f_1003
+  - r-futile.options=1.0.1=r40h6115d3f_1002
+  - r-getopt=1.20.3=r40_2
   - r-ggplot2=3.3.2=r40h6115d3f_0
   - r-glue=1.4.2=r40hcdcec82_0
   - r-gtable=0.3.0=r40h6115d3f_3
+  - r-highr=0.9=r40hc72bb7e_0
+  - r-htmltools=0.5.0=r40h0357c0b_0
   - r-isoband=0.2.2=r40h0357c0b_0
   - r-iterators=1.0.12=r40h6115d3f_1
+  - r-jsonlite=1.7.1=r40hcdcec82_0
+  - r-knitr=1.31=r40hc72bb7e_0
   - r-labeling=0.3=r40h6115d3f_1003
+  - r-lambda.r=1.2.4=r40h6115d3f_1
   - r-lattice=0.20_41=r40hcdcec82_2
   - r-lifecycle=0.2.0=r40h6115d3f_1
   - r-lmtest=0.9_38=r40h9bbef5b_0
   - r-magrittr=1.5=r40h6115d3f_1003
+  - r-markdown=1.1=r40hcdcec82_1
   - r-mass=7.3_53=r40hcdcec82_0
   - r-matrix=1.2_18=r40h7fa42b6_3
+  - r-matrixstats=0.57.0=r40hcdcec82_0
   - r-mgcv=1.8_33=r40h7fa42b6_0
+  - r-mime=0.9=r40hcdcec82_1
   - r-modeltools=0.2_23=r40h6115d3f_1
   - r-munsell=0.5.0=r40h6115d3f_1003
   - r-nlme=3.1_149=r40h9bbef5b_0
   - r-nnet=7.3_14=r40hcdcec82_1
+  - r-optparse=1.6.6=r40h6115d3f_1
   - r-pillar=1.4.6=r40h6115d3f_0
   - r-pkgbuild=1.1.0=r40h6115d3f_0
   - r-pkgconfig=2.0.3=r40h6115d3f_1
@@ -116,16 +141,24 @@ dependencies:
   - r-rcpproll=0.3.0=r40h0357c0b_1002
   - r-rcurl=1.98_1.2=r40hcdcec82_1
   - r-rlang=0.4.7=r40hcdcec82_0
+  - r-rmarkdown=2.7=r40hc72bb7e_0
   - r-rprojroot=1.3_2=r40h6115d3f_1003
   - r-rstudioapi=0.11=r40h6115d3f_1
   - r-sandwich=2.5_1=r40h6115d3f_2
   - r-scales=1.1.1=r40h6115d3f_0
+  - r-snow=0.4_3=r40h6115d3f_1002
+  - r-stringi=1.4.6=r40h0e574ca_2
+  - r-stringr=1.4.0=r40h6115d3f_2
   - r-testthat=2.3.2=r40h0357c0b_1
   - r-tibble=3.0.4=r40h0eb13af_0
+  - r-tinytex=0.31=r40hc72bb7e_0
   - r-utf8=1.1.4=r40hcdcec82_1003
   - r-vctrs=0.3.4=r40hcdcec82_0
   - r-viridislite=0.3.0=r40h6115d3f_1003
   - r-withr=2.3.0=r40h6115d3f_0
+  - r-xfun=0.19=r40h9e2df91_0
+  - r-xml=3.99_0.3=r40hcdcec82_1
+  - r-yaml=2.2.1=r40hcdcec82_1
   - r-zeallot=0.1.0=r40h6115d3f_1002
   - r-zoo=1.8_8=r40hcdcec82_0
   - readline=8.0=h7b6447c_0
@@ -144,4 +177,4 @@ dependencies:
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.5=h9ceee32_0
-prefix: /home/shatira/miniconda3/envs/DMRcaller
+prefix: /home/genouest/inra_umr1345/shatira/.conda/envs/dmrcaller

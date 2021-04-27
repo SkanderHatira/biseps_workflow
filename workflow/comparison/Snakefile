@@ -1,0 +1,32 @@
+include: "../rules/computeDmrs.smk"
+
+def get_id():
+	return comparisons["id"].unique()
+
+# report template
+def all_input(wildcards):
+	"""
+	Function defining all requested inputs for the rule all (below).
+	"""
+	
+
+	wanted_input = []
+
+	wanted_input.extend(
+		expand(
+			[
+			"results/comparisons/{id}/{id}.bed"
+			] ,
+			id=get_id(),
+		)
+	)
+
+
+		
+	return wanted_input
+rule all:
+	input: all_input
+	resources:
+		cpus= 1,
+		mem_mb=2000,
+		time_min=140
