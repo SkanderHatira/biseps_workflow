@@ -1,4 +1,4 @@
-units: "config/units.tsv"
+units: "config/ch0.tsv"
 general:
   outdir: "/groups/INVITE/ch0Test/"
   benchmark: 1

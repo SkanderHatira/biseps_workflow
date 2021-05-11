@@ -24,6 +24,7 @@ if (is.null(snakemake@input[['control']])){
   print_help(opt_parser)
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 }
+contexts <- c("CG","CHG","CHH")
 ### create files vector
 controlFiles = c(unlist(strsplit(snakemake@input[['control']], split=",")))
 controlFiles
@@ -60,10 +61,11 @@ treatmentCondition = rep("treatment",length(treatmentFiles))
 if( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
   print("2 Bioreps at least")
   methylationData <- joinReplicates(joinedControl,joinedtreatment)
-  DMRs <- computeDMRsReplicates(methylationData = methylationData,
+  for (context in contexts) {
+	   DMRs <- computeDMRsReplicates(methylationData = methylationData,
     condition= c(controlCondition,treatmentCondition),
     regions = NULL,
-    context = "CG",
+    context = context,
     method = "bins",
     binSize = 1000,
     test = "betareg",
@@ -77,15 +79,20 @@ if( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
     minReadsPerCytosine = 4,
     cores = 8)
 DMRs
+df <- data.frame(DMRs)
+
+write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+  }
+ 
 
   #  with at least 2 bioreps in both conditions
   } else if ( (length(controlCondition) = 1) & (length(controlCondition) = 1 )){
   # with no bio reps in both conditions
     print("no Bioreps ")
-
+ for (context in contexts) {
   DMRs <- computeDMRs(joinedControl,
 joinedtreatment,
-context = "CG",
+context = context,
 method = "neighbourhood",
 test = "score",
 pValueThreshold = 0.01,
@@ -98,9 +105,11 @@ cores = 6)
 
 DMRs
 
+df <- data.frame(DMRs)
+
+write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+ }
 } else {print("There's something wrong with your input Data")}
 
 
-df <- data.frame(DMRs)
 
-write.table(df, file=snakemake@output[['output']], quote=F, sep="\t", row.names=F, col.names=F)
