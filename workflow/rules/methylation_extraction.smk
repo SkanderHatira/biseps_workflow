@@ -25,3 +25,16 @@ rule methylation_extraction_bismark:
 		time_min=5440
 	shell:
 		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "
+rule cgmap:
+	input:
+		rules.methylation_extraction_bismark.output[0]
+	output:
+		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.CX_report.txt.CGmap.gz",
+	conda:
+		"../envs/methget.yaml"
+	log:
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}.TechRep_{techrep}.BioRep_{biorep}-methgetCGmap.log"
+	shell:
+		"python workflow/scripts/methcalls2cgmap.py -n {input} -f bismark"
+				
+		

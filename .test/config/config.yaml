@@ -11,7 +11,7 @@ general:
 steps:
   # minimal vs full run
   subsample:
-    activated: "False"
+    activated: "True"
   # whether to preprocess raw data or not
   trimming:
     activated: "False"
