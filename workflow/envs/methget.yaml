@@ -6,8 +6,9 @@ channels:
   - conda-forge
 dependencies:
   - _libgcc_mutex=0.1=main
-  - ca-certificates=2020.10.14=0
-  - certifi=2020.6.20=pyhd3eb1b0_3
+  - argparse=1.4.0=py27_0
+  - ca-certificates=2020.12.5=ha878542_0
+  - certifi=2016.9.26=py27_0
   - libblas=3.8.0=17_openblas
   - libcblas=3.8.0=17_openblas
   - libffi=3.3=he6710b0_2

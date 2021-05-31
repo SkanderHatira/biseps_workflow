@@ -49,6 +49,7 @@ rule override_bismark_naming:
 		"mv {input.bam} {output.bam}; "
 		"mv {input.report} {output.report}; "
 		"mv {input.nucl} {output.nucl}; "
+		
 rule convert:
 	input:
 		get_bam_pe
@@ -60,6 +61,8 @@ rule convert:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.log"
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.tsv",benchmark)
+	resources:
+		cpus=2,
 	shell:
 		"samtools view -h -@ {resources.cpus} -o {output.sam} {input}  2> {log} ;"
 	

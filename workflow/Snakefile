@@ -63,15 +63,15 @@ def all_input(wildcards):
 			)
 		)
 
-	if is_activated(config["steps"]["quality"]):
-		wanted_input.extend(
-			expand(
-				[
-					outdir+"results/methylation_calling/{unit.sample}-TechRep_{unit.techrep}/{unit.sample}-report.rds"
-				] ,
-			unit=get_reports(),
-			)
-		)
+	# if is_activated(config["steps"]["quality"]):
+	# 	wanted_input.extend(
+	# 		expand(
+	# 			[
+	# 				outdir+"results/methylation_calling/{unit.sample}-TechRep_{unit.techrep}/{unit.sample}-report.rds"
+	# 			] ,
+	# 		unit=get_reports(),
+	# 		)
+	# 	)
 
 	# Methylation calling with DMRCaller for all pairwise comparisons control(s) vs treatment(s)
 	# if is_activated(config["steps"]["methylation_extraction_bismark"]):

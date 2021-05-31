@@ -1,3 +1,6 @@
 comparisons: "config/comparisons.tsv"
 general:
   outdir: "results/comparisons/"
+resources:
+  ref:
+    genome: "/groups/INVITE/resources/gala_homoz/gala_homozygote.fasta"

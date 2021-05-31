@@ -1,6 +1,4 @@
 library(shiny)
-library(DMRcaller)
-library(ggplot2)
 source("ui.R")
 source("server.R")
 

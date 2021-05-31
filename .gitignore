@@ -20,3 +20,4 @@
 !shinyapp/**
 !docker-compose.yml
 !slurmScript.sh
+!script.sh
