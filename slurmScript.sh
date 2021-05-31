@@ -4,5 +4,5 @@
 #SBATCH --mem-per-cpu=100
 #SBATCH --output=last.txt
 
-. /local/env/envsnakemake-5.20.1.sh
-time snakemake --profile config/profiles/slurm
+. script.sh
+time snakemake --profile config/profiles/slurm -n
