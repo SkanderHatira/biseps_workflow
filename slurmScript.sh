@@ -5,4 +5,5 @@
 #SBATCH --output=last.txt
 
 . script.sh
+time snakemake --profile config/profiles/slurm --unlock
 time snakemake --profile config/profiles/slurm
