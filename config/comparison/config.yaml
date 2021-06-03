@@ -3,4 +3,4 @@ general:
   outdir: "results/comparisons/"
 resources:
   ref:
-    genome: "/groups/INVITE/resources/gala_homoz/gala_homozygote.fasta"
+    genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
