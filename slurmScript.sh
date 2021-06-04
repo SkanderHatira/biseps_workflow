@@ -5,6 +5,6 @@
 #SBATCH --output=last.txt
 script=$1
 
-$script
+source script.sh
 snakemake --profile config/profiles/slurm --unlock
 snakemake --profile config/profiles/slurm
