@@ -1,7 +1,7 @@
 
 #!/bin/bash
 profile=$1
+envname=$2
 
-source script.sh
-snakemake --profile config/profiles/local --unlock
-snakemake --profile config/profiles/local 
+conda run -n $envname snakemake --profile config/profiles/local --unlock
+conda run -n $envname snakemake --profile config/profiles/local 
