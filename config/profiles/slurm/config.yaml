@@ -4,5 +4,6 @@ default-resources: [cpus=2, mem_mb=50000, time_min=5440]
 configfile: config/config.yaml
 use-conda: true
 keep-going: true
+latency-wait: 20
 rerun-incomplete: true
 dry-run: false

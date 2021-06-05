@@ -3,4 +3,5 @@ default-resources: [cpus=1, mem_mb=2000, time_min=60]
 use-conda: true
 dry-run: false
 keep-going: true
+latency-wait: 20
 cores: all

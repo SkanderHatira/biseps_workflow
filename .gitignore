@@ -22,3 +22,5 @@
 !slurmScript.sh
 !script.sh
 !localScript.sh
+!logs_slurm
+!.gitkeep
