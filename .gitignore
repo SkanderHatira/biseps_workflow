@@ -24,3 +24,4 @@
 !localScript.sh
 !logs_slurm
 !.gitkeep
+!exec_scripts/
