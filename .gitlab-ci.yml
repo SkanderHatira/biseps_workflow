@@ -34,7 +34,7 @@ minimal-run:
     - master
   script:
     - docker pull $IMAGE_TAG
-    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda --conda-frontend conda
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda
 
 minimal-run-comparison:
   stage: minimal-run-comparison
@@ -42,4 +42,4 @@ minimal-run-comparison:
     - master
   script:
     - docker pull $IMAGE_TAG
-    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --snakefile workflow/comparison/Snakefile --configfile  .test/comparison/config.yaml --cores 6 --use-conda --conda-frontend conda
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --snakefile workflow/comparison/Snakefile --configfile  .test/comparison/config.yaml --cores 6 --use-conda
