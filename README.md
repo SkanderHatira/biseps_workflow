@@ -3,14 +3,15 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.23.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 
 This is a `snakemake` pipeline for bisulfite sequencing data, it implements:
-1. 	Adapter trimming and quality check
-2.	Quality reports and statistics (`fastqc`+ `multiqc`)
-3.	Methylation extraction with `bismark` (`bowtie2`/`hisat2` as aligners)
-4.	DMR identification with `dmrcaller` (in all contexts) : in progress
+
+1.      Adapter trimming and quality check
+2.  Quality reports and statistics (`fastqc`+ `multiqc`)
+3.  Methylation extraction with `bismark` (`bowtie2`/`hisat2` as aligners)
+4.  DMR identification with `dmrcaller` (in all contexts) : in progress
 
 ## Authors
 
-* Skander Hatira (@skanderhatira)
+-   Skander Hatira (@skanderhatira)
 
 ## Usage
 
@@ -20,7 +21,7 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 [Clone](https://help.github.com/en/articles/cloning-a-repository) the newly created repository to your local system, into the place where you want to perform the data analysis.
 
-	git clone git@forgemia.inra.fr:skander.hatira/bissprop.git
+    git clone git@forgemia.inra.fr:skander.hatira/bissprop.git
 
 ### Step 2: Configure workflow
 
@@ -56,7 +57,6 @@ or
 
     snakemake --use-conda --drmaa --jobs 100
 
-
 in combination with any of the modes above.
 See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
 
@@ -67,13 +67,13 @@ After successful execution, you can create a self-contained interactive `.html` 
     snakemake --report report.html
 
 ### Build docker image
- 
+
 A docker image of this workflow can be built from the repository by running this command:
 
     docker build -t bissprop --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg USERNAME=$USER .
 
 To run this container with your data you need to bind volumes specyfing raw data, configuration files, and necessary resources
- 
+
 ## Testing
 
 The `.test` directory contains subsampled `.fastq` files for two samples (multi-lane + biological replicates) and a `.fasta` file containing genome sequence from [NCBI](https://www.ncbi.nlm.nih.gov/nuccore/NC_041792.1?report=fasta).
@@ -86,10 +86,8 @@ To test the pipeline you have to be on a `conda` enabled machine :
 
 or a `docker` enabled machine to build and run the image with a mounted folder containing necessary data and configuration files pointing to that data:
 
-    docker run --mount type=bind,src="$(pwd)/.test",dst=/BiSSProP/.test,readonly bissprop \ 
-	
-	--cores $N --use-conda --configfile .test/config/config.yaml 
+    docker run --mount type=bind,src="$(pwd)/.test",dst=/BiSSProP/.test,readonly bissprop \
+
+    --cores $N --use-conda --configfile .test/config/config.yaml
 
 Note that your output data won't be accessible as it isn't mounted/stored in a `docker` `volume`, refer to `docker` [documentation](https://docs.docker.com/storage/volumes/) on best practices to persist data in running containers.
-
-

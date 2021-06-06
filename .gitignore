@@ -1,5 +1,7 @@
 *
 !config/**
+!*.tsv
+!*.yaml
 !resources
 !resources/*
 !workflow
@@ -12,6 +14,7 @@
 !.editorconfig
 !.dockerignore
 !.test
+!.test/comparison
 !.test/data/
 !.test/data/**
 !.test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta

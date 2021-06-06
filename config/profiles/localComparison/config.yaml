@@ -1,0 +1,9 @@
+configfile: config/config_galah.yaml
+default-resources: [cpus=1, mem_mb=5000, time_min=1440]
+snakefile: workflow/comparison/Snakefile
+
+keep-going: true
+use-conda: true
+latency-wait: 20
+cores: 8
+dry-run: false

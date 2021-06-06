@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=smkFull
+#SBATCH --job-name=snakemake
 #SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=100
+#SBATCH --mem-per-cpu=1000
 #SBATCH --output=last.txt
 
 source script.sh 
