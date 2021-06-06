@@ -4,3 +4,17 @@ general:
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
+params:
+  method: bins
+  binSize: 100
+  kernelFunction: triangular
+  test: score
+  pseudocountM: 1
+  pseudocountN: 2
+  pValueThreshold: 0.01
+  minCytosinesCount: 4
+  minProportionDifference: 0.4
+  minGap: 0
+  minSize: 50
+  minReadsPerCytosine: 4
+  cores: 1

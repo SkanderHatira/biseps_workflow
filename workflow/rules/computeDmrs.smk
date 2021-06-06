@@ -17,9 +17,23 @@ rule compute:
 		"results/comparisons/{id}/{id}_log.out"
 	conda:
 		"../envs/dmrcaller.yaml"
+	params:
+		method= config["params"]["method"],
+		binSize=  config["params"]["binSize"],
+		kernelFunction = config["params"]["kernelFunction"],
+		test=  config["params"]["test"],
+		pseudocountM=  config["params"]["pseudocountM"],
+		pseudocountN= config["params"]["pseudocountN"],
+		pValueThreshold= config["params"]["pValueThreshold"],
+		minCytosinesCount=config["params"]["minCytosinesCount"],
+		minProportionDifference=  config["params"]["minProportionDifference"],
+		minGap= config["params"]["minGap"],
+		minSize= config["params"]["minSize"],
+		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
+		cores=config["params"]["cores"]
 	resources:
-		cpus=8,
+		cpus=1,
 		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
-		time_min=1440
+		time_min=8440
 	script:
 		"../scripts/compute.R"

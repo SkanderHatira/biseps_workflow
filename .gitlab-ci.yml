@@ -5,14 +5,15 @@ stages:
   - build # Build docker image
   - dry-run # To make sure it infers rules correctly
   - minimal-run # To make sure it executes correctly with a given set of parameters
+  - minimal-run-comparison # To make sure it executes correctly with a given set of parameters
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
- 
+
 before_script:
- - mkdir -p $(pwd)/.test
- - mkdir -p $(pwd)/dock_result/
- - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - mkdir -p $(pwd)/.test
+  - mkdir -p $(pwd)/dock_result/
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
   stage: build
@@ -33,4 +34,12 @@ minimal-run:
     - master
   script:
     - docker pull $IMAGE_TAG
-    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/BiSSProP/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda 
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/BiSSProP/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda
+
+minimal-run-comparison:
+  stage: minimal-run-comparison
+  only:
+    - master
+  script:
+    - docker pull $IMAGE_TAG
+    - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/BiSSProP/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda
