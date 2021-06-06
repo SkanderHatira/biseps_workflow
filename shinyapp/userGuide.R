@@ -1,1 +1,0 @@
-userGuide <- tabPanel("User Guide")
