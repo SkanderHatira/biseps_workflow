@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=snakemake
+#SBATCH --job-name=biseps
 #SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=1000
-#SBATCH --output=last.txt
+#SBATCH --output=biseps.txt
 
-source script.sh 
+source exec_scripts/script.sh 
 snakemake --profile config/profiles/slurm --unlock
 snakemake --profile config/profiles/slurm
