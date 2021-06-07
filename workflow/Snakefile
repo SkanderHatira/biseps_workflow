@@ -43,7 +43,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}.TechRep_{unit.techrep}.BioRep_{unit.biorep}-bismark_report.html"
+						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}-bismark_report.html"
 					]
 					,
 					unit=get_unit(),
@@ -57,7 +57,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}.TechRep_{unit.techrep}.BioRep_{unit.biorep}.deduplicated.CX_report.txt.CGmap.gz"
+					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.CX_report.txt.CGmap.gz"
 				] ,
 				unit=get_merged(),
 			)

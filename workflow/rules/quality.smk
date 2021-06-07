@@ -17,7 +17,7 @@ rule fastqc:
 rule multiqc:
 	input:
 		fqc=rules.fastqc.output,
-		report=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.CX_report.txt",
+		report=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt",
 	output:
 		file=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report.html",
 		data=directory(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report_data")
@@ -35,22 +35,22 @@ rule multiqc:
 
 rule bismark_html_report:
 	input:
-		align=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_PE_report.txt",
-		nucl=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_bt2_pe.nucleotide_stats.txt",
-		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplication_report.txt",
-		split=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated_splitting_report.txt',
-		mbias=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}.TechRep_{techrep}.BioRep_{biorep}.deduplicated.M-bias.txt"
+		align=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_bt2_PE_report.txt",
+		nucl=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_bt2_pe.nucleotide_stats.txt",
+		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplication_report.txt",
+		split=outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated_splitting_report.txt',
+		mbias=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.M-bias.txt"
 	output:
-		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_report.html"
+		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_report.html"
 	conda:
 		"../envs/bismark.yaml"
 	log:
-		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_report.log"
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_report.log"
 	params:
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/",
 		aligndir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/",
 		methdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/",
-		filename="{sample}.TechRep_{techrep}.BioRep_{biorep}-bismark_report.html",
+		filename="{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_report.html",
 		# optional parameters
 		extra="",
 	shell:
