@@ -4,7 +4,7 @@
 
 This is a `snakemake` pipeline for bisulfite sequencing data, it implements:
 
-1.       Adapter trimming and quality check
+1.              Adapter trimming and quality check
 2.  Quality reports and statistics (`fastqc`+ `multiqc`)
 3.  Methylation extraction with `bismark` (`bowtie2`/`hisat2` as aligners)
 4.  DMR identification with `dmrcaller` (in all contexts) : in progress
@@ -77,17 +77,30 @@ To run this container with your data you need to bind volumes specyfing raw data
 ## Testing
 
 The `.test` directory contains subsampled `.fastq` files for two samples (multi-lane + biological replicates) and a `.fasta` file containing genome sequence from [NCBI](https://www.ncbi.nlm.nih.gov/nuccore/NC_041792.1?report=fasta).
+It also contains CX reports from [DMRcaller](https://bioconductor.org/packages/release/bioc/html/DMRcaller.html) to test the DMR Identification Pipeline
 
-You can also specify your own config.yaml and provide necessary data (`units.tsv`,`samples.tsv`).
+To test the pipeline you have to be on a `conda` available on your machine `$PATH` :
 
-To test the pipeline you have to be on a `conda` enabled machine :
+-   You can either use the preconfigured .YAML profile :
+
+    snakemake --profile config/profiles/test
+
+-   Or enter the command line arguments as such :
 
     snakemake --cores $N --use-conda --configfile .test/config/config.yaml
+
+-   You can either use the preconfigured .YAML profile :
+
+    snakemake --profile config/profiles/testComparison
+
+-   Or enter the command line arguments as such :
+
+    snakemake --cores $N --use-conda --configfile .test/comparison/config.yaml
 
 or a `docker` enabled machine to build and run the image with a mounted folder containing necessary data and configuration files pointing to that data:
 
     docker run --mount type=bind,src="$(pwd)/.test",dst=/biseps/.test,readonly biseps \
 
-    --cores $N --use-conda --configfile .test/config/config.yaml
+    --profile config/profiles/test
 
 Note that your output data won't be accessible as it isn't mounted/stored in a `docker` `volume`, refer to `docker` [documentation](https://docs.docker.com/storage/volumes/) on best practices to persist data in running containers.
