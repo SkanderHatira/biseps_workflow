@@ -1,14 +1,14 @@
-comparisons: ".test/comparison/comparisons.tsv"
+comparisons: "config/comparisons.tsv"
 general:
-  outdir: "results/comparisons/"
+  outdir: "results/comparisonsDupliqué/"
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
 params:
-  method: neighbourhood
+  method: bins
   binSize: 100
   kernelFunction: triangular
-  test: score
+  test: betareg
   pseudocountM: 1
   pseudocountN: 2
   pValueThreshold: 0.01

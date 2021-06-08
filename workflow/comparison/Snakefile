@@ -1,12 +1,13 @@
-include: "../rules/computeDmrs.smk"
 from snakemake.utils import validate
 import pandas as pd
-
+outdir = config['general']['outdir']
+include: "../rules/computeDmrs.smk"
 validate(config, schema="../schemas/comparison.config.schema.yaml")
 
 comparisons = pd.read_csv(config["comparisons"], dtype=str, sep="\t").set_index(["id",], drop=False)
 
-outdir = config['general']['outdir']
+
+
 wildcard_constraints:
 	id="|".join(comparisons["id"]),
 	
@@ -29,7 +30,7 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-			"results/comparisons/{id}/{id}-{contexts}.bed"
+			outdir+"{id}/{id}-{contexts}.bed"
 			] ,
 			id=get_id(),
 			contexts=["CG","CHG","CHH"]

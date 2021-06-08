@@ -10,11 +10,11 @@ rule compute:
 	input:
 		unpack(get_CX_reports)
 	output:
-		CG="results/comparisons/{id}/{id}-CG.bed",
-		CHG="results/comparisons/{id}/{id}-CHG.bed",
-		CHH="results/comparisons/{id}/{id}-CHH.bed",
+		CG=outdir+"{id}/{id}-CG.bed",
+		CHG=outdir+"{id}/{id}-CHG.bed",
+		CHH=outdir+"{id}/{id}-CHH.bed",
 	log:
-		"results/comparisons/{id}/{id}_log.out"
+		outdir+"{id}/{id}_log.out"
 	conda:
 		"../envs/dmrcaller.yaml"
 	params:
