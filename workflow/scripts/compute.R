@@ -30,6 +30,7 @@ controlFiles = c(unlist(strsplit(snakemake@input[['control']], split=",")))
 controlFiles
 ### join biological replicates
 control = lapply(controlFiles,aggregate)
+gc()
 ### create conditions vector
 if (length(controlFiles) > 1){
 	joinedControl = control[[1]]
@@ -37,11 +38,14 @@ if (length(controlFiles) > 1){
 }	else {
 	joinedControl = control[[1]]
 }
-
+rm(control)
+gc()
 treatmentFiles = c(unlist(strsplit(snakemake@input[['treatment']], split=",")))
 treatmentFiles
 ### join biological replicates
 treatment = lapply(treatmentFiles,aggregate)
+gc()
+
 ### create conditions vector
 if (length(treatmentFiles) > 1){
 	joinedtreatment = treatment[[1]]
@@ -49,6 +53,8 @@ if (length(treatmentFiles) > 1){
 }	else {
 	joinedtreatment = treatment[[1]]
 }
+rm(treatment)
+gc()
 # control <- readRDS(snakemake@input[['control']])
 # treatment <- readRDS(snakemake@input[['treatment']])
 # treatmentCondition = readRDS(gsub("report", "vector", snakemake@input[['control']]))
@@ -61,6 +67,9 @@ treatmentCondition = rep("treatment",length(treatmentFiles))
 if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
   print("2 Bioreps at least")
   methylationData <- joinReplicates(joinedControl,joinedtreatment)
+  rm(joinedControl)
+  rm(joinedtreatment)
+  gc()
   if ((snakemake@params[["method"]] == "bins") & (snakemake@params[["test"]] =="betareg")) {
 	  	   print("bins with reps ")
 
@@ -85,6 +94,7 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
 	df <- data.frame(DMRs)
 
 	write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+	gc()
   }
   } else if ((snakemake@params[["method"]] =="neighbourhood") & (snakemake@params[["test"]] =="betareg")) {
 	   print("neighbourhood with reps ")
@@ -109,6 +119,8 @@ DMRs
 df <- data.frame(DMRs)
 
 write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+	gc()
+
   }
   } else {   
 	   stop("with biological replicates you can either use bins or neighbourhood methods ")
@@ -140,6 +152,8 @@ cores = snakemake@params[["cores"]])
 df <- data.frame(DMRs)
 
 write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+	gc()
+
  }} else if (snakemake@params[["method"]] =="bins" ) {
 	 		    print("bins no reps ")
  
@@ -163,6 +177,8 @@ cores = snakemake@params[["cores"]])
 df <- data.frame(DMRs)
 
 write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+	gc()
+
  } } else if (snakemake@params[["method"]] =="noise_filter" ) {
  print("noise_filter no reps ")
 for (context in contexts) {
@@ -187,6 +203,8 @@ method = "noise_filter",
 df <- data.frame(DMRs)
 
 write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)}
+	gc()
+
 
 }} else {print("There's something wrong with your input Data")}
 
