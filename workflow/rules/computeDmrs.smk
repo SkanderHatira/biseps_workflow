@@ -34,6 +34,5 @@ rule compute:
 	resources:
 		cpus=1,
 		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
-		time_min=8440
 	script:
 		"../scripts/compute.R"

@@ -43,4 +43,3 @@ rule all:
 	resources:
 		cpus= 1,
 		mem_mb=2000,
-		time_min=140
