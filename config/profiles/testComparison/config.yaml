@@ -1,5 +1,5 @@
 configfile: .test/comparison/config.yaml
-default-resources: [cpus=1, mem_mb=2000, time_min=60]
+default-resources: [cpus=1, mem_mb=2000]
 use-conda: true
 snakefile: workflow/comparison/Snakefile
 dry-run: false

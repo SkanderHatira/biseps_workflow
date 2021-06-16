@@ -1,6 +1,6 @@
 jobs: 6
-cluster: "sbatch -t {resources.time_min} --mem={resources.mem_mb} -c {resources.cpus} -o logs_slurm/{rule}_{wildcards} -e logs_slurm/{rule}_{wildcards} --mail-type=FAIL,END --mail-user=skander.hatira@inrae.fr"
-default-resources: [cpus=2, mem_mb=10000, time_min=5440]
+cluster: "sbatch  --mem={resources.mem_mb} -c {resources.cpus} -o logs_slurm/{rule}_{wildcards} -e logs_slurm/{rule}_{wildcards} --mail-type=FAIL,END --mail-user=some@email.com"
+default-resources: [cpus=2, mem_mb=10000]
 configfile: config/configComparison.yaml
 snakefile: workflow/comparison/Snakefile
 use-conda: true
