@@ -18,3 +18,4 @@ params:
   minSize: 50
   minReadsPerCytosine: 4
   cores: 1
+  context: ["CG", "CHG", "CHH"]

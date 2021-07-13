@@ -5,7 +5,7 @@ include: "../rules/computeDmrs.smk"
 validate(config, schema="../schemas/comparison.config.schema.yaml")
 
 comparisons = pd.read_csv(config["comparisons"], dtype=str, sep="\t").set_index(["id",], drop=False)
-
+context = config["params"]["context"]
 
 
 wildcard_constraints:
@@ -33,7 +33,7 @@ def all_input(wildcards):
 			outdir+"{id}/{id}-{contexts}.bed"
 			] ,
 			id=get_id(),
-			contexts=["CG","CHG","CHH"]
+			contexts=context
 		)
 	)
 
