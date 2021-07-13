@@ -24,7 +24,6 @@ if (is.null(snakemake@input[['control']])){
   print_help(opt_parser)
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 }
-contexts <- c("CG","CHG","CHH")
 ### create files vector
 controlFiles = c(unlist(strsplit(snakemake@input[['control']], split=",")))
 controlFiles
@@ -53,6 +52,7 @@ if (length(treatmentFiles) > 1){
 }	else {
 	joinedtreatment = treatment[[1]]
 }
+print(snakemake@wildcards[["context"]])
 rm(treatment)
 gc()
 # control <- readRDS(snakemake@input[['control']])
@@ -73,11 +73,10 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
   if ((snakemake@params[["method"]] == "bins") & (snakemake@params[["test"]] =="betareg")) {
 	  	   print("bins with reps ")
 
-  for (context in contexts) {
    DMRs <- computeDMRsReplicates(methylationData = methylationData,
     condition= c(controlCondition,treatmentCondition),
     regions = NULL,
-    context = context,
+    context = snakemake@wildcards[["context"]],
     method = "bins",
     binSize = snakemake@params[["binSize"]],
     test = snakemake@params[["test"]],
@@ -93,17 +92,16 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
 	DMRs
 	df <- data.frame(DMRs)
 
-	write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+	write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
-  }
+
   } else if ((snakemake@params[["method"]] =="neighbourhood") & (snakemake@params[["test"]] =="betareg")) {
 	   print("neighbourhood with reps ")
 
-  for (context in contexts) {
    DMRs <- computeDMRsReplicates(methylationData = methylationData,
     condition= c(controlCondition,treatmentCondition),
     regions = NULL,
-    context = context,
+    context = snakemake@wildcards[["context"]],
     method = "neighbourhood",
     test = snakemake@params[["test"]],
     pseudocountM = snakemake@params[["pseudocountM"]],
@@ -118,10 +116,9 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
 DMRs
 df <- data.frame(DMRs)
 
-write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
-  }
   } else {   
 	   stop("with biological replicates you can either use bins or neighbourhood methods ")
 	   }
@@ -131,12 +128,12 @@ write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F
   # with no bio reps in both conditions
     print("no Bioreps ")
 	
-	if ((snakemake@params[["method"]] =="neighbourhood") ) {  for (context in contexts) {
+	if ((snakemake@params[["method"]] =="neighbourhood") ) { 
 		    print("neighbourhood no reps ")
 
   DMRs <- computeDMRs(joinedControl,
 joinedtreatment,
-context = context,
+context = snakemake@wildcards[["context"]],
 method = "neighbourhood",
 test = snakemake@params[["test"]],
 pValueThreshold = snakemake@params[["pValueThreshold"]],
@@ -151,16 +148,16 @@ cores = snakemake@params[["cores"]])
 
 df <- data.frame(DMRs)
 
-write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
- }} else if (snakemake@params[["method"]] =="bins" ) {
+ } else if (snakemake@params[["method"]] =="bins" ) {
 	 		    print("bins no reps ")
  
-	  for (context in contexts) {
+	 
   DMRs <- computeDMRs(joinedControl,
 joinedtreatment,
-context = context,
+context = snakemake@wildcards[["context"]],
 method = "bins",
 binSize = snakemake@params[["binSize"]],
 test = snakemake@params[["test"]],
@@ -176,15 +173,15 @@ cores = snakemake@params[["cores"]])
 
 df <- data.frame(DMRs)
 
-write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)
+write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
- } } else if (snakemake@params[["method"]] =="noise_filter" ) {
+  } else if (snakemake@params[["method"]] =="noise_filter" ) {
  print("noise_filter no reps ")
-for (context in contexts) {
+
   DMRs <- computeDMRs(joinedControl,
 joinedtreatment,
-context = context,
+context = snakemake@wildcards[["context"]],
 windowSize = snakemake@params[["binSize"]],
 test = snakemake@params[["test"]],
 kernelFunction = snakemake@params[["kernelFunction"]],
@@ -202,7 +199,7 @@ method = "noise_filter",
 
 df <- data.frame(DMRs)
 
-write.table(df, file=snakemake@output[[context]], quote=F, sep="\t", row.names=F, col.names=F)}
+write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
 

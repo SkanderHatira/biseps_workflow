@@ -10,11 +10,9 @@ rule compute:
 	input:
 		unpack(get_CX_reports)
 	output:
-		CG=outdir+"{id}/{id}-CG.bed",
-		CHG=outdir+"{id}/{id}-CHG.bed",
-		CHH=outdir+"{id}/{id}-CHH.bed",
+		bed=outdir+"{id}/{id}-{context}.bed",
 	log:
-		outdir+"{id}/{id}_log.out"
+		outdir+"{id}/{id}_log-{context}.out"
 	conda:
 		"../envs/dmrcaller.yaml"
 	params:
@@ -32,7 +30,7 @@ rule compute:
 		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
 		cores=config["params"]["cores"]
 	resources:
-		cpus=1,
+		cpus=10,
 		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
 	script:
 		"../scripts/compute.R"
