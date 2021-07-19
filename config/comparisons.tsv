@@ -1,2 +1,2 @@
 id	control	treatment
-WT_vs_Meth13	.test/data/chr3test_a_thaliana_met13.CX_report,.test/data/chr3test_a_thaliana_wt.CX_report	.test/data/chr3test_a_thaliana_wt.CX_report,.test/data/chr3test_a_thaliana_met13.CX_report
+WT_vs_Meth13	.test/data/chr3test_a_thaliana_met13.CX_report	.test/data/chr3test_a_thaliana_wt.CX_report

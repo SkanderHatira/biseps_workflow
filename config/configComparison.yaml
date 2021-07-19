@@ -6,9 +6,9 @@ resources:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
 params:
   method: bins
-  binSize: 100
+  binSize: 1000
   kernelFunction: triangular
-  test: betareg
+  test: fisher
   pseudocountM: 1
   pseudocountN: 2
   pValueThreshold: 0.01

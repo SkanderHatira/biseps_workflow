@@ -89,9 +89,7 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
     minSize = snakemake@params[["minSize"]],
     minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
     cores = snakemake@params[["cores"]])
-	DMRs
 	df <- data.frame(DMRs)
-
 	write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
@@ -113,7 +111,7 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
     minSize = 1,
     minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
     cores = snakemake@params[["cores"]])
-DMRs
+
 df <- data.frame(DMRs)
 
 write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
