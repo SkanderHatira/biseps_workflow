@@ -1,4 +1,4 @@
-configfile: config/config_galah.yaml
+configfile: config/config.yaml
 keep-going: true
 use-conda: true
 latency-wait: 20
