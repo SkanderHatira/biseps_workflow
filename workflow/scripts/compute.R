@@ -69,17 +69,13 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
   methylationData <- joinReplicates(joinedControl,joinedtreatment)
   rm(joinedControl)
   rm(joinedtreatment)
-  gc()
-  if ((snakemake@params[["method"]] == "bins") & (snakemake@params[["test"]] =="betareg")) {
-	  	   print("bins with reps ")
-
-   DMRs <- computeDMRsReplicates(methylationData = methylationData,
+  gc() 
+  DMRs <- computeDMRsReplicates(methylationData = methylationData,
     condition= c(controlCondition,treatmentCondition),
-    regions = NULL,
     context = snakemake@wildcards[["context"]],
-    method = "bins",
+    method = snakemake@params[["method"]],
     binSize = snakemake@params[["binSize"]],
-    test = snakemake@params[["test"]],
+    test = "betareg",
     pseudocountM = snakemake@params[["pseudocountM"]],
     pseudocountN = snakemake@params[["pseudocountN"]],
     pValueThreshold = snakemake@params[["pValueThreshold"]],
@@ -93,114 +89,30 @@ if ( (length(controlCondition) >= 2) & (length(treatmentCondition) >= 2 )) {
 	write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
 	gc()
 
-  } else if ((snakemake@params[["method"]] =="neighbourhood") & (snakemake@params[["test"]] =="betareg")) {
-	   print("neighbourhood with reps ")
-
-   DMRs <- computeDMRsReplicates(methylationData = methylationData,
-    condition= c(controlCondition,treatmentCondition),
-    regions = NULL,
-    context = snakemake@wildcards[["context"]],
-    method = "neighbourhood",
-    test = snakemake@params[["test"]],
-    pseudocountM = snakemake@params[["pseudocountM"]],
-    pseudocountN = snakemake@params[["pseudocountN"]],
-    pValueThreshold = snakemake@params[["pValueThreshold"]],
-    minCytosinesCount = snakemake@params[["minCytosinesCount"]],
-    minProportionDifference =snakemake@params[["minProportionDifference"]],
-    minGap = 10,
-    minSize = 1,
-    minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
-    cores = snakemake@params[["cores"]])
-
-df <- data.frame(DMRs)
-
-write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
-	gc()
-
-  } else {   
-	   stop("with biological replicates you can either use bins or neighbourhood methods ")
-	   }
- 
-  } else if ( (length(controlCondition) = 1) & (length(controlCondition) = 1 )){
+} else if ( (length(controlCondition) = 1) & (length(controlCondition) = 1 )){
 	  
   # with no bio reps in both conditions
     print("no Bioreps ")
 	
-	if ((snakemake@params[["method"]] =="neighbourhood") ) { 
-		    print("neighbourhood no reps ")
+	
 
   DMRs <- computeDMRs(joinedControl,
-joinedtreatment,
-context = snakemake@wildcards[["context"]],
-method = "neighbourhood",
-test = snakemake@params[["test"]],
-pValueThreshold = snakemake@params[["pValueThreshold"]],
-minCytosinesCount = snakemake@params[["minCytosinesCount"]] ,
-minProportionDifference = snakemake@params[["minProportionDifference"]],
-minGap = snakemake@params[["minGap"]],
-minSize = snakemake@params[["minSize"]],
-minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
-cores = snakemake@params[["cores"]])
-
-
-
+	joinedtreatment,
+	context = snakemake@wildcards[["context"]],
+	windowSize = snakemake@params[["binSize"]],
+	method = snakemake@params[["method"]],
+	test = snakemake@params[["test"]],
+	binSize = snakemake@params[["binSize"]],
+	pValueThreshold = snakemake@params[["pValueThreshold"]],
+	minCytosinesCount = snakemake@params[["minCytosinesCount"]] ,
+	minProportionDifference = snakemake@params[["minProportionDifference"]],
+	minGap = snakemake@params[["minGap"]],
+	minSize = snakemake@params[["minSize"]],
+	minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
+	cores = snakemake@params[["cores"]])
 df <- data.frame(DMRs)
-
 write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
-	gc()
-
- } else if (snakemake@params[["method"]] =="bins" ) {
-	 		    print("bins no reps ")
- 
-	 
-  DMRs <- computeDMRs(joinedControl,
-joinedtreatment,
-context = snakemake@wildcards[["context"]],
-method = "bins",
-binSize = snakemake@params[["binSize"]],
-test = snakemake@params[["test"]],
-pValueThreshold = snakemake@params[["pValueThreshold"]],
-minCytosinesCount = snakemake@params[["minCytosinesCount"]] ,
-minProportionDifference = snakemake@params[["minProportionDifference"]],
-minGap = snakemake@params[["minGap"]],
-minSize = snakemake@params[["minSize"]],
-minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
-cores = snakemake@params[["cores"]])
-
-
-
-df <- data.frame(DMRs)
-
-write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
-	gc()
-
-  } else if (snakemake@params[["method"]] =="noise_filter" ) {
- print("noise_filter no reps ")
-
-  DMRs <- computeDMRs(joinedControl,
-joinedtreatment,
-context = snakemake@wildcards[["context"]],
-windowSize = snakemake@params[["binSize"]],
-test = snakemake@params[["test"]],
-kernelFunction = snakemake@params[["kernelFunction"]],
-pValueThreshold = snakemake@params[["pValueThreshold"]],
-minCytosinesCount = snakemake@params[["minCytosinesCount"]] ,
-minProportionDifference = snakemake@params[["minProportionDifference"]],
-minGap = snakemake@params[["minGap"]],
-minSize = snakemake@params[["minSize"]],
-minReadsPerCytosine = snakemake@params[["minReadsPerCytosine"]],
-cores = snakemake@params[["cores"]],
-method = "noise_filter",
-)
-
-
-
-df <- data.frame(DMRs)
-
-write.table(df, file=snakemake@output[["bed"]], quote=F, sep="\t", row.names=F, col.names=F)
-	gc()
-
-
-}} else {print("There's something wrong with your input Data")}
+gc()
+} else {print("There's something wrong with your input Data")}
 
 

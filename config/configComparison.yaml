@@ -1,12 +1,12 @@
 comparisons: "config/comparisons.tsv"
 general:
-  outdir: "results/comparisonsDupliqué/"
+  outdir: "/path/to/output/directory"
 resources:
   ref:
-    genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
+    genome: "/path/to/genome"
 params:
-  method: bins
-  binSize: 1000
+  method: neighbourhood
+  binSize: 500
   kernelFunction: triangular
   test: fisher
   pseudocountM: 1
