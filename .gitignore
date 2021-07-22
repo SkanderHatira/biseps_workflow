@@ -18,6 +18,7 @@
 !.test/data/
 !.test/data/**
 !.test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta
+!.test/resources/annot/WT_vs_Meth13-CG.bed
 !.gitlab-ci.yml
 !slurmScript.sh
 !script.sh
