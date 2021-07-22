@@ -4,7 +4,7 @@ general:
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
-  annot: "/home/shatira/mnt/local_workflows/biseps/.test/resources/annot/WT_vs_Meth13-CG.bed" #optional must be "" empty string if not being used
+  annot: ".test/resources/annot/WT_vs_Meth13-CG.bed" #optional must be "" empty string if not being used
 params:
   method: bins
   binSize: 500

@@ -4,6 +4,7 @@ general:
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
+  annot: ".test/resources/annot/WT_vs_Meth13-CG.bed" #optional must be "" empty string if not being used
 params:
   method: bins
   binSize: 100
