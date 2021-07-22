@@ -4,18 +4,19 @@ general:
 resources:
   ref:
     genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
+  annot: "/home/shatira/mnt/local_workflows/biseps/.test/resources/annot/WT_vs_Meth13-CG.bed" #optional must be "" empty string if not being used
 params:
-  method: neighbourhood
+  method: bins
   binSize: 500
   kernelFunction: triangular
   test: fisher
   pseudocountM: 1
   pseudocountN: 2
   pValueThreshold: 0.01
-  minCytosinesCount: 1 # default 4 in bins/noise_filter , must be 1
+  minCytosinesCount: 1 # default 4 in bins/noise_filter , must be 1 for neighbourhood method
   minProportionDifference: 0.4
   minGap: 50
-  minSize: 2
+  minSize: 100
   minReadsPerCytosine: 4
   cores: 1
-  context: ["CG"]
+  context: ["CG", "CHG"]

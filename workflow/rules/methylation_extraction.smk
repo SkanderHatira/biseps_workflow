@@ -38,7 +38,7 @@ rule cgmap:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-methgetCGmap.log"
 	shell:
 		"python workflow/scripts/methcalls2cgmap.py -n {input} -f bismark"
-rule bigwig:
+rule CXtoBigWig:
 	input:
 		cx=rules.methylation_extraction_bismark.output[0],
 		index=config['resources']['ref']['genome'] + ".fai",
@@ -50,9 +50,26 @@ rule bigwig:
 	conda:
 		"../envs/tabix.yaml"
 	log:
-		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bigwig.log"
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-cxtobigwig.log"
 	params:
 	shell:
 		"sort -k1,1 -k2,2n {input.cx} > {output.sort};"
-		"python3 workflow/scripts/bismark_to_bigwig_pe.py {input.index} {output.sort}"				
-		
+		"python3 workflow/scripts/bismark_to_bigwig_pe.py {input.index} {output.sort} 2> {log}"				
+rule bedGraphToBigWig:
+	input:
+		bedgraph=rules.methylation_extraction_bismark.output[1],
+		index=config['resources']['ref']['genome'] + ".fai",
+	output:
+		unzip=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bedGraph"),
+		sort=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.sorted.bedGraph"),
+		bw=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.sorted.bedGraph.bw",
+	conda:
+		"../envs/tabix.yaml"
+	log:
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bedgraphtobigwig.log"
+	params:
+	shell:
+		"gunzip {input.bedgraph};"
+		"sed -i '1d' {output.unzip};"
+		"sort -k1,1 -k2,2n {output.unzip} > {output.sort}; "
+		"bedGraphToBigWig   {output.sort} {input.index} {output.bw}  2> {log}"				

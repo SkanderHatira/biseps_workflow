@@ -30,13 +30,22 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-			outdir+"{id}/{id}-{contexts}.bed"
+			outdir+"{id}/{id}-{context}.bed"
 			] ,
 			id=get_id(),
-			contexts=context
+			context=context
 		)
 	)
-
+	if config['resources']['annot'] != "":
+		wanted_input.extend(
+			expand(
+				[
+				outdir+"{id}/{id}_log-{context}.out.closest.bed"
+				] ,
+				id=get_id(),
+				context=context
+			)
+		)
 	return wanted_input
 rule all:
 	input: all_input

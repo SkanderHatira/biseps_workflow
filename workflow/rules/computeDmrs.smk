@@ -34,3 +34,16 @@ rule compute:
 		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
 	script:
 		"../scripts/compute.R"
+rule closest_feature:
+	input:
+		bed=rules.compute.output[0],
+	output:
+		outdir+"{id}/{id}_log-{context}.out.closest.bed",
+	conda:
+		"../envs/tabix.yaml"
+	log:
+		outdir+"{id}/{id}_log-{context}.closest.out"
+	params:
+		annot=config['resources']['annot']
+	shell:
+		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
