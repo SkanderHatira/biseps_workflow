@@ -44,9 +44,7 @@ rule CXtoBigWig:
 		index=config['resources']['ref']['genome'] + ".fai",
 	output:
 		sort=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted"),
-		cg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.cg",
-		chg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.chg",
-		chh=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.chh",
+		bigwigs=temp(expand(outdir+"results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}.deduplicated.CX_report.txt.sorted.bw.{context}", context= {"cg","chg","chh"})),
 	conda:
 		"../envs/tabix.yaml"
 	log:
@@ -73,3 +71,16 @@ rule bedGraphToBigWig:
 		"sed -i '1d' {output.unzip};"
 		"sort -k1,1 -k2,2n {output.unzip} > {output.sort}; "
 		"bedGraphToBigWig   {output.sort} {input.index} {output.bw}  2> {log}"				
+rule renameBigWig:
+	input:
+		cg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.cg",
+		chg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.chg",
+		chh=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.chh",
+	output:
+		cg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.cg.bw",
+		chg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.chg.bw",
+		chh=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.chh.bw",
+	shell:
+		"mv {input.cg} {output.cg};"
+		"mv {input.chg} {output.chg};"
+		"mv {input.chh} {output.chh};"

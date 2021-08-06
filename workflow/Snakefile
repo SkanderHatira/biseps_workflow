@@ -66,7 +66,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.CX_report.txt.sorted.bw.{context}",
+					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.CX_report.txt.sorted.{context}.bw",
 					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.sorted.bedGraph.bw"
 				] ,
 				unit=get_merged(),
