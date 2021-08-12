@@ -9,23 +9,23 @@ general:
 # these steps are user defined and will condition which part of the pipeline is executed and which output files the user requests
 steps:
   # minimal vs full run
-    subsample:
-      activated: 'False'
+  subsample:
+    activated: "False"
   # whether to preprocess raw data or not
-    trimming:
-      activated: 'True'
+  trimming:
+    activated: "True"
   # whether to generate quality reports or not
-    quality:
-      activated: 'True'
+  quality:
+    activated: "True"
   # whether to perform bisulfite conversion on genome and index it (preparation)
-    genome_preparation:
-      activated: 'True'
+  genome_preparation:
+    activated: "True"
   # whether to perform methylation extraction
-    methylation_extraction_bismark:
-      activated: 'True'
+  methylation_extraction_bismark:
+    activated: "True"
   # whether to perform differential methylation calling
-    methylation_calling:
-      activated: 'False'
+  methylation_calling:
+    activated: "False"
 
 resources:
   ref:
