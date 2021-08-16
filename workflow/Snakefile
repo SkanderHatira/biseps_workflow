@@ -32,7 +32,7 @@ def all_input(wildcards):
 				expand(
 					[
 						
-						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/multiqc_report.html"
+						outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}-multiqc_report.html"
 					]
 					,
 					unit=get_merged(),

@@ -19,8 +19,8 @@ rule multiqc:
 		fqc=rules.fastqc.output,
 		report=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt",
 	output:
-		file=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report.html",
-		data=directory(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/multiqc_report_data")
+		file=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-multiqc_report.html",
+		data=directory(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-multiqc_report_data")
 	conda:
 		"../envs/quality.yaml"
 	log:
