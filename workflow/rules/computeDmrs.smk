@@ -47,3 +47,30 @@ rule closest_feature:
 		annot=config['resources']['annot']
 	shell:
 		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
+rule indexBed:
+	input:
+		rules.compute.output[0],
+	output:
+		outbg=outdir+"{id}/{id}-{context}.bed.gz",
+		outbi=outdir+"{id}/{id}-{context}.bed.gz.tbi",
+	conda:
+		"../envs/tabix.yaml"
+	log:
+		outdir+"{id}/{id}_log-{context}.indexBed.out"
+
+	shell:
+		"bgzip  {input} -c > {output.outbg}; "
+		"tabix {output.outbg}"
+rule indexClosest:
+	input:
+		rules.closest_feature.output[0],
+	output:
+		outbg=outdir+"{id}/{id}_log-{context}.out.closest.bed.gz",
+		outbi=outdir+"{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
+	conda:
+		"../envs/tabix.yaml"
+	log:
+		outdir+"{id}/{id}_log-{context}.indexClosest.out"
+	shell:
+		"bgzip {input} -c > {output.outbg}; "
+		"tabix {output.outbg}"

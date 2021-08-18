@@ -23,6 +23,8 @@
 !slurmScript.sh
 !script.sh
 !localScript.sh
+!localComparison.sh
+!slurmComparison.sh
 !logs_slurm
 !.gitkeep
 !exec_scripts/
