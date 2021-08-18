@@ -4,6 +4,8 @@
 !*.yaml
 !resources
 !resources/*
+!resources/genome/*
+!resources/genome/**
 !workflow
 !workflow/**
 !LICENSE

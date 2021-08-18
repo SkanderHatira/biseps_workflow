@@ -8,7 +8,8 @@ genomeSize= os.path.getsize(config['resources']['ref']['genome'])/(1024*1024)
 
 rule compute:
 	input:
-		unpack(get_CX_reports)
+		unpack(get_CX_reports),
+		named=config['resources']['ref']['genome']
 	output:
 		bed=outdir+"{id}/{id}-{context}.bed",
 	log:
