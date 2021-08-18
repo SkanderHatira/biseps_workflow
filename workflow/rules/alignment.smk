@@ -90,4 +90,16 @@ rule deduplicate:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"
 		"samtools sort {output.dedup} -o {output.sort_bam} ;"
 		"samtools index {output.sort_bam}"
-
+rule bam_to_bw:
+	input:
+		rules.deduplicate.output[2],
+	output:
+		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bw",
+	conda:
+		"../envs/tabix.yaml"
+	log:
+		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bamToBw.log"
+	benchmark:
+		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.tsv",benchmark)
+	shell:
+		"bamCoverage -b {input} -o {output}"

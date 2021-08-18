@@ -67,7 +67,8 @@ def all_input(wildcards):
 			expand(
 				[
 					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.CX_report.txt.sorted.{context}.bw",
-					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.sorted.bedGraph.bw"
+					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/methylation_extraction_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.sorted.bedGraph.bw",
+					outdir+"results/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}/alignment_bismark/{unit.sample}-TechRep_{unit.techrep}-BioRep_{unit.biorep}.deduplicated.bw"
 				] ,
 				unit=get_merged(),
 				context= ["cg","chg","chh"]
