@@ -5,3 +5,4 @@ dry-run: false
 keep-going: true
 latency-wait: 20
 cores: all
+rerun-incomplete: true
