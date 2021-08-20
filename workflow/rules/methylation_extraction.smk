@@ -3,8 +3,8 @@ rule methylation_extraction_bismark:
 		rules.deduplicate.output[0]
 	output:
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt",
-		report(expand(outdir+"results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}.deduplicated.M-bias_{R}.png", R=["R1","R2"]),category="M-Bias"),
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bedGraph.gz",
+		report(expand(outdir+"results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}.deduplicated.M-bias_{R}.png", R=["R1","R2"]),category="M-Bias"),
 		temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bismark.cov.gz"),
 		outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated_splitting_report.txt',
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.M-bias.txt",
@@ -71,7 +71,7 @@ rule bedGraphToBigWig:
 		"gunzip {input.bedgraph};"
 		"sed -i '1d' {output.unzip};"
 		"sort -k1,1 -k2,2n {output.unzip} > {output.sort}; "
-		"bedGraphToBigWig   {output.sort} {input.index} {output.bw}  2> {log}"				
+		"bedGraphToBigWig   {output.sort} {input.index} {output.bw}  &> {log}"				
 rule renameBigWig:
 	input:
 		cg=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt.sorted.bw.cg",
