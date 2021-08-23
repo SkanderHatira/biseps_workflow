@@ -1,6 +1,6 @@
-units: "config/units.tsv"
+units: "path/to/units.tsv"
 general:
-  outdir: "/groups/INVITE/FullAnalysis/"
+  outdir: "path/to/outputDirectory/"
   benchmark: 1
   genome_preparation:
     threads: 12
@@ -29,9 +29,9 @@ steps:
 
 resources:
   ref:
-    genome: "/groups/INVITE/resources/gala_homoz/gala_homozygote.fasta"
+    genome: "path/to/genome"
     #Directory containing a fasta file with the DNA sequence of the organism sutided.
-  adapters: "/groups/INVITE/resources/adapters"
+  adapters: "path/to/adapters"
 
 params:
   trimmomatic-pe:
