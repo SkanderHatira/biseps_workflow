@@ -111,7 +111,11 @@ def all_input(wildcards):
 	return wanted_input
 rule all:
 	input: all_input
+	output:
+		"alignment.lock"
 	resources:
 		cpus= 1,
 		mem_mb=2000,
 		time_min=140
+	shell:
+		"touch {output}"

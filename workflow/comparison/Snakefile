@@ -53,6 +53,10 @@ def all_input(wildcards):
 	return wanted_input
 rule all:
 	input: all_input
+	output:
+		"comparison.lock"	
 	resources:
 		cpus= 1,
 		mem_mb=2000,
+	shell:
+		"touch {output}"
