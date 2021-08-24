@@ -2,4 +2,6 @@
 #!/bin/bash
 
 # snakemake --profile config/profiles/local --unlock
-snakemake --profile config/profiles/local 
+source exec_scripts/script.sh 
+snakemake --profile config/profiles/local
+snakemake --profile config/profiles/local --report report.html

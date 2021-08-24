@@ -6,3 +6,5 @@
 source exec_scripts/script.sh 
 # snakemake --profile config/profiles/slurmComparison --unlock
 snakemake --profile config/profiles/slurmComparison
+snakemake --profile config/profiles/slurmComparison --report report.html
+
