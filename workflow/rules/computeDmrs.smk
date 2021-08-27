@@ -11,9 +11,9 @@ rule compute:
 		unpack(get_CX_reports),
 		named=config['resources']['ref']['genome']
 	output:
-		bed=outdir+"{id}/{id}-{context}.bed",
+		bed=outdir+"results/{id}/{id}-{context}.bed",
 	log:
-		outdir+"{id}/{id}_log-{context}.out"
+		outdir+"results/{id}/{id}_log-{context}.out"
 	conda:
 		"../envs/dmrcaller.yaml"
 	params:
@@ -39,11 +39,11 @@ rule closest_feature:
 	input:
 		bed=rules.compute.output[0],
 	output:
-		outdir+"{id}/{id}_log-{context}.out.closest.bed",
+		outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
 	conda:
 		"../envs/tabix.yaml"
 	log:
-		outdir+"{id}/{id}_log-{context}.closest.out"
+		outdir+"results/{id}/{id}_log-{context}.closest.out"
 	params:
 		annot=config['resources']['annot']
 	shell:
@@ -52,12 +52,12 @@ rule indexBed:
 	input:
 		rules.compute.output[0],
 	output:
-		outbg=outdir+"{id}/{id}-{context}.bed.gz",
-		outbi=outdir+"{id}/{id}-{context}.bed.gz.tbi",
+		outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
+		outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
 	conda:
 		"../envs/tabix.yaml"
 	log:
-		outdir+"{id}/{id}_log-{context}.indexBed.out"
+		outdir+"results/{id}/{id}_log-{context}.indexBed.out"
 
 	shell:
 		"bgzip  {input} -c > {output.outbg}; "
@@ -66,12 +66,12 @@ rule indexClosest:
 	input:
 		rules.closest_feature.output[0],
 	output:
-		outbg=outdir+"{id}/{id}_log-{context}.out.closest.bed.gz",
-		outbi=outdir+"{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
+		outbg=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
+		outbi=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
 	conda:
 		"../envs/tabix.yaml"
 	log:
-		outdir+"{id}/{id}_log-{context}.indexClosest.out"
+		outdir+"results/{id}/{id}_log-{context}.indexClosest.out"
 	shell:
 		"bgzip {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
