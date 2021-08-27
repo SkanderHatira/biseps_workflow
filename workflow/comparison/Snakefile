@@ -30,9 +30,9 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-			outdir+"{id}/{id}-{context}.bed",
-			outdir+"{id}/{id}-{context}.bed.gz",
-			outdir+"{id}/{id}-{context}.bed.gz.tbi",
+			outdir+"results/{id}/{id}-{context}.bed",
+			outdir+"results/{id}/{id}-{context}.bed.gz",
+			outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
 			] ,
 			id=get_id(),
 			context=context
@@ -42,9 +42,9 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-				outdir+"{id}/{id}_log-{context}.out.closest.bed",
-				outdir+"{id}/{id}_log-{context}.out.closest.bed.gz",
-				outdir+"{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
+				outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
+				outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
+				outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
 				] ,
 				id=get_id(),
 				context=context
