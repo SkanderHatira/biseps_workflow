@@ -1,6 +1,8 @@
 
 #!/bin/bash
 unlock=$1
+[ -e biseps.txt ] && rm -- biseps.txt
+
 if [[ $unlock ]]; then
 snakemake --profile config/profiles/test --unlock &>> biseps.txt 
 fi
