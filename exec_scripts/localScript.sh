@@ -7,10 +7,9 @@ unlock=$1
 if [[ $unlock ]]; then
 snakemake --profile config/profiles/local --unlock &>> biseps.txt 
 fi
-# snakemake --profile config/profiles/local --unlock
 source exec_scripts/script.sh 
 snakemake --profile config/profiles/local &>> biseps.txt 
-snakemake --profile config/profiles/local --report report.html   &>> biseps.txt sdsdqd
+snakemake --profile config/profiles/local --report report.html   &>> biseps.txt
 if [ $? -ne 0 ]
 then
    touch failed.lock
