@@ -4,7 +4,6 @@
 #SBATCH --mem-per-cpu=1000
 #SBATCH --output=biseps.txt
 unlock=$1
-[ -e biseps.txt ] && rm -- biseps.txt
 [ -e failed.alignment ] && rm -- failed.alignment
 source exec_scripts/script.sh 
 if [[ $unlock ]]; then
