@@ -1,4 +1,6 @@
 comparisons: "config/comparisons.tsv"
+platform: "linux"
+
 general:
   outdir: "results/comparisonsDupliqué/"
 resources:
