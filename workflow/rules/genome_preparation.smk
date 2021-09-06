@@ -5,7 +5,7 @@ rule genome_preparation:
 		directory(get_abs(config['resources']['ref']['genome']) + "/Bisulfite_Genome"),
 		config['resources']['ref']['genome'] + ".fai"
 	conda:
-		"../envs/bismark.yaml"
+		"../envs/bismark.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/common/genome_preparation.log"
 	params:

@@ -15,7 +15,7 @@ rule compute:
 	log:
 		outdir+"results/{id}/{id}_log-{context}.out"
 	conda:
-		"../envs/dmrcaller.yaml"
+		"../envs/dmrcaller.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	params:
 		method= config["params"]["method"],
 		binSize=  config["params"]["binSize"],
@@ -41,7 +41,7 @@ rule closest_feature:
 	output:
 		outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
 	conda:
-		"../envs/tabix.yaml"
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"results/{id}/{id}_log-{context}.closest.out"
 	params:
@@ -55,7 +55,7 @@ rule indexBed:
 		outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
 		outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
 	conda:
-		"../envs/tabix.yaml"
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"results/{id}/{id}_log-{context}.indexBed.out"
 
@@ -69,7 +69,7 @@ rule indexClosest:
 		outbg=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
 		outbi=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
 	conda:
-		"../envs/tabix.yaml"
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"results/{id}/{id}_log-{context}.indexClosest.out"
 	shell:

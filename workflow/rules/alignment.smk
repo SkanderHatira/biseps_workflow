@@ -8,7 +8,7 @@ rule alignment_bismark_pe:
 		nucl=temp(outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-1_bismark_bt2_pe.nucleotide_stats.txt'),
 		tempdir=temp(directory(outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-tmp/')),
 	conda:
-		"../envs/bismark.yaml"
+		'../envs/bismark.yaml' if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.log"
 	params:
@@ -56,7 +56,7 @@ rule convert:
 	output:
 		sam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.sam"),
 	conda:
-		"../envs/bismark.yaml"
+		"../envs/bismark.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.log"
 	benchmark:
@@ -77,7 +77,7 @@ rule deduplicate:
 		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bam.bai"
 
 	conda:
-		"../envs/bismark.yaml"
+		"../envs/bismark.yaml" if config["platform"] =="linux" else "../envs/empty.yaml"
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.log"
 	params:
@@ -96,7 +96,7 @@ rule bam_to_bw:
 	output:
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bw",
 	conda:
-		"../envs/tabix.yaml"
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bamToBw.log"
 	benchmark:

@@ -5,7 +5,7 @@ rule read_report:
 		rds=outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-report.rds",
 		conditionVector=outdir+"results/methylation_calling/{sample}-TechRep_{techrep}/{sample}-vector.rds"
 	conda:
-		"../envs/dmrcaller.yaml"
+		"../envs/dmrcaller.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/methylation_calling/{sample}-{techrep}.log"
 	resources:

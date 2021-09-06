@@ -4,7 +4,7 @@ rule fastqc:
 	output:
 		directory(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/quality/")
 	conda:
-		"../envs/quality.yaml"
+		"../envs/quality.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/fastqc.log"
 	params:
@@ -22,7 +22,7 @@ rule multiqc:
 		file=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-multiqc_report.html",
 		data=directory(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-multiqc_report_data")
 	conda:
-		"../envs/quality.yaml"
+		"../envs/quality.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-multiqc.log"
 	params:
@@ -43,7 +43,7 @@ rule bismark_html_report:
 	output:
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_report.html"
 	conda:
-		"../envs/bismark.yaml"
+		"../envs/bismark.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-bismark_report.log"
 	params:

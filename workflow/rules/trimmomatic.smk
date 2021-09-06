@@ -7,7 +7,7 @@ rule trimmomatic_pe:
 		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.fq"),
 		r2_unpaired=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/trimmed/{sample}-2.unpaired.fq")
 	conda:
-		"../envs/trimmomatic.yaml"
+		"../envs/trimmomatic.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	params:
 		# list of trimmers (see manual)
 		trimmer= lambda wildcards : config["params"]["trimmomatic-pe"]["trimmer"],

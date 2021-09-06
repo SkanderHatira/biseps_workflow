@@ -34,7 +34,7 @@ rule subsampling:
 		r1=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-1.fq"),
 		r2=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/subsampled/{sample}-2.fq")
 	conda:
-		"../envs/seqtk.yaml"
+		"../envs/seqtk.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
 	params:
 		# Random seed
 		seed= lambda wildcards : config["params"]["seqtk"]["seed"],
