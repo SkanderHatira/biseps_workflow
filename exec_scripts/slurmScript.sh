@@ -7,7 +7,7 @@ unlock=$1
 [ -e failed.alignment ] && rm -- failed.alignment
 source exec_scripts/script.sh 
 if [[ $unlock ]]; then
-snakemake --profile config/profiles/localComparison --unlock  
+snakemake --profile config/profiles/slurm --unlock  
 fi
 snakemake --profile config/profiles/slurm
 snakemake --profile config/profiles/slurm --report report.html
