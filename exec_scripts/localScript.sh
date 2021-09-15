@@ -4,7 +4,7 @@ unlock=$1
 [ -e biseps.txt ] && rm -- biseps.txt
 [ -e failed.lock ] && rm -- failed.lock
 
-if [[ $unlock ]]; then
+if [[ $unlock == true ]]; then
 snakemake --profile config/profiles/local --unlock &>> biseps.txt 
 fi
 source exec_scripts/script.sh 

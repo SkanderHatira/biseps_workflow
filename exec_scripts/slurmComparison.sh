@@ -6,7 +6,7 @@
 unlock=$1
 [ -e failed.comparison ] && rm -- failed.comparison
 source exec_scripts/script.sh 
-if [[ $unlock ]]; then
+if [[ $unlock == true ]]; then
 snakemake --profile config/profiles/slurmComparison --unlock
 fi
 snakemake --profile config/profiles/slurmComparison

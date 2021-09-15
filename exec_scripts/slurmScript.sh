@@ -6,7 +6,7 @@
 unlock=$1
 [ -e failed.alignment ] && rm -- failed.alignment
 source exec_scripts/script.sh 
-if [[ $unlock ]]; then
+if [[ $unlock == true]]; then
 snakemake --profile config/profiles/slurm --unlock  
 fi
 snakemake --profile config/profiles/slurm
