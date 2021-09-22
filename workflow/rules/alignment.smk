@@ -57,14 +57,12 @@ rule convert:
 		sam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.sam"),
 	conda:
 		"../envs/bismark.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
-	log:
-		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.log"
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-convert.tsv",benchmark)
 	resources:
 		cpus=2,
 	shell:
-		"samtools view -h -@ {resources.cpus} -o {output.sam} {input}  2> {log} ;"
+		"samtools view -h -@ {resources.cpus} -o {output.sam} {input} ;"
 	
 
 rule deduplicate:
@@ -102,4 +100,4 @@ rule bam_to_bw:
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.tsv",benchmark)
 	shell:
-		"bamCoverage -b {input} -o {output}"
+		"bamCoverage -b {input} -o {output} 2> {log}"
