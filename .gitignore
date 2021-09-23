@@ -6,6 +6,8 @@
 !resources/*
 !resources/genome/*
 !resources/genome/**
+!resources/annotation/*
+!resources/annotation/**
 !workflow
 !workflow/**
 !LICENSE
