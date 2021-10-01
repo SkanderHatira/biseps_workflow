@@ -5,6 +5,7 @@
 #SBATCH --output=biseps.txt
 unlock=$1
 [ -e failed.comparison ] && rm -- failed.comparison
+tr -d '\15\32' < exec_scripts/script.sh > exec_scripts/script.sh 
 source exec_scripts/script.sh 
 if [[ $unlock == true ]]; then
 snakemake --profile config/profiles/slurmComparison --unlock

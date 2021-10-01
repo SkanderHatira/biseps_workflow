@@ -5,6 +5,7 @@
 #SBATCH --output=biseps.txt
 unlock=$1
 [ -e failed.alignment ] && rm -- failed.alignment
+tr -d '\15\32' < exec_scripts/script.sh > exec_scripts/script.sh 
 source exec_scripts/script.sh 
 if [[ $unlock == true]]; then
 snakemake --profile config/profiles/slurm --unlock  

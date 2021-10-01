@@ -6,6 +6,7 @@ unlock=$1
 if [[ $unlock == true ]]; then
 snakemake --profile config/profiles/localComparison --unlock &>> biseps.txt 
 fi
+tr -d '\15\32' < exec_scripts/script.sh > exec_scripts/script.sh 
 source exec_scripts/script.sh 
 snakemake --profile config/profiles/localComparison &>> biseps.txt 
 snakemake --profile config/profiles/localComparison  --report report.html &>> biseps.txt 
