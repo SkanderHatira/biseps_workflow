@@ -22,7 +22,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 				expand(
 					[
-						get_abs(config['resources']['ref']['genome']) + "/genomic_nucleotide_frequencies.txt"
+						config['resources']['ref']['genome'] + ".fai"
 					],
 				)	
 			)
