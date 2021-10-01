@@ -6,7 +6,7 @@ rule plots_dmrcaller:
 		low_resolution_profiles= report(outdir+"results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_low_resolution_profiles.pdf",category='plots'),
 		methylation_data_coverage= report(outdir+"results/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_methylation_data_coverage.pdf",category='plots')
 	conda:
-		"../envs/dmrcaller.yaml" if config["platform"] == 'linux' else '../envs/empty.yaml'
+		"../envs/dmrcaller.yaml" if config["platform"] == 'linux' else ''
 	log:
 		outdir+"logs/methylation_calling/{control}-{ctechrep}_vs_{treatment}-{ttechrep}_plots_dmrcaller.log"
 	script:
