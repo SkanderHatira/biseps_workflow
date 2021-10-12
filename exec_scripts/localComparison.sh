@@ -3,11 +3,11 @@
 unlock=$1
 [ -e biseps.txt ] && rm -- biseps.txt
 [ -e failed.lock ] && rm -- failed.lock
+source exec_scripts/script.sh 
 if [[ $unlock == true ]]; then
 snakemake --profile config/profiles/localComparison --unlock &>> biseps.txt 
 fi
-tr -d '\15\32' < exec_scripts/script.sh > exec_scripts/script.sh 
-source exec_scripts/script.sh 
+
 snakemake --profile config/profiles/localComparison &>> biseps.txt 
 snakemake --profile config/profiles/localComparison  --report report.html &>> biseps.txt 
 if [ $? -ne 0 ]

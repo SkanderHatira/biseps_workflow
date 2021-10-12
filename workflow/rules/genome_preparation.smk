@@ -1,7 +1,6 @@
 rule genome_preparation:
 	input:	config['resources']['ref']['genome']
 	output:
-		get_abs(config['resources']['ref']['genome']) + "/genomic_nucleotide_frequencies.txt",
 		directory(get_abs(config['resources']['ref']['genome']) + "/Bisulfite_Genome"),
 		config['resources']['ref']['genome'] + ".fai"
 	conda:
