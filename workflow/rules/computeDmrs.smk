@@ -32,7 +32,7 @@ rule compute:
 		cores=config["params"]["cores"]
 	resources:
 		cpus=10,
-		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
+		mem_mb= lambda  Input : int(genomeSize*11*15*len(Input)),
 	script:
 		"../scripts/compute.R"
 rule closest_feature:
