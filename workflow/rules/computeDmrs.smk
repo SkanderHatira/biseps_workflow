@@ -4,105 +4,103 @@ def get_CX_reports(wildcards):
 	return { 'control' : u.control.split(",") , 'treatment' : u.treatment.split(",") }
 def get_id():
 	return comparisons["id"].unique()
+
 genomeSize= os.path.getsize(config['resources']['ref']['genome'])/(1024*1024)
-
-rule compute:
-	input:
-		unpack(get_CX_reports),
-		named=config['resources']['ref']['genome']
-	output:
-		bed=outdir+"results/{id}/{id}-{context}.bed",
-	log:
-		outdir+"results/{id}/{id}_log-{context}.out"
-	conda:
-		"../envs/dmrcaller.yaml" if config["platform"] == 'linux' else ''
-	params:
-		method= config["params"]["method"],
-		binSize=  config["params"]["binSize"],
-		kernelFunction = config["params"]["kernelFunction"],
-		test=  config["params"]["test"],
-		pseudocountM=  config["params"]["pseudocountM"],
-		pseudocountN= config["params"]["pseudocountN"],
-		pValueThreshold= config["params"]["pValueThreshold"],
-		minCytosinesCount=config["params"]["minCytosinesCount"],
-		minProportionDifference=  config["params"]["minProportionDifference"],
-		minGap= config["params"]["minGap"],
-		minSize= config["params"]["minSize"],
-		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
-		cores=config["params"]["cores"]
-	resources:
-		cpus=10,
-		mem_mb= lambda  Input : int(genomeSize*11*15*len(Input)),
-	script:
-		"../scripts/compute.R"
-rule closest_feature:
-	input:
-		bed=rules.compute.output[0],
-	output:
-		outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
-	conda:
-		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-	log:
-		outdir+"results/{id}/{id}_log-{context}.closest.out"
-	params:
-		annot=config['resources']['annot']
-	shell:
-		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
-rule indexBed:
-	input:
-		rules.compute.output[0],
-	output:
-		outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
-		outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
-	conda:
-		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-	log:
-		outdir+"results/{id}/{id}_log-{context}.indexBed.out"
-
-	shell:
-		"bgzip  {input} -c > {output.outbg}; "
-		"tabix {output.outbg}"
-rule indexClosest:
-	input:
-		rules.closest_feature.output[0],
-	output:
-		outbg=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
-		outbi=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
-	conda:
-		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-	log:
-		outdir+"results/{id}/{id}_log-{context}.indexClosest.out"
-	shell:
-		"bgzip {input} -c > {output.outbg}; "
-		"tabix {output.outbg}"
-
 
 rule compute_methylkit:
 	input:
 		unpack(get_CX_reports),
 		named=config['resources']['ref']['genome']
 	output:
-		bed=outdir+"results/{id}/{id}-{context}.bed",
+		methylationStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.txt",
+		methylationStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.pdf",
+		coverageStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.txt",
+		coverageStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
+
 	log:
-		outdir+"results/{id}/{id}_log-{context}.out"
+		outdir+"methylkit_results/{id}-{context}/{id}-{context}-log.out"
 	conda:
 		"../envs/methylkit.yaml" if config["platform"] == 'linux' else ''
 	params:
-		method= config["params"]["method"],
-		binSize=  config["params"]["binSize"],
-		kernelFunction = config["params"]["kernelFunction"],
+		bins = config["params"]["bins"],
+		outdir = config["general"]["outdir"],
+		windowSize=  config["params"]["windowSize"],
 		test=  config["params"]["test"],
-		pseudocountM=  config["params"]["pseudocountM"],
-		pseudocountN= config["params"]["pseudocountN"],
-		pValueThreshold= config["params"]["pValueThreshold"],
-		minCytosinesCount=config["params"]["minCytosinesCount"],
-		minProportionDifference=  config["params"]["minProportionDifference"],
-		minGap= config["params"]["minGap"],
-		minSize= config["params"]["minSize"],
-		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
-		cores=config["params"]["cores"]
+		qValue= config["params"]["qValue"],
+		minCov=config["params"]["minCov"],
+		minDiff=  config["params"]["minDiff"],
 	resources:
-		cpus=10,
-		mem_mb= lambda  Input : int(genomeSize*11*15*len(Input)),
+		cpus=4
 	script:
 		"../scripts/methylkit.R"
+# rule closest_feature:
+# 	input:
+# 		bed=rules.compute.output[0],
+# 	output:
+# 		outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
+# 	conda:
+# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+# 	log:
+# 		outdir+"results/{id}/{id}_log-{context}.closest.out"
+# 	params:
+# 		annot=config['resources']['annot']
+# 	shell:
+# 		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
+# rule indexBed:
+# 	input:
+# 		rules.compute.output[0],
+# 	output:
+# 		outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
+# 		outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
+# 	conda:
+# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+# 	log:
+# 		outdir+"results/{id}/{id}_log-{context}.indexBed.out"
+
+# 	shell:
+# 		"bgzip  {input} -c > {output.outbg}; "
+# 		"tabix {output.outbg}"
+# rule indexClosest:
+# 	input:
+# 		rules.closest_feature.output[0],
+# 	output:
+# 		outbg=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
+# 		outbi=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
+# 	conda:
+# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+# 	log:
+# 		outdir+"results/{id}/{id}_log-{context}.indexClosest.out"
+# 	shell:
+# 		"bgzip {input} -c > {output.outbg}; "
+# 		"tabix {output.outbg}"
+
+
+# rule compute:
+# 	input:
+# 		unpack(get_CX_reports),
+# 		named=config['resources']['ref']['genome']
+# 	output:
+# 		bed=outdir+"results/{id}/{id}-{context}.bed",
+# 	log:
+# 		outdir+"results/{id}/{id}_log-{context}.out"
+# 	conda:
+# 		"../envs/methylkit.yaml" if config["platform"] == 'linux' else ''
+# 	params:
+# 		method= config["params"]["method"],
+# 		binSize=  config["params"]["binSize"],
+# 		kernelFunction = config["params"]["kernelFunction"],
+# 		test=  config["params"]["test"],
+# 		pseudocountM=  config["params"]["pseudocountM"],
+# 		pseudocountN= config["params"]["pseudocountN"],
+# 		pValueThreshold= config["params"]["pValueThreshold"],
+# 		minCytosinesCount=config["params"]["minCytosinesCount"],
+# 		minProportionDifference=  config["params"]["minProportionDifference"],
+# 		minGap= config["params"]["minGap"],
+# 		minSize= config["params"]["minSize"],
+# 		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
+# 		cores=config["params"]["cores"]
+# 	resources:
+# 		cpus=10,
+# 		mem_mb= lambda  Input : int(genomeSize*11*15*len(Input)),
+# 	script:
+# 		"../scripts/methylkit.R"

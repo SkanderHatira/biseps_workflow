@@ -6,14 +6,13 @@ control = c(unlist(strsplit(snakemake@input[['control']], split=",")))
 treatment = c(unlist(strsplit(snakemake@input[['treatment']], split=",")))
 files  <- as.list(c(control, treatment))
 
-
 ### params ###
 
 
-context <- "CpG" #snakemake@params[["context"]]
-bins <- TRUE #snakemake@params[["bins"]]
+context <- snakemake@wildcards[["context"]]
+bins <- snakemake@params[["bins"]]
 species <- "Malus_Domestica" #snakemake@params[["species"]]
-outdir <- "results" #snakemake@params[["outdir"]]
+outdir <- snakemake@params[["outdir"]]
 cores <- 4 #snakemake@resources[["cpus"]]
 windowSize <-1000 #snakemake@params[["windowSize"]]
 stepSize <- 1000 #snakemake@params[["stepSize"]]
@@ -29,10 +28,9 @@ method <- if(bins) "bins" else "bases"
 
 ### create output directory if it doesn't already exist
 dir.create(file.path(outdir), showWarnings = FALSE)
-
 ### reading bismark's CX reports, by default using the tabix database for minimal memory usage
 readingReports=methRead(files,
-           sample.id=c(rep("control",length(control)),rep("treatment",length(treatment))),
+           sample.id=as.list(c(rep("control",length(control)),rep("treatment",length(treatment)))),
            assembly="bismark",
            treatment=c(rep(0,length(control)),rep(1,length(treatment))),
            context=context,
@@ -50,7 +48,7 @@ for (i in 1:length(files)) {
     getMethylationStats(readingReports[[i]],plot=FALSE,both.strands=FALSE)
     sink()
     close(fileTxt)
-	fileTxt<-file(snakemake@output[["methylationStatsPdf"]])
+	pdf(snakemake@output[["methylationStatsPdf"]])
     getMethylationStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
     dev.off()
     }
@@ -62,7 +60,8 @@ for (i in 1:length(files)) {
     getCoverageStats(readingReports[[i]],plot=FALSE,both.strands=FALSE)
     sink()
     close(fileTxt)
-	fileTxt<-file(snakemake@output[["coverageStatsPdf"]])
+	pdf(snakemake@output[["coverageStatsPdf"]])
     getCoverageStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
     dev.off()
     }
+
