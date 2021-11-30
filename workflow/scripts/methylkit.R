@@ -98,3 +98,27 @@ dev.off()
 pdf(snakemake@output[["pcaPdf"]])
 PCASamples(meth)
 dev.off()
+
+
+### calculating differential methylation ###
+methDiff=calculateDiffMeth(meth,overdispersion=overdispersion,test=testOverdispersion,mc.cores=cores)
+
+
+### filtering differential methylation ###
+fileTxt<-file(snakemake@output[["hyperMethylation"]])
+sink(fileTxt)
+getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hyper")
+sink()
+close(fileTxt)
+
+fileTxt<-file(snakemake@output[["hypoMethylation"]])
+sink(fileTxt)
+getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hypo")
+sink()
+close(fileTxt)
+
+fileTxt<-file(snakemake@output[["overAllMethylation"]])
+sink(fileTxt)
+getMethylDiff(methDiff,difference=minDiff,qvalue=qValue)
+sink()
+close(fileTxt)
