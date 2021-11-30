@@ -11,14 +11,14 @@ files  <- as.list(c(control, treatment))
 
 context <- snakemake@wildcards[["context"]]
 bins <- snakemake@params[["bins"]]
-species <- "Malus_Domestica" #snakemake@params[["species"]]
+species <- snakemake@params[["species"]]
 outdir <- snakemake@params[["outdir"]]
-cores <- 4 #snakemake@resources[["cpus"]]
-windowSize <-1000 #snakemake@params[["windowSize"]]
-stepSize <- 1000 #snakemake@params[["stepSize"]]
-minCov <- 4  #snakemake@params[["minCov"]]
-overdispersion <- "none" # default none, NM for overdispersion #snakemake@params[["overdispersion"]]
-testOverdispersion <- "F" # default F, Chisq for overdispersion  #snakemake@params[["test"]]
+cores <- snakemake@resources[["cpus"]]
+windowSize <-snakemake@params[["windowSize"]]
+stepSize <- snakemake@params[["stepSize"]]
+minCov <- snakemake@params[["minCov"]]
+overdispersion <- snakemake@params[["overdispersion"]]
+testOverdispersion <- snakemake@params[["test"]]
 ## filters dmr's ###
 minDiff <- 0.25 #snakemake@params[["minDiff"]]
 qValue <- 0.01 #snakemake@params[["qValue"]]
@@ -37,7 +37,7 @@ readingReports=methRead(files,
            mincov = minCov,
            pipeline="bismarkCytosineReport",
            dbtype = "tabix",
-           dbdir = "methylDB"
+           dbdir = snakemake@output[["methylDB"]]
            )
 
 
@@ -65,3 +65,22 @@ for (i in 1:length(files)) {
     dev.off()
     }
 
+### mergin samples ### depends on method bins/base_level
+
+if (bins) {
+    tiles = tileMethylCounts(readingReports,win.size=windowSize,step.size=stepSize,cov.bases = minCov)
+    meth=unite(tiles, destrand=FALSE)
+} else {
+    meth=unite(readingReports, destrand=FALSE) # destrand TRUE =  merge methylation on different strands , default : FALSE 
+                                  			   # by default takes only bases/regions covered in all samples (can be altered)
+}
+
+
+fileTxt<-file(snakemake@output[["correlationTxt"]])
+sink(fileTxt)
+getCorrelation(meth,plot=FALSE)
+sink()
+close(fileTxt)
+pdf(snakemake@output[["correlationPdf"]])
+getCorrelation(meth,plot=TRUE)
+dev.off()

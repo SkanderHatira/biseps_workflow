@@ -12,10 +12,13 @@ rule compute_methylkit:
 		unpack(get_CX_reports),
 		named=config['resources']['ref']['genome']
 	output:
+		methylDB=directory(outdir+"methylkit_results/methylDB-{id}-{context}/"),
 		methylationStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.txt",
 		methylationStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.pdf",
 		coverageStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.txt",
 		coverageStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
+		correlationTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.txt",
+		correlationPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.pdf",
 
 	log:
 		outdir+"methylkit_results/{id}-{context}/{id}-{context}-log.out"
@@ -25,6 +28,7 @@ rule compute_methylkit:
 		bins = config["params"]["bins"],
 		outdir = config["general"]["outdir"],
 		windowSize=  config["params"]["windowSize"],
+		stepSize = config["params"]["stepSize"],
 		test=  config["params"]["test"],
 		qValue= config["params"]["qValue"],
 		minCov=config["params"]["minCov"],
