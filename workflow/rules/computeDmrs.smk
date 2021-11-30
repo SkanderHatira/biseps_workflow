@@ -75,3 +75,34 @@ rule indexClosest:
 	shell:
 		"bgzip {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
+
+
+rule compute_methylkit:
+	input:
+		unpack(get_CX_reports),
+		named=config['resources']['ref']['genome']
+	output:
+		bed=outdir+"results/{id}/{id}-{context}.bed",
+	log:
+		outdir+"results/{id}/{id}_log-{context}.out"
+	conda:
+		"../envs/methylkit.yaml" if config["platform"] == 'linux' else ''
+	params:
+		method= config["params"]["method"],
+		binSize=  config["params"]["binSize"],
+		kernelFunction = config["params"]["kernelFunction"],
+		test=  config["params"]["test"],
+		pseudocountM=  config["params"]["pseudocountM"],
+		pseudocountN= config["params"]["pseudocountN"],
+		pValueThreshold= config["params"]["pValueThreshold"],
+		minCytosinesCount=config["params"]["minCytosinesCount"],
+		minProportionDifference=  config["params"]["minProportionDifference"],
+		minGap= config["params"]["minGap"],
+		minSize= config["params"]["minSize"],
+		minReadsPerCytosine=config["params"]["minReadsPerCytosine"],
+		cores=config["params"]["cores"]
+	resources:
+		cpus=10,
+		mem_mb= lambda  Input : int(genomeSize*11*15*len(Input)),
+	script:
+		"../scripts/methylkit.R"
