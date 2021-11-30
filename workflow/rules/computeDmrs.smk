@@ -19,6 +19,9 @@ rule compute_methylkit:
 		coverageStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
 		correlationTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.txt",
 		correlationPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.pdf",
+		clustersPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-clusters.pdf",
+		pcaScreePdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA-screeplot.pdf",
+		pcaPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA.pdf",
 
 	log:
 		outdir+"methylkit_results/{id}-{context}/{id}-{context}-log.out"

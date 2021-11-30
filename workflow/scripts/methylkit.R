@@ -84,3 +84,17 @@ close(fileTxt)
 pdf(snakemake@output[["correlationPdf"]])
 getCorrelation(meth,plot=TRUE)
 dev.off()
+
+
+pdf(snakemake@output[["clustersPdf"]])
+clusterSamples(meth, dist="correlation", method="ward.D2", plot=TRUE)
+dev.off()
+### PCA ###
+pdf(snakemake@output[["pcaScreePdf"]])
+PCASamples(meth, screeplot=TRUE)
+dev.off()
+
+
+pdf(snakemake@output[["pcaPdf"]])
+PCASamples(meth)
+dev.off()
