@@ -22,24 +22,18 @@ build:
     - docker push $IMAGE_TAG
 dry-run:
   stage: dry-run
-  only:
-    - development
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG -n --configfile .test/config/config.yaml
 
 minimal-run:
   stage: minimal-run
-  only:
-    - master
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda
 
 minimal-run-comparison:
   stage: minimal-run-comparison
-  only:
-    - master
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --snakefile workflow/comparison/Snakefile --configfile  .test/comparison/config.yaml --cores 6 --use-conda
