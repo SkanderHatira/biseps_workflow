@@ -45,43 +45,45 @@ rule compute_methylkit:
 		cpus=4
 	script:
 		"../scripts/methylkit.R"
-# rule closest_feature:
-# 	input:
-# 		bed=rules.compute.output[0],
-# 	output:
-# 		outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
-# 	conda:
-# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-# 	log:
-# 		outdir+"results/{id}/{id}_log-{context}.closest.out"
-# 	params:
-# 		annot=config['resources']['annot']
-# 	shell:
-# 		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
-# rule indexBed:
-# 	input:
-# 		rules.compute.output[0],
-# 	output:
-# 		outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
-# 		outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
-# 	conda:
-# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-# 	log:
-# 		outdir+"results/{id}/{id}_log-{context}.indexBed.out"
-
-# 	shell:
-# 		"bgzip  {input} -c > {output.outbg}; "
-# 		"tabix {output.outbg}"
-# rule indexClosest:
-# 	input:
-# 		rules.closest_feature.output[0],
-# 	output:
-# 		outbg=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
-# 		outbi=outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
-# 	conda:
-# 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
-# 	log:
-# 		outdir+"results/{id}/{id}_log-{context}.indexClosest.out"
-# 	shell:
-# 		"bgzip {input} -c > {output.outbg}; "
-# 		"tabix {output.outbg}"
+rule closest_feature:
+	input:
+		bed=rules.compute_methylkit.output["overAllMethylationBed"],
+	output:
+		outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed"
+		# outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
+	conda:
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+	log:
+		outdir+"methylkit_results/{id}-{context}/{id}-{context}.closest.log"
+	params:
+		annot=config['resources']['annot']
+	shell:
+		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
+rule indexBed:
+	input:
+		rules.compute_methylkit.output["overAllMethylationBed"],
+	output:
+		outbg=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
+		outbi=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz.tbi"
+		# outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
+		# outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
+	conda:
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+	log:
+		outdir+"methylkit_results/{id}-{context}/{id}-{context}.indexBed.log"
+	shell:
+		"bgzip  {input} -c > {output.outbg}; "
+		"tabix {output.outbg}"
+rule indexClosest:
+	input:
+		rules.closest_feature.output[0],
+	output:
+		outbg=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
+		outbi=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz.tbi"
+	conda:
+		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
+	log:
+		outdir+"methylkit_results/{id}-{context}/{id}-{context}.indexClosest.log"
+	shell:
+		"bgzip {input} -c > {output.outbg}; "
+		"tabix {output.outbg}"
