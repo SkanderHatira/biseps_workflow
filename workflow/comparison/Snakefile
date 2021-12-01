@@ -30,8 +30,7 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-			outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
-			outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
+
 			outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.txt",
 			outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
 			] ,
@@ -39,18 +38,17 @@ def all_input(wildcards):
 			context=context
 		)
 	)
-	# if config['resources']['annot'] != "":
-	# 	wanted_input.extend(
-	# 		expand(
-	# 			[
-	# 			outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
-	# 			outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz",
-	# 			outdir+"results/{id}/{id}_log-{context}.out.closest.bed.gz.tbi",
-	# 			] ,
-	# 			id=get_id(),
-	# 			context=context
-	# 		)
-	# 	)
+	if config['resources']['annot'] != "":
+		wanted_input.extend(
+			expand(
+				[
+				outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
+				outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
+				] ,
+				id=get_id(),
+				context=context
+			)
+		)
 	return wanted_input
 rule all:
 	input: all_input

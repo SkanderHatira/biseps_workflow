@@ -1,5 +1,5 @@
 # FROM continuumio/miniconda3:4.7.12-alpine
-FROM continuumio/miniconda3:latest
+FROM continuumio/miniconda3:4.7.12
 USER root
 # MAINTAINER Skander Hatira skander.hatira@inrae.fr
 LABEL Name=biseps Version=1.0

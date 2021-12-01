@@ -7,7 +7,7 @@ This is a `snakemake` pipeline for bisulfite sequencing data, it implements:
 1.  Adapter trimming and quality check
 2.  Quality reports and statistics (`fastqc`+ `multiqc`)
 3.  Methylation extraction with `bismark` (`bowtie2`/`hisat2` as aligners)
-4.  DMR identification with `dmrcaller` (in all contexts) : in progress
+4.  DMR identification with `Methylkit` (in all contexts)
 
 ## Authors
 
@@ -43,21 +43,8 @@ Activate the conda environment:
 
 Test your configuration by performing a dry-run via
 
-    snakemake --use-conda -n
+    snakemake --profile config/profiles/local -n
 
-Execute the workflow locally via
-
-    snakemake --use-conda --cores $N
-
-using `$N` cores or run it in a cluster environment via
-
-    snakemake --use-conda --cluster qsub --jobs 100
-
-or
-
-    snakemake --use-conda --drmaa --jobs 100
-
-in combination with any of the modes above.
 See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
 
 ### Step 5: Investigate results
@@ -81,7 +68,9 @@ It also contains CX reports from [DMRcaller](https://bioconductor.org/packages/r
 
 To test the pipeline you have to be on a `conda` available on your machine `$PATH` :
 
--   You can either use the preconfigured .YAML profile :
+Testing Alignment :
+
+-   You can either use the preconfigured .yaml profile :
 
     snakemake --profile config/profiles/test
 
@@ -89,7 +78,9 @@ To test the pipeline you have to be on a `conda` available on your machine `$PAT
 
     snakemake --cores $N --use-conda --configfile .test/config/config.yaml
 
--   You can either use the preconfigured .YAML profile :
+Testing differential methylation extraction :
+
+-   You can either use the preconfigured .yaml profile :
 
     snakemake --profile config/profiles/testComparison
 
