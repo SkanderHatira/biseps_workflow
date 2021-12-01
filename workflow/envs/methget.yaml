@@ -30,4 +30,3 @@ dependencies:
   - tk=8.6.10=hbc83047_0
   - wheel=0.36.2=pyhd3eb1b0_0
   - zlib=1.2.11=h7b6447c_3
-prefix: /home/shatira/miniconda3/envs/methget
