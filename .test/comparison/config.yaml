@@ -15,5 +15,5 @@ params:
   qValue: 0.01
   minCov: 4
   minDiff: 0.4
-  context: ["CpG", "CHG", "CHH"]
+  context: ["CG"]
   species: "Malus Domestica"

@@ -106,19 +106,34 @@ methDiff=calculateDiffMeth(meth,overdispersion=overdispersion,test=testOverdispe
 
 ### filtering differential methylation ###
 fileTxt<-file(snakemake@output[["hyperMethylation"]])
+hyper <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hyper")
 sink(fileTxt)
-getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hyper")
+hyper
 sink()
 close(fileTxt)
 
+my.gr=as(hyper,"GRanges")
+df <- data.frame(my.gr)
+write.table(df, file=snakemake@output[["hyperMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
+
+hypo <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hypo")
 fileTxt<-file(snakemake@output[["hypoMethylation"]])
 sink(fileTxt)
-getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hypo")
+hypo 
 sink()
 close(fileTxt)
 
+my.gr=as(hypo,"GRanges")
+df <- data.frame(my.gr)
+write.table(df, file=snakemake@output[["hypoMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
+
+all <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue)
 fileTxt<-file(snakemake@output[["overAllMethylation"]])
 sink(fileTxt)
-getMethylDiff(methDiff,difference=minDiff,qvalue=qValue)
+all
 sink()
 close(fileTxt)
+
+my.gr=as(all,"GRanges")
+df <- data.frame(my.gr)
+write.table(df, file=snakemake@output[["overAllMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)

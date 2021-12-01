@@ -22,10 +22,12 @@ rule compute_methylkit:
 		clustersPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-clusters.pdf",
 		pcaScreePdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA-screeplot.pdf",
 		pcaPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA.pdf",
-		hyperMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HyperMethylated.txt",
-		hypoMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HypoMethylated.txt",
-		overAllMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.txt",
-
+		hyperMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HyperMethylated-stats.txt",
+		hypoMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HypoMethylated-stats.txt",
+		overAllMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-stats.txt",
+		hyperMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HyperMethylated.bed",
+		hypoMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HypoMethylated.bed",
+		overAllMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed",
 	log:
 		outdir+"methylkit_results/{id}-{context}/{id}-{context}-log.out"
 	conda:
