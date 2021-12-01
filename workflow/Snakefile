@@ -6,7 +6,6 @@ include: "rules/genome_preparation.smk"
 include: "rules/alignment.smk"
 include: "rules/methylation_extraction.smk"
 include: "rules/methylation_calling.smk"
-include: "rules/generate_plots.smk"
 
 # report template
 report: "report/workflow.rst"
