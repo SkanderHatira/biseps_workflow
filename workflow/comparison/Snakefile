@@ -31,8 +31,8 @@ def all_input(wildcards):
 		expand(
 			[
 
-			outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.txt",
-			outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
+			outdir+"methylation/{id}-{context}/{id}-{context}-methylation-stats.txt",
+			outdir+"methylation/{id}-{context}/{id}-{context}-coverage-stats.pdf",
 			] ,
 			id=get_id(),
 			context=context
@@ -42,8 +42,8 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-				outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
-				outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
+				outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
+				outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
 				] ,
 				id=get_id(),
 				context=context

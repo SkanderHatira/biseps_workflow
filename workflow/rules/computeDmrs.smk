@@ -12,24 +12,24 @@ rule compute_methylkit:
 		unpack(get_CX_reports),
 		named=config['resources']['ref']['genome']
 	output:
-		methylDB=directory(outdir+"methylkit_results/methylDB-{id}-{context}/"),
-		methylationStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.txt",
-		methylationStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-methylation-stats.pdf",
-		coverageStatsTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.txt",
-		coverageStatsPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-coverage-stats.pdf",
-		correlationTxt=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.txt",
-		correlationPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-correlation-stats.pdf",
-		clustersPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-clusters.pdf",
-		pcaScreePdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA-screeplot.pdf",
-		pcaPdf=outdir+"methylkit_results/{id}-{context}/{id}-{context}-PCA.pdf",
-		hyperMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HyperMethylated-stats.txt",
-		hypoMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HypoMethylated-stats.txt",
-		overAllMethylation=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-stats.txt",
-		hyperMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HyperMethylated.bed",
-		hypoMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-HypoMethylated.bed",
-		overAllMethylationBed=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed",
+		methylDB=directory(outdir+"methylation/methylDB-{id}-{context}/"),
+		methylationStatsTxt=outdir+"methylation/{id}-{context}/{id}-{context}-methylation-stats.txt",
+		methylationStatsPdf=outdir+"methylation/{id}-{context}/{id}-{context}-methylation-stats.pdf",
+		coverageStatsTxt=outdir+"methylation/{id}-{context}/{id}-{context}-coverage-stats.txt",
+		coverageStatsPdf=outdir+"methylation/{id}-{context}/{id}-{context}-coverage-stats.pdf",
+		correlationTxt=outdir+"methylation/{id}-{context}/{id}-{context}-correlation-stats.txt",
+		correlationPdf=outdir+"methylation/{id}-{context}/{id}-{context}-correlation-stats.pdf",
+		clustersPdf=outdir+"methylation/{id}-{context}/{id}-{context}-clusters.pdf",
+		pcaScreePdf=outdir+"methylation/{id}-{context}/{id}-{context}-PCA-screeplot.pdf",
+		pcaPdf=outdir+"methylation/{id}-{context}/{id}-{context}-PCA.pdf",
+		hyperMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated-stats.txt",
+		hypoMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated-stats.txt",
+		overAllMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-stats.txt",
+		hyperMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated.bed",
+		hypoMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated.bed",
+		overAllMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed",
 	log:
-		outdir+"methylkit_results/{id}-{context}/{id}-{context}-log.out"
+		outdir+"methylation/{id}-{context}/{id}-{context}-log.out"
 	conda:
 		"../envs/methylkit.yaml" if config["platform"] == 'linux' else ''
 	params:
@@ -49,12 +49,12 @@ rule closest_feature:
 	input:
 		bed=rules.compute_methylkit.output["overAllMethylationBed"],
 	output:
-		outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed"
+		outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed"
 		# outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
 	conda:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
-		outdir+"methylkit_results/{id}-{context}/{id}-{context}.closest.log"
+		outdir+"methylation/{id}-{context}/{id}-{context}.closest.log"
 	params:
 		annot=config['resources']['annot']
 	shell:
@@ -63,14 +63,14 @@ rule indexBed:
 	input:
 		rules.compute_methylkit.output["overAllMethylationBed"],
 	output:
-		outbg=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
-		outbi=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation.bed.gz.tbi"
+		outbg=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
+		outbi=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz.tbi"
 		# outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
 		# outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
 	conda:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
-		outdir+"methylkit_results/{id}-{context}/{id}-{context}.indexBed.log"
+		outdir+"methylation/{id}-{context}/{id}-{context}.indexBed.log"
 	shell:
 		"bgzip  {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
@@ -78,12 +78,12 @@ rule indexClosest:
 	input:
 		rules.closest_feature.output[0],
 	output:
-		outbg=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
-		outbi=outdir+"methylkit_results/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz.tbi"
+		outbg=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
+		outbi=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz.tbi"
 	conda:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
-		outdir+"methylkit_results/{id}-{context}/{id}-{context}.indexClosest.log"
+		outdir+"methylation/{id}-{context}/{id}-{context}.indexClosest.log"
 	shell:
 		"bgzip {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
