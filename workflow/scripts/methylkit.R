@@ -10,7 +10,7 @@ files  <- as.list(c(control, treatment))
 
 
 context <- snakemake@wildcards[["context"]]
-bins <- snakemake@params[["bins"]]
+method <- snakemake@params[["method"]]
 species <- snakemake@params[["species"]]
 outdir <- snakemake@params[["outdir"]]
 cores <- snakemake@resources[["cpus"]]
@@ -23,8 +23,6 @@ testOverdispersion <- snakemake@params[["test"]]
 minDiff <- 0.25 #snakemake@params[["minDiff"]]
 qValue <- 0.01 #snakemake@params[["qValue"]]
 
-### inferred params  ###
-method <- if(bins) "bins" else "bases"
 
 ### create output directory if it doesn't already exist
 dir.create(file.path(outdir), showWarnings = FALSE)
@@ -67,7 +65,7 @@ for (i in 1:length(files)) {
 
 ### mergin samples ### depends on method bins/base_level
 
-if (bins) {
+if (method ==" bins") {
     tiles = tileMethylCounts(readingReports,win.size=windowSize,step.size=stepSize,cov.bases = minCov)
     meth=unite(tiles, destrand=FALSE)
 } else {

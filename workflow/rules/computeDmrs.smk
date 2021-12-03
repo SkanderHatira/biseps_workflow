@@ -33,7 +33,7 @@ rule compute_methylkit:
 	conda:
 		"../envs/methylkit.yaml" if config["platform"] == 'linux' else ''
 	params:
-		bins = config["params"]["bins"],
+		method = config["params"]["method"],
 		outdir = config["general"]["outdir"],
 		windowSize=  config["params"]["windowSize"],
 		stepSize = config["params"]["stepSize"],

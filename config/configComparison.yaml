@@ -3,9 +3,11 @@ platform: "linux"
 general:
   outdir: "results/comparisonsDupliqué/"
 resources:
+  ref:
+    genome: ".test/resources/genome/Malus_domestica_cultivar_Golden_Delicious-chr4.fasta"
   annot: ".test/resources/annot/WT_vs_Meth13-CG.bed" #optional must be "" empty string if not being used
 params:
-  bins: TRUE
+  method: "bins"
   windowSize: 1000
   stepSize: 1000
   test: F # default F, Chisq for overdispersion
