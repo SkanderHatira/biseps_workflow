@@ -42,7 +42,8 @@ rule compute_methylkit:
 		minCov=config["params"]["minCov"],
 		minDiff=  config["params"]["minDiff"],
 	resources:
-		cpus=4
+		cpus=4,
+		mem_mb= lambda  Input : int(genomeSize*11*len(Input)),
 	script:
 		"../scripts/methylkit.R"
 rule closest_feature:

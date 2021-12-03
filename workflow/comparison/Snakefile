@@ -30,7 +30,7 @@ def all_input(wildcards):
 	wanted_input.extend(
 		expand(
 			[
-
+			outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
 			outdir+"methylation/{id}-{context}/{id}-{context}-methylation-stats.txt",
 			outdir+"methylation/{id}-{context}/{id}-{context}-coverage-stats.pdf",
 			] ,
@@ -42,7 +42,7 @@ def all_input(wildcards):
 		wanted_input.extend(
 			expand(
 				[
-				outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
+				
 				outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed.gz",
 				] ,
 				id=get_id(),
