@@ -43,7 +43,7 @@ rule compute_methylkit:
 		minDiff=  config["params"]["minDiff"],
 	resources:
 		cpus=4,
-		mem_mb= lambda  Input : int(genomeSize*11*len(Input)),
+		mem_mb= lambda  Input : int(genomeSize*11*len(Input)*5),
 	script:
 		"../scripts/methylkit.R"
 rule closest_feature:
@@ -72,6 +72,9 @@ rule indexBed:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
 		outdir+"methylation/{id}-{context}/{id}-{context}.indexBed.log"
+	resources:
+		cpus=4,
+		mem_mb= 30000
 	shell:
 		"bgzip  {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
@@ -85,6 +88,9 @@ rule indexClosest:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
 		outdir+"methylation/{id}-{context}/{id}-{context}.indexClosest.log"
+	resources:
+		cpus=4,
+		mem_mb= 30000
 	shell:
 		"bgzip {input} -c > {output.outbg}; "
 		"tabix {output.outbg}"
