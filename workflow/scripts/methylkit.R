@@ -96,10 +96,10 @@ dev.off()
 pdf(snakemake@output[["pcaPdf"]])
 PCASamples(meth)
 dev.off()
-
+print(meth)
 
 ### calculating differential methylation ###
-methDiff=calculateDiffMeth(meth,overdispersion=overdispersion,test=testOverdispersion,mc.cores=cores)
+methDiff=calculateDiffMeth(meth,mc.cores=cores)
 
 
 ### filtering differential methylation ###
