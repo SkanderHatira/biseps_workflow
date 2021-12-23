@@ -65,7 +65,7 @@ for (i in 1:length(files)) {
 
 ### mergin samples ### depends on method bins/base_level
 
-if (method ==" bins") {
+if (method == "bins") {
     tiles = tileMethylCounts(readingReports,win.size=windowSize,step.size=stepSize,cov.bases = minCov)
     meth=unite(tiles, destrand=FALSE)
 } else {

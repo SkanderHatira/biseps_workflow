@@ -15,6 +15,8 @@ rule methylation_extraction_bismark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-methylation_extraction_bismark.tsv",benchmark)
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-methylation_extraction_bismark.log"
+	priority:
+		51
 	params:
 		#genome directory
 		genome=get_abs(config['resources']['ref']['genome']),

@@ -11,6 +11,8 @@ rule alignment_bismark_pe:
 		'../envs/bismark.yaml' if config["platform"] == 'linux' else ''
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-alignment_bismark_pe.log"
+	priority:
+		50
 	params:
 		#genome_directory
 		genome= get_abs(config['resources']['ref']['genome']),
@@ -78,6 +80,8 @@ rule deduplicate:
 		"../envs/bismark.yaml" if config["platform"] =="linux" else ''
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.log"
+	priority:
+		53
 	params:
 		basename="{sample}-TechRep_{techrep}-BioRep_{biorep}",
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
