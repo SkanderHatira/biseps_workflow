@@ -80,8 +80,6 @@ rule deduplicate:
 		"../envs/bismark.yaml" if config["platform"] =="linux" else ''
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.log"
-	priority:
-		53
 	params:
 		basename="{sample}-TechRep_{techrep}-BioRep_{biorep}",
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
