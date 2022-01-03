@@ -86,6 +86,9 @@ rule deduplicate:
 		extra= lambda wildcards : config['params']['deduplicate']['extra'] 
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.tsv",benchmark)
+	resources:
+		cpus=2,
+		mem_mb=15000
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"
 		"samtools sort {output.dedup} -o {output.sort_bam} ;"

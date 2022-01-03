@@ -20,15 +20,14 @@ minCov <- snakemake@params[["minCov"]]
 overdispersion <- snakemake@params[["overdispersion"]]
 testOverdispersion <- snakemake@params[["test"]]
 ## filters dmr's ###
-minDiff <- 0.25 #snakemake@params[["minDiff"]]
-qValue <- 0.01 #snakemake@params[["qValue"]]
-
+minDiff <- snakemake@params[["minDiff"]]
+qValue <- snakemake@params[["qValue"]]
 
 ### create output directory if it doesn't already exist
 dir.create(file.path(outdir), showWarnings = FALSE)
 ### reading bismark's CX reports, by default using the tabix database for minimal memory usage
 readingReports=methRead(files,
-           sample.id=as.list(c(rep("control",length(control)),rep("treatment",length(treatment)))),
+           sample.id=as.list(c(rep(sprintf("control%s", c(1:length(control)) )),rep(sprintf("treatment%s", c(1:length(treatment)) )))),
            assembly="bismark",
            treatment=c(rep(0,length(control)),rep(1,length(treatment))),
            context=context,
@@ -50,18 +49,21 @@ for (i in 1:length(files)) {
     getMethylationStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
     dev.off()
     }
-
 ### coverage stats and plot ###
+fileTxt<-file(snakemake@output[["coverageStatsTxt"]])
+sink(fileTxt)
 for (i in 1:length(files)) {
-	fileTxt<-file(snakemake@output[["coverageStatsTxt"]])
-    sink(fileTxt)
+	writeLines(sprintf("methylation coverage stats for %s",readingReports[[i]]@sample.id))
     getCoverageStats(readingReports[[i]],plot=FALSE,both.strands=FALSE)
-    sink()
-    close(fileTxt)
-	pdf(snakemake@output[["coverageStatsPdf"]])
-    getCoverageStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
-    dev.off()
     }
+sink()
+close(fileTxt)
+
+pdf(snakemake@output[["coverageStatsPdf"]])
+for (i in 1:length(files)) {
+    getCoverageStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
+    }
+dev.off()
 
 ### mergin samples ### depends on method bins/base_level
 
@@ -110,6 +112,14 @@ hyper
 sink()
 close(fileTxt)
 
+
+fileTxt<-file(snakemake@output[["cutoffMethylation"]])
+cutoff <- diffMethPerChr(methDiff,plot=FALSE,qvalue.cutoff=qValue, meth.cutoff=minDiff)
+sink(fileTxt)
+cutoff
+sink()
+close(fileTxt)
+
 my.gr=as(hyper,"GRanges")
 df <- data.frame(my.gr)
 write.table(df, file=snakemake@output[["hyperMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
@@ -135,3 +145,4 @@ close(fileTxt)
 my.gr=as(all,"GRanges")
 df <- data.frame(my.gr)
 write.table(df, file=snakemake@output[["overAllMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
+

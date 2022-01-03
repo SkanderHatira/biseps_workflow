@@ -28,6 +28,7 @@ rule compute_methylkit:
 		hyperMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated.bed",
 		hypoMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated.bed",
 		overAllMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed",
+		cutoffMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-cutoff.txt"
 	log:
 		outdir+"methylation/{id}-{context}/{id}-{context}-log.out"
 	conda:
