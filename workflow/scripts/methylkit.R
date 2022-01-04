@@ -39,16 +39,21 @@ readingReports=methRead(files,
 
 
 ### meth stats and plot ###
+fileTxt<-file(snakemake@output[["methylationStatsTxt"]])
+sink(fileTxt)
 for (i in 1:length(files)) {
-	fileTxt<-file(snakemake@output[["methylationStatsTxt"]])
-    sink(fileTxt)
+	writeLines(sprintf("methylation stats for %s",readingReports[[i]]@sample.id))
     getMethylationStats(readingReports[[i]],plot=FALSE,both.strands=FALSE)
-    sink()
-    close(fileTxt)
-	pdf(snakemake@output[["methylationStatsPdf"]])
-    getMethylationStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
-    dev.off()
     }
+sink()
+close(fileTxt)
+
+pdf(snakemake@output[["methylationStatsPdf"]])
+for (i in 1:length(files)) {
+    getMethylationStats(readingReports[[i]],plot=TRUE,both.strands=FALSE)
+    }
+dev.off()
+
 ### coverage stats and plot ###
 fileTxt<-file(snakemake@output[["coverageStatsTxt"]])
 sink(fileTxt)
@@ -74,7 +79,7 @@ if (method == "bins") {
     meth=unite(readingReports, destrand=FALSE) # destrand TRUE =  merge methylation on different strands , default : FALSE 
                                   			   # by default takes only bases/regions covered in all samples (can be altered)
 }
-
+head(meth)
 
 fileTxt<-file(snakemake@output[["correlationTxt"]])
 sink(fileTxt)
@@ -141,8 +146,15 @@ sink(fileTxt)
 all
 sink()
 close(fileTxt)
-
-my.gr=as(all,"GRanges")
+cols <- c("seqnames","start","end","width","strand")
+my.gr <-as(all,"GRanges")
 df <- data.frame(my.gr)
-write.table(df, file=snakemake@output[["overAllMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
+my.gr2 <-as(meth,"GRanges")
+df2 <- data.frame(my.gr2)
+print(head(df2))
+print(head(df))
+merged <- merge(df,df2,by = cols , all =F)
+sorted <- merged[order("seqnames"),]
+
+write.table(sorted, file=snakemake@output[["overAllMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
 
