@@ -79,7 +79,7 @@ if (method == "bins") {
     meth=unite(readingReports, destrand=FALSE) # destrand TRUE =  merge methylation on different strands , default : FALSE 
                                   			   # by default takes only bases/regions covered in all samples (can be altered)
 }
-head(meth)
+
 
 fileTxt<-file(snakemake@output[["correlationTxt"]])
 sink(fileTxt)
@@ -109,36 +109,6 @@ print(meth)
 methDiff=calculateDiffMeth(meth,mc.cores=cores)
 
 
-### filtering differential methylation ###
-fileTxt<-file(snakemake@output[["hyperMethylation"]])
-hyper <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hyper")
-sink(fileTxt)
-hyper
-sink()
-close(fileTxt)
-
-
-fileTxt<-file(snakemake@output[["cutoffMethylation"]])
-cutoff <- diffMethPerChr(methDiff,plot=FALSE,qvalue.cutoff=qValue, meth.cutoff=minDiff)
-sink(fileTxt)
-cutoff
-sink()
-close(fileTxt)
-
-my.gr=as(hyper,"GRanges")
-df <- data.frame(my.gr)
-write.table(df, file=snakemake@output[["hyperMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
-
-hypo <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue,type="hypo")
-fileTxt<-file(snakemake@output[["hypoMethylation"]])
-sink(fileTxt)
-hypo 
-sink()
-close(fileTxt)
-
-my.gr=as(hypo,"GRanges")
-df <- data.frame(my.gr)
-write.table(df, file=snakemake@output[["hypoMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
 
 all <- getMethylDiff(methDiff,difference=minDiff,qvalue=qValue)
 fileTxt<-file(snakemake@output[["overAllMethylation"]])

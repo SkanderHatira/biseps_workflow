@@ -22,13 +22,13 @@ rule compute_methylkit:
 		clustersPdf=outdir+"methylation/{id}-{context}/{id}-{context}-clusters.pdf",
 		pcaScreePdf=outdir+"methylation/{id}-{context}/{id}-{context}-PCA-screeplot.pdf",
 		pcaPdf=outdir+"methylation/{id}-{context}/{id}-{context}-PCA.pdf",
-		hyperMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated-stats.txt",
-		hypoMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated-stats.txt",
+		# hyperMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated-stats.txt",
+		# hypoMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated-stats.txt",
 		overAllMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-stats.txt",
-		hyperMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated.bed",
-		hypoMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated.bed",
+		# hyperMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HyperMethylated.bed",
+		# hypoMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-HypoMethylated.bed",
 		overAllMethylationBed=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed",
-		cutoffMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-cutoff.txt"
+		# cutoffMethylation=outdir+"methylation/{id}-{context}/{id}-{context}-cutoff.txt"
 	log:
 		outdir+"methylation/{id}-{context}/{id}-{context}-log.out"
 	conda:

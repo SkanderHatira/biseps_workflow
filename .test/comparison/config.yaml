@@ -11,9 +11,9 @@ params:
   windowSize: 1000
   stepSize: 1000
   test: F # default F, Chisq for overdispersion
-  overdispersion: NM # default none, NM for overdispersion
+  overdispersion: none # default none, NM for overdispersion
   qValue: 0.01
   minCov: 4
-  minDiff: 0.5
+  minDiff: 80
   context: ["CpG"]
   species: "Gala"
