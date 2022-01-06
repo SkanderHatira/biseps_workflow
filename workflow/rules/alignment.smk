@@ -83,12 +83,13 @@ rule deduplicate:
 	params:
 		basename="{sample}-TechRep_{techrep}-BioRep_{biorep}",
 		outdir=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark",
-		extra= lambda wildcards : config['params']['deduplicate']['extra'] 
+		extra= config['params']['deduplicate']['extra'],
+		genomeSize= os.path.getsize(config['resources']['ref']['genome'])/(1024*1024)
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.tsv",benchmark)
 	resources:
 		cpus=2,
-		mem_mb=15000
+		mem_mb=30000
 	shell:
 		"deduplicate_bismark -p {input} -o {params.basename} --output_dir {params.outdir} --sam 2> {log};"
 		"samtools sort {output.dedup} -o {output.sort_bam} ;"
