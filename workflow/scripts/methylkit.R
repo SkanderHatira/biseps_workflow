@@ -121,10 +121,8 @@ my.gr <-as(all,"GRanges")
 df <- data.frame(my.gr)
 my.gr2 <-as(meth,"GRanges")
 df2 <- data.frame(my.gr2)
-print(head(df2))
-print(head(df))
 merged <- merge(df,df2,by = cols , all =F)
-sorted <- merged[order("seqnames"),]
-
+typeof(merged)
+sorted <-merged[order(merged$seqnames, merged$start,merged$end,merged$width,merged$strand),]
 write.table(sorted, file=snakemake@output[["overAllMethylationBed"]], quote=F, sep="\t", row.names=F, col.names=F)
 
