@@ -5,7 +5,6 @@ include: "rules/quality.smk"
 include: "rules/genome_preparation.smk"
 include: "rules/alignment.smk"
 include: "rules/methylation_extraction.smk"
-include: "rules/methylation_calling.smk"
 
 # report template
 report: "report/workflow.rst"
