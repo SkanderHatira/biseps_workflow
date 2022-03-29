@@ -1,2 +1,3 @@
 id	control	treatment
 WT_vs_Meth13	.test/data/chr3test_a_thaliana_met13.CX_report,.test/data/chr3test_a_thaliana_met13.CX_report	.test/data/chr3test_a_thaliana_wt.CX_report,.test/data/chr3test_a_thaliana_wt.CX_report
+Delicia_vs_Annaglo	/home/shatira/Delicia.deduplicated.bismark.cov.gz	/home/shatira/Annaglo.TechRep_1.BioRep_2018-1.deduplicated.bismark.cov.gz

@@ -5,7 +5,7 @@ rule methylation_extraction_bismark:
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.CX_report.txt",
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bedGraph.gz",
 		report(expand(outdir+"results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}.deduplicated.M-bias_{R}.png", R=["R1","R2"]),category="M-Bias"),
-		temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bismark.cov.gz"),
+		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bismark.cov.gz",
 		outdir+'results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated_splitting_report.txt',
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/methylation_extraction_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.M-bias.txt",
 		temp(expand(outdir+"results/{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}/methylation_extraction_bismark/{context}_context_{{sample}}-TechRep_{{techrep}}-BioRep_{{biorep}}.deduplicated.txt",context = ['CHH','CHG','CpG']))

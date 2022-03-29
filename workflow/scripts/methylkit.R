@@ -1,4 +1,5 @@
 library(methylKit)
+library("tools")
 
 
 ### getting files ###
@@ -32,7 +33,7 @@ readingReports=methRead(files,
            treatment=c(rep(0,length(control)),rep(1,length(treatment))),
            context=context,
            mincov = minCov,
-           pipeline="bismarkCytosineReport",
+           pipeline=ifelse(file_ext(files[1]) == "gz","bismarkCoverage", "bismarkCytosineReport"),
            dbtype = "tabix",
            dbdir = snakemake@output[["methylDB"]]
            )
