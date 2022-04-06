@@ -21,5 +21,5 @@ rule genome_preparation:
 		mem_mb=30000,
 		time_min=5440
 	shell:
-		"workflow/scripts/parallel_commands.sh \'bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {resources.cpus} --genomic_composition {params.extra}\' \'samtools faidx {params.genome_file} \' 2> {log} "
+		"bash workflow/scripts/parallel_commands.sh \'bismark_genome_preparation  {params.genome} --{params.aligner} --parallel {resources.cpus} --genomic_composition {params.extra}\' \'samtools faidx {params.genome_file} \' 2> {log} "
 
