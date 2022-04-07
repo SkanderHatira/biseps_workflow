@@ -13,32 +13,24 @@ before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
-  tags:
-    - openstack-runner
   stage: build
   script:
     - docker build --cache-from $IMAGE_TAG -t $IMAGE_TAG --build-arg USER_ID=$CI_JOB_ID --build-arg GROUP_ID=$CI_JOB_ID --build-arg USERNAME=$CI_JOB_NAME .
     - docker push $IMAGE_TAG
 dry-run:
   stage: Test
-  tags:
-    - openstack-runner
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG -n --configfile .test/config/config.yaml
 
 minimal-run:
   stage: Test
-  tags:
-    - openstack-runner
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --configfile .test/config/config.yaml --cores 6 --use-conda
 
 minimal-run-comparison:
   stage: Test
-  tags:
-    - openstack-runner
   script:
     - docker pull $IMAGE_TAG
     - docker run --mount type=bind,src=$CI_PROJECT_DIR/.test,dst=/biseps/.test $IMAGE_TAG --snakefile workflow/comparison/Snakefile --configfile  .test/comparison/config.yaml --cores 6 --use-conda
