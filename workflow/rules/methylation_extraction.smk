@@ -44,7 +44,7 @@ rule cgmap:
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-methgetCGmap.log"
 	resources:
-		mem_mb= lambda  Input : int(genomeSize*11*8*len(Input)),
+		mem_mb= lambda  Input : int(genomeSize*11*11*len(Input)),
 	shell:
 		"python workflow/scripts/methcalls2cgmap.py -n {input} -f bismark &> {log}"
 rule CXtoBigWig:

@@ -46,16 +46,18 @@ rule closest_feature:
 	input:
 		bed=rules.compute_methylkit.output["overAllMethylationBed"],
 	output:
-		outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed"
+		closest=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation-closest.bed",
 		# outdir+"results/{id}/{id}_log-{context}.out.closest.bed",
 	conda:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
 		outdir+"methylation/{id}-{context}/{id}-{context}.closest.log"
 	params:
+		sorted=config['resources']['annot']+".tmp",
 		annot=config['resources']['annot']
 	shell:
-		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output}"
+		"bedtools sort -i {params.annot} > {params.sorted}  ;"
+		"bedtools closest -a {input.bed} -b {params.annot} -D b > {output.closest}"
 rule indexBed:
 	input:
 		rules.compute_methylkit.output["overAllMethylationBed"],
