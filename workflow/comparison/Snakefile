@@ -1,6 +1,8 @@
 from snakemake.utils import validate
 import pandas as pd
-outdir = config['general']['outdir']
+import os
+
+outdir = os.path.join(config['general']['outdir'], '')
 include: "../rules/computeDmrs.smk"
 validate(config, schema="../schemas/comparison.config.schema.yaml")
 

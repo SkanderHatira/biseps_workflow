@@ -21,7 +21,7 @@ units.index.names = ["sample_id","lane_id","techrep_id","biorep_id"]
 units.index = units.index.set_levels(
 	[i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="../schemas/units.schema.yaml")
-outdir = config['general']['outdir']
+outdir = os.path.join(config['general']['outdir'], '')
 ##### wildcard constraints #####
 
 wildcard_constraints:

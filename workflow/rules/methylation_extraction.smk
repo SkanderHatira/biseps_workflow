@@ -28,7 +28,7 @@ rule methylation_extraction_bismark:
 		extra= lambda wildcards :  config['params']['methylation_extraction']['extra'] #include_overlap? #get_p_s_flag?
 	resources:
 		cpus=lambda wildcards : 4*config['params']['bismark']['instances'],
-		mem_mb= int(genomeSize*11),
+		mem_mb= int(genomeSize*125),
 		time_min=5440
 	shell:
 		"bismark_methylation_extractor  {input}  --genome_folder {params.genome} {params.flags} -p  --parallel {params.instances} -o {params.out_dir}  {params.extra} 2> {log} "
@@ -44,7 +44,7 @@ rule cgmap:
 	log:
 		outdir+"logs/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-methgetCGmap.log"
 	resources:
-		mem_mb= lambda  Input : int(genomeSize*11*11*len(Input)),
+		mem_mb= lambda  Input : int(genomeSize*125),
 	shell:
 		"python workflow/scripts/methcalls2cgmap.py -n {input} -f bismark &> {log}"
 rule CXtoBigWig:
