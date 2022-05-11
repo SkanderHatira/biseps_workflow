@@ -71,10 +71,10 @@ rule deduplicate:
 	input:
 		rules.convert.output[0]
 	output:
-		dedup=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.sam"),
+		dedup=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.sam",
 		dedupReport=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplication_report.txt",
-		sort_bam=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bam",
-		bai=outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bam.bai"
+		sort_bam=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bam"),
+		bai=temp(outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bam.bai")
 
 	conda:
 		"../envs/bismark.yaml" if config["platform"] =="linux" else ''
@@ -96,7 +96,8 @@ rule deduplicate:
 		"samtools index {output.sort_bam}"
 rule bam_to_bw:
 	input:
-		rules.deduplicate.output[2],
+		bam=rules.deduplicate.output[2],
+		index=rules.deduplicate.output[3]
 	output:
 		outdir+"results/{sample}-TechRep_{techrep}-BioRep_{biorep}/alignment_bismark/{sample}-TechRep_{techrep}-BioRep_{biorep}.deduplicated.bw",
 	conda:
@@ -106,4 +107,4 @@ rule bam_to_bw:
 	benchmark:
 		repeat(outdir+"benchmarks/{sample}-TechRep_{techrep}-BioRep_{biorep}/{sample}-TechRep_{techrep}-BioRep_{biorep}-deduplicate.tsv",benchmark)
 	shell:
-		"bamCoverage -b {input} -o {output} 2> {log}"
+		"bamCoverage -b {input.bam} -o {output} 2> {log}"
