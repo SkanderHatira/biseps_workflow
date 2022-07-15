@@ -19,7 +19,7 @@ COPY . /biseps
 ################### Config Conda And Create Snakemake Environment ###################
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no --set add_pip_as_python_dependency no \
 	&& /opt/conda/bin/conda install -c conda-forge mamba \
-	&& mamba create  -q  -c anaconda -c bioconda -c conda-forge -n snakemake snakemake=6.7.0 mamba \
+	&& mamba create  -q  -c anaconda -c bioconda -c conda-forge -n snakemake snakemake=6.7.0 \
 	&& mamba clean -a \
 	# for use of continuumio/miniconda3:latest base image
 	&& addgroup --gid $GROUP_ID $USERNAME \
