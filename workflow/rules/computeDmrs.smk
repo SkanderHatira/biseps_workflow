@@ -38,8 +38,8 @@ rule compute_methylkit:
 		minCov=config["params"]["minCov"],
 		minDiff=  config["params"]["minDiff"],
 	resources:
-		cpus=4,
-		mem_mb= lambda  Input : int(genomeSize*11*len(Input)*5),
+		cpus=8,
+		mem_mb= lambda  Input : int(genomeSize*11*len(Input)*30),
 	script:
 		"../scripts/methylkit.R"
 rule closest_feature:
@@ -63,8 +63,6 @@ rule indexBed:
 	output:
 		outbg=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz",
 		outbi=outdir+"methylation/{id}-{context}/{id}-{context}-overallMethylation.bed.gz.tbi"
-		# outbg=outdir+"results/{id}/{id}-{context}.bed.gz",
-		# outbi=outdir+"results/{id}/{id}-{context}.bed.gz.tbi",
 	conda:
 		"../envs/tabix.yaml" if config["platform"] == 'linux' else ''
 	log:
