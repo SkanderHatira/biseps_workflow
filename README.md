@@ -21,7 +21,7 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 [Clone](https://help.github.com/en/articles/cloning-a-repository) the newly created repository to your local system, into the place where you want to perform the data analysis.
 
-    git clone https://forgemia.inra.fr/skander.hatira/biseps.git
+    git clone https://forgemia.inra.fr/irhs-bioinfo/biseps.git
 
 ### Step 2: Configure workflow
 
